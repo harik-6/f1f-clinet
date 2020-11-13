@@ -1,0 +1,12 @@
+android
+build
+ios
+pubspec.lock
+.idea
+.vscode
+.dart_tool
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.metadata
+F1Fantasy.iml
