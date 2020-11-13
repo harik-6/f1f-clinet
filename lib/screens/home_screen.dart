@@ -76,7 +76,7 @@ class _AppHome extends State<AppHome> {
                       style: activeBottomIndex == 2
                           ? TextStyle(fontWeight: FontWeight.bold)
                           : null),
-                  icon: Icon(Icons.track_changes)),
+                  icon: Icon(Icons.leaderboard)),
               BottomNavigationBarItem(
                   title: Text("Leaderboard"), icon: Icon(Icons.view_headline))
             ]),
