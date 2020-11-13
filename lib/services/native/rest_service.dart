@@ -12,7 +12,7 @@ class RestService {
 
   get defaultCacheTime{
     DateTime now = DateTime.now().toLocal();
-    return DateTime(now.year,now.month,now.day,now.hour,now.minute+20);
+    return DateTime(now.year,now.month,now.day,now.hour+5,now.minute);
   }
 
   RestService._internal() {
@@ -51,7 +51,10 @@ class RestService {
     }
   }
 
-  Future<http.Response> post(String key, String url, dynamic body) async {
-    return await http.post(url, body: body);
+  Future<http.Response> post(String url,Map<String,dynamic> reqBody) async {
+    Map<String,String> headers = {
+      "Content-Type" : "application/json"
+    };
+    return await http.post(url, body: convert.jsonEncode(reqBody),headers: headers );
   }
 }

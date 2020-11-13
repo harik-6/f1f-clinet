@@ -49,15 +49,24 @@ class LeagueService {
     }
   }
 
-  Future<void> joinLeague(List<LeagueDriver> drivers,GrandPrix active) {
-    Map requestBody = {
-      "gpName" : active.gpName,
-      "round" : active.round,
-      "driverSelection" : drivers,
-      "uid" : "userIdComesHere"
+  Future<bool> joinLeague(List<LeagueDriver> drivers, GrandPrix active) async {
+    List<String> dids = drivers
+        .where((dr) => dr.isSelected == true)
+        .map((dr) => dr.driver.id)
+        .toList();
+    Map<String,dynamic> requestBody = {
+      "gpName": active.gpName,
+      "round": active.round,
+      "driverIds": dids,
+      "uid": "userIdComesHere"
     };
-    print(requestBody.toString());
-    Future.delayed(Duration(seconds:5));
-    return null;
+    var response = await _restService.post(
+        api_post_league,requestBody);
+    print(response.statusCode);
+    if (response.statusCode == 201) {
+      return true;
+    }
+    print(response.body.toString());
+    return false;
   }
 }

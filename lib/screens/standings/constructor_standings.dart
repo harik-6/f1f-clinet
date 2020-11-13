@@ -39,30 +39,26 @@ class _ConstructorStandings extends State<ConstructorStandings>
                   itemCount: widget.constructors.length,
                   itemBuilder: (context, index) {
                     Constructor constructor = widget.constructors[index];
-                    return GestureDetector(
-                      onTap: null,
-                      child: ListTile(
-                        title: DriverTile(
-                          childWidget: Row(
-                            children: <Widget>[
-                              Position(index + 1),
-                              TeamIcon(constructor.shortName, 4.0),
-                              SizedBox(width: 5.0),
-                              Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 4.0),
-                                child: Text(
-                                    TeamConstants
-                                        .teamNames[constructor.shortName],
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 16.0,
-                                    )),
-                              ),
-                              SizedBox(width: 5.0),
-                              Expanded(child: SizedBox.shrink()),
-                              Points(constructor.points)
-                            ],
-                          ),
+                    return ListTile(
+                      title: DriverTile(
+                        childWidget: Row(
+                          children: <Widget>[
+                            Position(index + 1),
+                            TeamIcon(constructor.shortName, 4.0),
+                            SizedBox(width: 5.0),
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 4.0),
+                              child: Text(
+                                  TeamConstants
+                                      .teamNames[constructor.shortName],
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16.0,
+                                  )),
+                            ),
+                            Expanded(child: SizedBox.shrink()),
+                            Points(constructor.points)
+                          ],
                         ),
                       ),
                     );
