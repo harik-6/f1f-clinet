@@ -6,12 +6,21 @@ import 'package:f1fantasy/services/native/rest_service.dart';
 import 'dart:convert' as convert;
 
 class ResultService {
+  get defaultResultCacheTime {
+    DateTime now = DateTime.now();
+    return DateTime(now.year,now.month,now.day+30);
+  }
+
+  get defaultStandingsCacheTime {
+    DateTime now = DateTime.now();
+    return DateTime(now.year,now.month,now.day+3);
+  }
   Future<List<RaceResult>> getraceResults(int round) async {
     try {
       RestService service = RestService();
       String rnd = (round-4).toString();
       String url = api_race_results + rnd;
-      var response = await service.get("result#"+rnd,url);
+      var response = await service.get("result#"+rnd,url,defaultResultCacheTime);
       if (response.statusCode == 204) {
         return Future.value([]);
       }
@@ -30,7 +39,7 @@ class ResultService {
   Future<List<Driver>> getDriverStandings() async {
     try {
       RestService service = RestService();
-      var response = await service.get("standings#drs",api_driver_standings);
+      var response = await service.get("standings#drs",api_driver_standings,defaultStandingsCacheTime);
       if (response.statusCode == 204) {
         return Future.value([]);
       }
@@ -48,7 +57,7 @@ class ResultService {
   Future<List<Constructor>> getConstructorStandings() async {
     try {
       RestService service = RestService();
-      var response = await service.get("standings#cns",api_constructor_standings);
+      var response = await service.get("standings#cns",api_constructor_standings,defaultStandingsCacheTime);
       if (response.statusCode == 204) {
         return Future.value([]);
       }
