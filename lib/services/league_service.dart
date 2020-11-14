@@ -1,8 +1,9 @@
 import 'dart:convert' as convert;
 import 'package:f1fantasy/models/grand_prix_model.dart';
+import 'package:f1fantasy/models/user_league_model.dart';
 import 'package:f1fantasy/services/native/rest_service.dart';
 import 'package:f1fantasy/constants/app_constants.dart';
-import 'package:f1fantasy/models/league_driver_model.dart';
+import 'package:f1fantasy/models/driver_credit_model.dart';
 
 class LeagueService {
   static RestService _restService;
@@ -14,7 +15,12 @@ class LeagueService {
     _restService = RestService();
   }
 
-  Future<List<LeagueDriver>> getDriverCredits(int round) async {
+  get defaultStandingsCacheTime {
+    DateTime now = DateTime.now();
+    return DateTime(now.year,now.month,now.day+3);
+  }
+
+  Future<List<DriverCredit>> getDriverCredits(int round) async {
     try {
       var response = await _restService.get(
           "drsCredits", api_driver_credits + round.toString());
@@ -22,8 +28,8 @@ class LeagueService {
         return [];
       }
       Map<String, dynamic> data = convert.jsonDecode(response.body);
-      List<LeagueDriver> results = (data["credits"]["driverCredits"] as List)
-          .map((obj) => LeagueDriver.jsonToModel(obj))
+      List<DriverCredit> results = (data["credits"]["driverCredits"] as List)
+          .map((obj) => DriverCredit.jsonToModel(obj))
           .toList();
       results.sort((a, b) => a.creditPoints < b.creditPoints ? 1 : -1);
       return results;
@@ -49,7 +55,7 @@ class LeagueService {
     }
   }
 
-  Future<bool> joinLeague(List<LeagueDriver> drivers, GrandPrix active) async {
+  Future<bool> joinLeague(List<DriverCredit> drivers, GrandPrix active) async {
     List<String> dids = drivers
         .where((dr) => dr.isSelected == true)
         .map((dr) => dr.driver.id)
@@ -66,7 +72,21 @@ class LeagueService {
     if (response.statusCode == 201) {
       return true;
     }
-    print(response.body.toString());
     return false;
+  }
+
+  Future<List<League>> getUserLeagues() async {
+    try {
+      var response = await _restService.get("userLeagues", api_user_leagues,defaultStandingsCacheTime);
+      if(response.statusCode==204) {
+        return  [];
+      }
+      Map data = convert.jsonDecode(response.body);
+      List<League> lgs = (data["leagues"] as List).map((league) => League.jsonToModel(league)).toList();
+      return lgs;
+    }catch(error) {
+      print("Error in getting user leagues " + error.toString());
+      return [];
+    }
   }
 }

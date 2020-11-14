@@ -34,8 +34,12 @@ class RestService {
       }
     }
     print("data from the api call " + url);
+    Map<String,String> headers = {
+      "Content-Type" : "application/json",
+      "x-client-identifier" : "R9oFF6spfLad4cBI3jddaFK40Zy1"
+    };
     try {
-      http.Response response = await http.get(url);
+      http.Response response = await http.get(url,headers: headers);
       if (response.statusCode == 200) {
         String value = convert.jsonEncode({
           "validTill": cacheTill.toLocal().toString(),
@@ -53,7 +57,8 @@ class RestService {
 
   Future<http.Response> post(String url,Map<String,dynamic> reqBody) async {
     Map<String,String> headers = {
-      "Content-Type" : "application/json"
+      "Content-Type" : "application/json",
+      "x-client-identifier" : "R9oFF6spfLad4cBI3jddaFK40Zy1"
     };
     return await http.post(url, body: convert.jsonEncode(reqBody),headers: headers );
   }

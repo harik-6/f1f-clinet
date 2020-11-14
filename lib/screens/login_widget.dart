@@ -49,31 +49,33 @@ class _LoginWidget extends State<LoginWidget> {
                     decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(20.0)),
-                    child: isAuthenticating?Center(
-                      child: Text("Signing in",style: TextStyle(
-                        color: Colors.black
-                      ),),
-                    ):Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Image(
-                          image: AssetImage('assets/images/google-icon.png'),
-                          width: 32.0,
-                          height: 32.0,
-                        ),
-                        Text(
-                          "Sign in with Google",
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 16.0,
-                              fontWeight: FontWeight.bold),
-                        )
-                      ],
-                    ),
+                    child: isAuthenticating
+                        ? Center(
+                            child: Text(
+                              "Signing in",
+                              style: TextStyle(color: Colors.black),
+                            ),
+                          )
+                        : Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Image(
+                                image:
+                                    AssetImage('assets/images/google-icon.png'),
+                                width: 32.0,
+                                height: 32.0,
+                              ),
+                              Text(
+                                "Sign in with Google",
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 16.0,
+                                    fontWeight: FontWeight.bold),
+                              )
+                            ],
+                          ),
                   ),
-                  SizedBox(height: 10.0),
-                  Text("- OR -"),
-                  SizedBox(height: 10.0),
+                  SizedBox(height: 20.0),
                   Text("Continue without sign in",
                       style: TextStyle(decoration: TextDecoration.underline)),
                   SizedBox(height: 25.0),

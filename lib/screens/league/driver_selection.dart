@@ -1,6 +1,6 @@
 import 'package:f1fantasy/constants/styles.dart';
 import 'package:f1fantasy/models/grand_prix_model.dart';
-import 'package:f1fantasy/models/league_driver_model.dart';
+import 'package:f1fantasy/models/driver_credit_model.dart';
 import 'package:f1fantasy/screens/league/result.dart';
 import 'package:f1fantasy/services/league_service.dart';
 import 'package:flutter/material.dart';
@@ -24,12 +24,12 @@ class DriverSelection extends StatefulWidget {
 class _DriverSelection extends State<DriverSelection> {
   bool isDrsLoading = true;
   STATUS status = STATUS.haveto;
-  List<LeagueDriver> drivers = [];
+  List<DriverCredit> drivers = [];
   double totalCredits = 10.0;
 
   void loadAllDriver() async {
     LeagueService service = new LeagueService();
-    List<LeagueDriver> drs = await service.getDriverCredits(1);
+    List<DriverCredit> drs = await service.getDriverCredits(1);
     setState(() {
       drivers = drs;
       isDrsLoading = false;
@@ -37,7 +37,7 @@ class _DriverSelection extends State<DriverSelection> {
   }
 
   void addToList(int index) {
-    List<LeagueDriver> present = drivers;
+    List<DriverCredit> present = drivers;
     present[index].isSelected = true;
     double credits = totalCredits - present[index].creditPoints;
     setState(() {
@@ -47,7 +47,7 @@ class _DriverSelection extends State<DriverSelection> {
   }
 
   void removeFromList(int index) {
-    List<LeagueDriver> present = drivers;
+    List<DriverCredit> present = drivers;
     present[index].isSelected = false;
     double credits = totalCredits + present[index].creditPoints;
     setState(() {
@@ -56,7 +56,7 @@ class _DriverSelection extends State<DriverSelection> {
     });
   }
 
-  bool isActive(LeagueDriver selection) {
+  bool isActive(DriverCredit selection) {
     return (selection.isSelected) || (selection.creditPoints <= totalCredits);
   }
 
@@ -69,6 +69,98 @@ class _DriverSelection extends State<DriverSelection> {
     setState(() {
       status = isSuccess ? STATUS.success : STATUS.failed;
     });
+  }
+
+  Widget driverList() {
+    return SafeArea(
+      child: Padding(
+        padding: EdgeInsets.symmetric(vertical: 20.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.only(
+                  top: 4.0, bottom: 4.0, left: 20.0, right: 90.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text("Total credits available", style: headerText),
+                  Text(totalCredits.toString(), style: headerText)
+                ],
+              ),
+            ),
+            Expanded(
+              child: isDrsLoading
+                  ? PreLoader()
+                  : Padding(
+                      padding: EdgeInsets.symmetric(vertical: 8.0),
+                      child: ListView.builder(
+                        itemCount: drivers.length,
+                        itemBuilder: (context, index) {
+                          DriverCredit dr = drivers[index];
+                          Driver driver = dr.driver;
+                          bool active = isActive(dr);
+                          return Container(
+                            key: Key(driver.firstName),
+                            width: double.infinity,
+                            height: 80.0,
+                            child: Opacity(
+                              opacity: active ? 1.0 : 0.5,
+                              child: ListTile(
+                                title: DriverTile(
+                                  childWidget: Row(
+                                    children: <Widget>[
+                                      SizedBox(width: 10.0),
+                                      TeamIndicator(driver.team),
+                                      SizedBox(width: 8.0),
+                                      DriverNames(
+                                          driver.firstName, driver.secondName),
+                                      Expanded(child: SizedBox.shrink()),
+                                      Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 16.0),
+                                        child: Text(dr.creditPoints.toString(),
+                                            style:
+                                                TextStyle(color: Colors.white)),
+                                      ),
+                                      IgnorePointer(
+                                        ignoring: !active,
+                                        child: dr.isSelected
+                                            ? IconButton(
+                                                icon: Icon(
+                                                  Icons
+                                                      .horizontal_rule_outlined,
+                                                  color: Colors.red,
+                                                ),
+                                                onPressed: () {
+                                                  removeFromList(index);
+                                                },
+                                              )
+                                            : IconButton(
+                                                icon: Icon(
+                                                  Icons.add,
+                                                  color: Colors.green,
+                                                ),
+                                                onPressed: () {
+                                                  addToList(index);
+                                                },
+                                              ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+            ),
+            SizedBox(height: 20.0)
+          ],
+        ),
+      ),
+    );
   }
 
   @override
@@ -112,105 +204,9 @@ class _DriverSelection extends State<DriverSelection> {
               case STATUS.failed:
                 return LeagueResult(false);
               case STATUS.haveto:
-                return SafeArea(
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: 20.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Padding(
-                          padding: EdgeInsets.only(
-                              top: 4.0, bottom: 4.0, left: 20.0, right: 90.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text("Total credits available",
-                                  style: headerText),
-                              Text(totalCredits.toString(), style: headerText)
-                            ],
-                          ),
-                        ),
-                        Expanded(
-                          child: isDrsLoading
-                              ? PreLoader()
-                              : Padding(
-                                  padding: EdgeInsets.symmetric(vertical: 8.0),
-                                  child: ListView.builder(
-                                    itemCount: drivers.length,
-                                    itemBuilder: (context, index) {
-                                      LeagueDriver dr = drivers[index];
-                                      Driver driver = dr.driver;
-                                      bool active = isActive(dr);
-                                      return Container(
-                                        key: Key(driver.firstName),
-                                        width: double.infinity,
-                                        height: 80.0,
-                                        child: Opacity(
-                                          opacity: active ? 1.0 : 0.5,
-                                          child: ListTile(
-                                            title: DriverTile(
-                                              childWidget: Row(
-                                                children: <Widget>[
-                                                  SizedBox(width: 10.0),
-                                                  TeamIndicator(driver.team),
-                                                  SizedBox(width: 8.0),
-                                                  DriverNames(driver.firstName,
-                                                      driver.secondName),
-                                                  Expanded(
-                                                      child: SizedBox.shrink()),
-                                                  Padding(
-                                                    padding:
-                                                        EdgeInsets.symmetric(
-                                                            horizontal: 16.0),
-                                                    child: Text(
-                                                        dr.creditPoints
-                                                            .toString(),
-                                                        style: TextStyle(
-                                                            color:
-                                                                Colors.white)),
-                                                  ),
-                                                  IgnorePointer(
-                                                    ignoring: !active,
-                                                    child: dr.isSelected
-                                                        ? IconButton(
-                                                            icon: Icon(
-                                                              Icons
-                                                                  .horizontal_rule_outlined,
-                                                              color: Colors.red,
-                                                            ),
-                                                            onPressed: () {
-                                                              removeFromList(
-                                                                  index);
-                                                            },
-                                                          )
-                                                        : IconButton(
-                                                            icon: Icon(
-                                                              Icons.add,
-                                                              color:
-                                                                  Colors.green,
-                                                            ),
-                                                            onPressed: () {
-                                                              addToList(index);
-                                                            },
-                                                          ),
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                ),
-                        ),
-                        SizedBox(height: 20.0)
-                      ],
-                    ),
-                  ),
-                );
-                return null;
+                return driverList();
             }
+            return null;
           },
         ));
   }

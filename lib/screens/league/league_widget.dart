@@ -1,7 +1,7 @@
 import 'package:f1fantasy/constants/styles.dart';
 import 'package:f1fantasy/models/grand_prix_model.dart';
 import 'package:f1fantasy/screens/league/race_schedule.dart';
-import 'package:f1fantasy/screens/league/my_leagues.dart';
+import 'package:f1fantasy/screens/league/myleagues/my_leagues.dart';
 import 'package:flutter/material.dart';
 import 'package:f1fantasy/screens/league/driver_selection.dart';
 
@@ -127,7 +127,7 @@ class _LeagueWidget extends State<LeagueWidget>
             onPageChanged: changeActiveTab,
             children: [
               RaceSchedule(widget.grandsprix),
-              MyLeagues(widget.grandsprix)
+              MyLeagues()
             ],
           ))
         ],
