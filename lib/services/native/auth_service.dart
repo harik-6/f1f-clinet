@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:f1fantasy/models/user_model.dart';
+import 'package:f1fantasy/services/native/pref_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -25,14 +26,22 @@ class AuthService {
     }
   }
 
+  AppUser getUser() {
+    return convertUser(auth.currentUser);
+  }
+
+  AppUser convertUser(User loggedInUser) {
+    return new AppUser(
+        uid: loggedInUser.uid,
+        name: loggedInUser.displayName,
+        email: loggedInUser.email,
+        photoUrl: loggedInUser.photoURL);
+  }
+
   Future<AppUser> addUserToFiredb(UserCredential credential) async {
     try {
       User loggedInUser = credential.user;
-      AppUser user = new AppUser(
-          uid: loggedInUser.uid,
-          name: loggedInUser.displayName,
-          email: loggedInUser.email,
-          photoUrl: loggedInUser.photoURL);
+      AppUser user = convertUser(loggedInUser);
       await userdb.doc(loggedInUser.uid).set(user.modeltoJson());
       return user;
     } catch (error) {
@@ -43,12 +52,13 @@ class AuthService {
   bool get isSignedIn {
     User user = auth.currentUser;
     if (user == null) return false;
-    // print("Current user");
-    // print(user.uid);
     return true;
   }
 
   void signOut() async {
+    try {
+      await new PrefService().clearDate();
+    } catch (_) {}
     await googleSignIn.disconnect();
     await auth.signOut();
   }

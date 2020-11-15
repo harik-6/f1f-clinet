@@ -1,6 +1,8 @@
 import 'package:f1fantasy/components/preloader.dart';
 import 'package:f1fantasy/models/grand_prix_model.dart';
+import 'package:f1fantasy/screens/drawer_start.dart';
 import 'package:f1fantasy/services/league_service.dart';
+import 'package:f1fantasy/services/native/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:f1fantasy/screens/leaderboard/leaderboard_widget.dart';
 import 'package:f1fantasy/screens/league/league_widget.dart';
@@ -26,18 +28,18 @@ class _AppHome extends State<AppHome> {
       activeBottomIndex = newindex;
     });
   }
-  
+
   void loadRaceSchedule() async {
     LeagueService gpService = LeagueService();
     List<GrandPrix> gpss = await gpService.getGrandPrixs();
     this.setState(() {
-     isgpsLoading = false;
-     gps = gpss; 
+      isgpsLoading = false;
+      gps = gpss;
     });
   }
-  
+
   @override
-  void initState() { 
+  void initState() {
     super.initState();
     this.loadRaceSchedule();
   }
@@ -46,11 +48,21 @@ class _AppHome extends State<AppHome> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          leading: Icon(Icons.menu, color: Colors.white),
+          leading: Builder(builder: (context) {
+            return IconButton(
+              icon: Icon(Icons.menu, color: Colors.white),
+              onPressed: () {
+                Scaffold.of(context).openDrawer();
+              },
+            );
+          }),
           titleSpacing: 0.0,
           backgroundColor: Colors.grey[900],
           title: Text("F1 Fantasy league"),
         ),
+        drawer: Container(
+            width: 200.0,
+            child: Drawer(child: SideDrawer(new AuthService().getUser()))),
         bottomNavigationBar: BottomNavigationBar(
             backgroundColor: Colors.black,
             selectedItemColor: Colors.white,
@@ -86,8 +98,8 @@ class _AppHome extends State<AppHome> {
             physics: NeverScrollableScrollPhysics(),
             controller: pageViewController,
             children: [
-              isgpsLoading?PreLoader():LeagueWidget(grandsprix:gps),
-              isgpsLoading?PreLoader():ResultsWidget(gps: gps),
+              isgpsLoading ? PreLoader() : LeagueWidget(grandsprix: gps),
+              isgpsLoading ? PreLoader() : ResultsWidget(gps: gps),
               StandingWidget(),
               LeaderBoardWidget()
             ],

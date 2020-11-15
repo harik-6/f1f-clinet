@@ -2,7 +2,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class PrefService {
   static final PrefService _instance = PrefService._internal();
-  factory  PrefService() {
+  factory PrefService() {
     return _instance;
   }
   PrefService._internal();
@@ -15,10 +15,15 @@ class PrefService {
     return null;
   }
 
-  Future<bool> writData(String key,dynamic value) async {
+  Future<bool> writData(String key, dynamic value) async {
     SharedPreferences pref = await SharedPreferences.getInstance();
-    pref.setString(key,value);
+    pref.setString(key, value);
     return true;
   }
 
+  Future<bool> clearDate() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    pref.clear();
+    return true;
+  }
 }
