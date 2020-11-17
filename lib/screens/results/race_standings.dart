@@ -39,44 +39,56 @@ class _RaceStandings extends State<RaceStandings>
                 ],
               ),
             ),
-            Expanded(
-              child: ListView.builder(
-                  scrollDirection: Axis.vertical,
-                  itemCount: widget.results.length,
-                  itemExtent: 80.0,
-                  itemBuilder: (context, index) {
-                    RaceResult result = widget.results[index];
-                    Driver driver = result.driver;
-                    return Opacity(
-                      opacity: result.time == "DNF" ? 0.5 : 1.0,
-                      child: GestureDetector(
-                        onTap: null,
-                        child: ListTile(
-                          title: DriverTile(
-                            childWidget: Row(
-                              children: <Widget>[
-                                Position(index + 1),
-                                SizedBox(width: 5.0),
-                                TeamIndicator(driver.team),
-                                SizedBox(width: 8.0),
-                                DriverNames(
-                                    driver.firstName, driver.secondName),
-                                Expanded(child: SizedBox.shrink()),
-                                Padding(
-                                  padding:
-                                      EdgeInsets.symmetric(horizontal: 12.0),
-                                  child: Text(result.time,
-                                      style: TextStyle(color: Colors.white)),
+            (widget.results == null || widget.results.length == 0)
+                ? Expanded(
+                    child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.flag, color: Colors.white, size: 36.0),
+                      SizedBox(height: 10.0),
+                      Text("Race result will be updated soon",
+                          style: TextStyle(fontSize: 16.0))
+                    ],
+                  ))
+                : Expanded(
+                    child: ListView.builder(
+                        scrollDirection: Axis.vertical,
+                        itemCount: widget.results.length,
+                        itemExtent: 80.0,
+                        itemBuilder: (context, index) {
+                          RaceResult result = widget.results[index];
+                          Driver driver = result.driver;
+                          return Opacity(
+                            opacity: result.time == "DNF" ? 0.5 : 1.0,
+                            child: GestureDetector(
+                              onTap: null,
+                              child: ListTile(
+                                title: DriverTile(
+                                  childWidget: Row(
+                                    children: <Widget>[
+                                      Position(index + 1),
+                                      SizedBox(width: 5.0),
+                                      TeamIndicator(driver.team),
+                                      SizedBox(width: 8.0),
+                                      DriverNames(
+                                          driver.firstName, driver.secondName),
+                                      Expanded(child: SizedBox.shrink()),
+                                      Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 12.0),
+                                        child: Text(result.time,
+                                            style:
+                                                TextStyle(color: Colors.white)),
+                                      ),
+                                      Points(result.points)
+                                    ],
+                                  ),
                                 ),
-                                Points(result.points)
-                              ],
+                              ),
                             ),
-                          ),
-                        ),
-                      ),
-                    );
-                  }),
-            )
+                          );
+                        }),
+                  )
           ],
         ));
   }

@@ -2,13 +2,12 @@ import 'dart:convert' as convert;
 import 'package:f1fantasy/models/driver_model.dart';
 import 'package:f1fantasy/models/grand_prix_model.dart';
 import 'package:f1fantasy/models/user_league_model.dart';
+import 'package:f1fantasy/screens/league/joinleague/status_enum.dart';
 import 'package:f1fantasy/services/native/pref_service.dart';
 import 'package:f1fantasy/services/native/rest_service.dart';
 import 'package:f1fantasy/constants/app_constants.dart';
 import 'package:f1fantasy/models/driver_credit_model.dart';
 import 'package:f1fantasy/models/leaderboard_model.dart';
-
-enum STATUS { haveto, joining, success, failed, hasjoinedAlready }
 
 class LeagueService {
   static RestService _restService;
@@ -62,7 +61,8 @@ class LeagueService {
     }
   }
 
-  Future<bool> joinLeague(List<DriverCredit> drivers, GrandPrix active) async {
+  Future<STATUS> joinLeague(
+      List<DriverCredit> drivers, GrandPrix active) async {
     List<String> dids = drivers
         .where((dr) => dr.isSelected == true)
         .map((dr) => dr.driver.id)
@@ -75,37 +75,36 @@ class LeagueService {
       "year": DateTime.now().year
     };
     var response = await _restService.post(api_join_league, requestBody);
+    PrefService prefService = PrefService();
     if (response.statusCode == 201) {
-      List<Driver> dataToCache = drivers
+      print("success joined the league");
+      List<Driver> dataToCahce = drivers
           .where((dr) => dr.isSelected == true)
           .map((dr) => dr.driver)
           .toList();
-      this.writeSelection(
-          cache_join_league + active.round.toString(), dataToCache);
-      return true;
-    }
-    List<Driver> dataToCache;
-    if (response.statusCode == 201) {
-      drivers
-          .where((dr) => dr.isSelected == true)
-          .map((dr) => dr.driver)
-          .toList();
-      this.writeSelection(
-          cache_join_league + active.round.toString(), dataToCache);
-      return true;
+      await prefService.writData(cache_join_league + active.round.toString(),
+          convert.jsonEncode(dataToCahce));
+      return STATUS.success;
     }
     if (response.statusCode == 200) {
+      print("alread joined the league");
       var data = convert.jsonDecode(response.body);
+      print("Status 200 already joined");
       print(data["league"].toString());
-      return true;
+      await prefService.writData(cache_join_league + active.round.toString(),
+          convert.jsonEncode(data["league"]["drivers"]));
+      return STATUS.hasjoinedAlready;
     }
-    return false;
+    return STATUS.failed;
   }
 
-  Future<List<Driver>> readSelection() async {}
-
-  void writeSelection(String key, List<Driver> value) async {
-    await PrefService().writData(key, value);
+  Future<List<Driver>> readSelection(GrandPrix activeleague) async {
+    String cache = await PrefService()
+        .readDate(cache_join_league + activeleague.round.toString());
+    if (cache == null) return [];
+    return (convert.jsonDecode(cache) as List)
+        .map((datum) => Driver.jsonToModel(datum))
+        .toList();
   }
 
   Future<List<League>> getUserLeagues() async {

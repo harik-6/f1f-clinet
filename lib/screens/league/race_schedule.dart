@@ -1,6 +1,6 @@
 import 'package:f1fantasy/components/driver_tile.dart';
-import 'package:f1fantasy/constants/month_constants.dart';
 import 'package:f1fantasy/models/grand_prix_model.dart';
+import 'package:f1fantasy/services/native/tf_service.dart';
 import 'package:flutter/material.dart';
 
 class RaceSchedule extends StatefulWidget {
@@ -21,6 +21,7 @@ class _RaceScheduleState extends State<RaceSchedule> {
             itemBuilder: (context, index) {
               GrandPrix gp = widget.list[index];
               DateTime date = gp.dateTime.toLocal();
+              List<String> fmt = formatdateTime(gp.dateTime).split("T");
               return Padding(
                 padding:
                     const EdgeInsets.symmetric(vertical: 4.0, horizontal: 12.0),
@@ -35,9 +36,15 @@ class _RaceScheduleState extends State<RaceSchedule> {
                         gp.circuitName,
                         style: TextStyle(color: Colors.white54),
                       ),
-                      trailing: Text(date.day.toString().padLeft(2, "0") +
-                          ", " +
-                          monthName[date.month]),
+                      trailing: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(fmt[0]),
+                          SizedBox(height: 5.0),
+                          Text(fmt[1])
+                        ],
+                      ),
                     ),
                   ),
                 ),

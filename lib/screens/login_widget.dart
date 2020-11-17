@@ -81,12 +81,7 @@ class _LoginWidget extends State<LoginWidget> {
                             ],
                           ),
                   ),
-                  SizedBox(height: 25.0),
-                  Text("Continue without sign in",
-                      style: TextStyle(
-                          decoration: TextDecoration.underline,
-                          color: Colors.white70)),
-                  SizedBox(height: 25.0),
+                  SizedBox(height: 50.0),
                 ],
               )),
         ),

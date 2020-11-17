@@ -1,6 +1,6 @@
 name: f1fantasy
 description: A new Flutter project.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -10,9 +10,10 @@ dependencies:
   http: 0.12.2
   firebase_auth: ^0.18.2
   google_sign_in: ^4.5.5
-  firebase_core : ^0.5.0
+  firebase_core: ^0.5.0
   cloud_firestore: ^0.14.2
   shared_preferences: ^0.5.12+4
+  intl: ^0.16.1
 
 dev_dependencies:
   flutter_test:

@@ -1,8 +1,10 @@
 import 'package:f1fantasy/models/grand_prix_model.dart';
+import 'package:f1fantasy/models/driver_model.dart';
 import 'package:f1fantasy/screens/league/joinleague/driver_selection.dart';
-import 'package:f1fantasy/services/native/pref_service.dart';
+import 'package:f1fantasy/screens/league/joinleague/status_enum.dart';
+import 'package:f1fantasy/screens/league/myleagues/my_drivers.dart';
+import 'package:f1fantasy/services/league_service.dart';
 import 'package:flutter/material.dart';
-import 'package:f1fantasy/constants/app_constants.dart';
 
 class JoinLeague extends StatefulWidget {
   final GrandPrix activeLeague;
@@ -12,13 +14,17 @@ class JoinLeague extends StatefulWidget {
 }
 
 class _JoinLeagueState extends State<JoinLeague> {
-  bool hasJoined = false;
+  STATUS leagueStatus = STATUS.haveto;
+  List<Driver> drivers = [];
 
   void checkForLeagueStatus() async {
-    String cache = await PrefService().readDate(cache_join_league);
-    if (cache != null) {
+    LeagueService service = LeagueService();
+    List<Driver> drs = await service.readSelection(widget.activeLeague);
+    print("cache data " + drs.toString());
+    if (drs.length > 0) {
       setState(() {
-        hasJoined = true;
+        drivers = drs;
+        leagueStatus = STATUS.hasjoinedAlready;
       });
     }
   }
@@ -44,12 +50,14 @@ class _JoinLeagueState extends State<JoinLeague> {
             ),
             Padding(
                 padding: EdgeInsets.only(bottom: 12.0),
-                child: Text(widget.activeLeague.circuitName,
+                child: Text("Join before qualyfying starts",
                     style: TextStyle(color: Colors.white70)))
           ],
         ),
-        hasJoined
-            ? Container(
+        Builder(builder: (context) {
+          switch (leagueStatus) {
+            case STATUS.haveto:
+              return Container(
                 height: 40.0,
                 width: 100.0,
                 child: RaisedButton(
@@ -58,7 +66,9 @@ class _JoinLeagueState extends State<JoinLeague> {
                         context,
                         new MaterialPageRoute(
                             builder: (context) => DriverSelection(
-                                activeLeague: widget.activeLeague)));
+                                  activeLeague: widget.activeLeague,
+                                  callback: checkForLeagueStatus,
+                                )));
                   },
                   color: Colors.green[600],
                   highlightColor: Colors.black,
@@ -67,17 +77,29 @@ class _JoinLeagueState extends State<JoinLeague> {
                     style: TextStyle(color: Colors.white),
                   ),
                 ),
-              )
-            : Column(children: [
-                Icon(Icons.check_circle_outlined, color: Colors.green),
-                GestureDetector(
-                  onTap: () {},
-                  child: Text("View drivers",
-                      style: TextStyle(
-                          decoration: TextDecoration.underline,
-                          color: Colors.white54)),
-                )
-              ])
+              );
+            case STATUS.hasjoinedAlready:
+              return Container(
+                height: 40.0,
+                width: 100.0,
+                child: RaisedButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                            builder: (context) =>
+                                MyDrivers(drivers: this.drivers)));
+                  },
+                  color: Colors.blue,
+                  highlightColor: Colors.black,
+                  child: Text(
+                    "My Selection",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+              );
+          }
+        })
       ],
     );
   }

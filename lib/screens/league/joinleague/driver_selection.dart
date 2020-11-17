@@ -2,6 +2,7 @@ import 'package:f1fantasy/constants/styles.dart';
 import 'package:f1fantasy/models/grand_prix_model.dart';
 import 'package:f1fantasy/models/driver_credit_model.dart';
 import 'package:f1fantasy/screens/league/joinleague/result.dart';
+import 'package:f1fantasy/screens/league/joinleague/status_enum.dart';
 import 'package:f1fantasy/services/league_service.dart';
 import 'package:flutter/material.dart';
 import 'package:f1fantasy/components/driver_names.dart';
@@ -10,11 +11,11 @@ import 'package:f1fantasy/components/preloader.dart';
 import 'package:f1fantasy/components/team_indicator.dart';
 import 'package:f1fantasy/models/driver_model.dart';
 
-enum STATUS { haveto, joining, success, failed, hasjoinedAlready }
-
 class DriverSelection extends StatefulWidget {
   final GrandPrix activeLeague;
-  DriverSelection({Key key, this.activeLeague}) : super(key: key);
+  final Function callback;
+  DriverSelection({Key key, this.activeLeague, this.callback})
+      : super(key: key);
   @override
   State<StatefulWidget> createState() {
     return _DriverSelection();
@@ -65,10 +66,11 @@ class _DriverSelection extends State<DriverSelection> {
     setState(() {
       status = STATUS.joining;
     });
-    bool isSuccess = await service.joinLeague(drivers, widget.activeLeague);
+    STATUS st = await service.joinLeague(drivers, widget.activeLeague);
     setState(() {
-      status = isSuccess ? STATUS.success : STATUS.failed;
+      status = st;
     });
+    widget.callback();
   }
 
   Widget driverList() {
@@ -205,6 +207,10 @@ class _DriverSelection extends State<DriverSelection> {
                 return LeagueResult(false);
               case STATUS.haveto:
                 return driverList();
+              case STATUS.hasjoinedAlready:
+                return Center(
+                    child: Text("You have already joined the league",
+                        style: TextStyle(fontSize: 18.0)));
             }
             return null;
           },

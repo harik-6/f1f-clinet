@@ -65,6 +65,11 @@ class _LeaderBoardWidget extends State<LeaderBoardWidget>
                       children: <Widget>[
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 6.0),
+                          child: Text("Races",
+                              style: TextStyle(color: Colors.white)),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 6.0),
                           child: Text("Pts",
                               style: TextStyle(color: Colors.white)),
                         ),
@@ -83,9 +88,9 @@ class _LeaderBoardWidget extends State<LeaderBoardWidget>
                                   Position(index + 1),
                                   SizedBox(width: 5.0),
                                   SizedBox(width: 8.0),
-                                  DriverNames(lead.name,
-                                      lead.leagueCount.toString() + " leagues"),
+                                  DriverNames("", lead.name),
                                   Expanded(child: SizedBox.shrink()),
+                                  Points(2),
                                   Points(lead.points)
                                 ],
                               ),
