@@ -16,8 +16,14 @@ class _LoginWidget extends State<LoginWidget> {
     setState(() {
       isAuthenticating = true;
     });
-    AppUser signedUser = await AuthService().signInWithGoogle();
-    print(signedUser.name);
+    AuthService service = AuthService();
+    AppUser user = await service.signInWithGoogle();
+    if (user == null) {
+      setState(() {
+        isAuthenticating = false;
+      });
+      service.signOut();
+    }
   }
 
   @override
@@ -75,9 +81,11 @@ class _LoginWidget extends State<LoginWidget> {
                             ],
                           ),
                   ),
-                  SizedBox(height: 20.0),
+                  SizedBox(height: 25.0),
                   Text("Continue without sign in",
-                      style: TextStyle(decoration: TextDecoration.underline)),
+                      style: TextStyle(
+                          decoration: TextDecoration.underline,
+                          color: Colors.white70)),
                   SizedBox(height: 25.0),
                 ],
               )),

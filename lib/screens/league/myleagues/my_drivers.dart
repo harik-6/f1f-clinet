@@ -1,4 +1,5 @@
 import 'package:f1fantasy/components/team_icon.dart';
+import 'package:f1fantasy/constants/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:f1fantasy/components/driver_names.dart';
 import 'package:f1fantasy/components/driver_tile.dart';
@@ -17,36 +18,36 @@ class MyDrivers extends StatelessWidget {
         ),
         backgroundColor: Colors.black,
         body: SafeArea(
-          child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 20.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: drivers.length,
-                    itemBuilder: (context, index) {
-                      Driver driver = drivers[index];
-                      return ListTile(
-                        title: DriverTile(
-                          childWidget: Row(
-                            children: <Widget>[
-                              SizedBox(width: 10.0),
-                              TeamIndicator(driver.team),
-                              SizedBox(width: 8.0),
-                              DriverNames(
-                                  driver.firstName, driver.secondName),
-                              Expanded(child:SizedBox.shrink()),
-                              TeamIcon(driver.team, 8.0)
-                            ],
-                          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+                child: Text("Driver selected", style: headerText),
+              ),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: drivers.length,
+                  itemBuilder: (context, index) {
+                    Driver driver = drivers[index];
+                    return ListTile(
+                      title: DriverTile(
+                        childWidget: Row(
+                          children: <Widget>[
+                            SizedBox(width: 10.0),
+                            TeamIndicator(driver.team),
+                            SizedBox(width: 8.0),
+                            DriverNames(driver.firstName, driver.secondName),
+                            Expanded(child: SizedBox.shrink()),
+                            TeamIcon(driver.team, 8.0)
+                          ],
                         ),
-                      );
-                    },
-                  ),
+                      ),
+                    );
+                  },
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ));
   }

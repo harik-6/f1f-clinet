@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:f1fantasy/services/native/auth_service.dart';
 import 'package:f1fantasy/services/native/pref_service.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
@@ -10,9 +13,9 @@ class RestService {
     return _instance;
   }
 
-  get defaultCacheTime{
+  get defaultCacheTime {
     DateTime now = DateTime.now().toLocal();
-    return DateTime(now.year,now.month,now.day,now.hour+5,now.minute);
+    return DateTime(now.year, now.month, now.day, now.hour + 5, now.minute);
   }
 
   RestService._internal() {
@@ -21,7 +24,7 @@ class RestService {
 
   Future<http.Response> get(String key, String url,
       [DateTime cacheTill]) async {
-    if(cacheTill == null) {
+    if (cacheTill == null) {
       cacheTill = defaultCacheTime;
     }
     String cache = await _cacheService.readDate(key);
@@ -34,12 +37,12 @@ class RestService {
       }
     }
     print("data from the api call " + url);
-    Map<String,String> headers = {
-      "Content-Type" : "application/json",
-      "x-client-identifier" : "R9oFF6spfLad4cBI3jddaFK40Zy1"
+    Map<String, String> headers = {
+      "Content-Type": "application/json",
+      "x-client-identifier": "R9oFF6spfLad4cBI3jddaFK40Zy1"
     };
     try {
-      http.Response response = await http.get(url,headers: headers);
+      http.Response response = await http.get(url, headers: headers);
       if (response.statusCode == 200) {
         String value = convert.jsonEncode({
           "validTill": cacheTill.toLocal().toString(),
@@ -55,11 +58,12 @@ class RestService {
     }
   }
 
-  Future<http.Response> post(String url,Map<String,dynamic> reqBody) async {
-    Map<String,String> headers = {
-      "Content-Type" : "application/json",
-      "x-client-identifier" : "R9oFF6spfLad4cBI3jddaFK40Zy1"
+  Future<http.Response> post(String url, Map<String, dynamic> reqBody) async {
+    Map<String, String> headers = {
+      "Content-Type": "application/json",
+      "x-client-identifier": AuthService().getUser().uid
     };
-    return await http.post(url, body: convert.jsonEncode(reqBody),headers: headers );
+    return await http.post(url,
+        body: convert.jsonEncode(reqBody), headers: headers);
   }
 }

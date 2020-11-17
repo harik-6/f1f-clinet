@@ -12,16 +12,24 @@ class AuthService {
 
   Future<AppUser> signInWithGoogle() async {
     try {
-      final GoogleSignInAccount account = await googleSignIn.signIn();
-      final GoogleSignInAuthentication authentication =
-          await account.authentication;
-      final AuthCredential creds = GoogleAuthProvider.credential(
-          idToken: authentication.idToken,
-          accessToken: authentication.accessToken);
-      UserCredential usercreds = await auth.signInWithCredential(creds);
-      AppUser user = await addUserToFiredb(usercreds);
-      return user;
-    } on Exception catch (_) {} catch (_) {
+      final GoogleSignInAccount account =
+          await googleSignIn.signIn().catchError((onError) {
+        return false;
+      });
+      if (account != null) {
+        final GoogleSignInAuthentication authentication =
+            await account.authentication;
+        final AuthCredential creds = GoogleAuthProvider.credential(
+            idToken: authentication.idToken,
+            accessToken: authentication.accessToken);
+        UserCredential usercreds = await auth.signInWithCredential(creds);
+        AppUser user = await addUserToFiredb(usercreds);
+        return user;
+      }
+      return null;
+    } on Exception catch (_) {
+      return null;
+    } catch (_) {
       return null;
     }
   }
@@ -59,7 +67,9 @@ class AuthService {
     try {
       await new PrefService().clearDate();
     } catch (_) {}
-    await googleSignIn.disconnect();
+    if (googleSignIn.isSignedIn() != null) {
+      await googleSignIn.disconnect();
+    }
     await auth.signOut();
   }
 }

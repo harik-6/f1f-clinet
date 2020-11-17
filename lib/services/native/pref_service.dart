@@ -26,4 +26,10 @@ class PrefService {
     pref.clear();
     return true;
   }
+
+  Future<bool> removeKey(String key) async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    pref.remove(key);
+    return true;
+  }
 }

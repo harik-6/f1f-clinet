@@ -20,6 +20,7 @@ class _AppHome extends State<AppHome> {
   final PageController pageViewController = new PageController(initialPage: 0);
   int activeBottomIndex = 0;
   List<GrandPrix> gps = [];
+  GrandPrix activeGp;
   bool isgpsLoading = true;
 
   void changeActiveIndex(int newindex) {
@@ -32,9 +33,12 @@ class _AppHome extends State<AppHome> {
   void loadRaceSchedule() async {
     LeagueService gpService = LeagueService();
     List<GrandPrix> gpss = await gpService.getGrandPrixs();
+    List<GrandPrix> active =
+        gpss.reversed.where((gp) => gp.active == true).toList();
     this.setState(() {
       isgpsLoading = false;
       gps = gpss;
+      activeGp = active.length > 0 ? active[0] : null;
     });
   }
 
@@ -94,16 +98,17 @@ class _AppHome extends State<AppHome> {
             ]),
         backgroundColor: Colors.black,
         body: SafeArea(
-          child: PageView(
-            physics: NeverScrollableScrollPhysics(),
-            controller: pageViewController,
-            children: [
-              isgpsLoading ? PreLoader() : LeagueWidget(grandsprix: gps),
-              isgpsLoading ? PreLoader() : ResultsWidget(gps: gps),
-              StandingWidget(),
-              LeaderBoardWidget()
-            ],
-          ),
-        ));
+            child: PageView(
+          physics: NeverScrollableScrollPhysics(),
+          controller: pageViewController,
+          children: [
+            isgpsLoading
+                ? PreLoader()
+                : LeagueWidget(grandsprix: gps, activeLeague: activeGp),
+            isgpsLoading ? PreLoader() : ResultsWidget(gps: gps),
+            StandingWidget(),
+            LeaderBoardWidget()
+          ],
+        )));
   }
 }

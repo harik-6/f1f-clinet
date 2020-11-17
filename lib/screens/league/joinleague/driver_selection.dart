@@ -1,7 +1,7 @@
 import 'package:f1fantasy/constants/styles.dart';
 import 'package:f1fantasy/models/grand_prix_model.dart';
 import 'package:f1fantasy/models/driver_credit_model.dart';
-import 'package:f1fantasy/screens/league/result.dart';
+import 'package:f1fantasy/screens/league/joinleague/result.dart';
 import 'package:f1fantasy/services/league_service.dart';
 import 'package:flutter/material.dart';
 import 'package:f1fantasy/components/driver_names.dart';
@@ -10,7 +10,7 @@ import 'package:f1fantasy/components/preloader.dart';
 import 'package:f1fantasy/components/team_indicator.dart';
 import 'package:f1fantasy/models/driver_model.dart';
 
-enum STATUS { haveto, joining, success, failed }
+enum STATUS { haveto, joining, success, failed, hasjoinedAlready }
 
 class DriverSelection extends StatefulWidget {
   final GrandPrix activeLeague;
