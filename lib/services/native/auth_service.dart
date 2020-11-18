@@ -50,10 +50,11 @@ class AuthService {
     try {
       User loggedInUser = credential.user;
       AppUser user = convertUser(loggedInUser);
+      print(user.modeltoJson());
       await userdb.doc(loggedInUser.uid).set(user.modeltoJson());
       return user;
     } catch (error) {
-      throw Error();
+      return null;
     }
   }
 
@@ -64,12 +65,8 @@ class AuthService {
   }
 
   void signOut() async {
-    try {
-      await new PrefService().clearDate();
-    } catch (_) {}
-    if (googleSignIn.isSignedIn() != null) {
-      await googleSignIn.disconnect();
-    }
+    await googleSignIn.disconnect();
+    await new PrefService().clearDate();
     await auth.signOut();
   }
 }

@@ -20,7 +20,6 @@ class _JoinLeagueState extends State<JoinLeague> {
   void checkForLeagueStatus() async {
     LeagueService service = LeagueService();
     List<Driver> drs = await service.readSelection(widget.activeLeague);
-    print("cache data " + drs.toString());
     if (drs.length > 0) {
       setState(() {
         drivers = drs;

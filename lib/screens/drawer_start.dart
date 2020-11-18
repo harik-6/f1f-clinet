@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 class SideDrawer extends StatelessWidget {
   final AppUser user;
   SideDrawer(this.user);
-  void _signOut() async {
+  Future<void> _signOut() async {
     await AuthService().signOut();
   }
 

@@ -11,16 +11,19 @@ class LoginWidget extends StatefulWidget {
 
 class _LoginWidget extends State<LoginWidget> {
   bool isAuthenticating = false;
+  bool tryAgain = false;
 
   void googleSignIn() async {
     setState(() {
       isAuthenticating = true;
+      tryAgain = false;
     });
     AuthService service = AuthService();
     AppUser user = await service.signInWithGoogle();
     if (user == null) {
       setState(() {
         isAuthenticating = false;
+        tryAgain = true;
       });
       service.signOut();
     }
@@ -48,21 +51,27 @@ class _LoginWidget extends State<LoginWidget> {
                     height: 150.0,
                   ),
                   Expanded(child: SizedBox.shrink()),
-                  Container(
-                    padding: EdgeInsets.all(8.0),
-                    width: MediaQuery.of(context).size.width * 0.7,
-                    height: 40.0,
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(20.0)),
-                    child: isAuthenticating
-                        ? Center(
-                            child: Text(
-                              "Signing in",
-                              style: TextStyle(color: Colors.black),
-                            ),
-                          )
-                        : Row(
+                  tryAgain
+                      ? Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Text("Try again"))
+                      : SizedBox.shrink(),
+                  isAuthenticating
+                      ? Column(
+                          children: [
+                            CircularProgressIndicator(),
+                            SizedBox(height: 5.0),
+                            Text("Signing in")
+                          ],
+                        )
+                      : Container(
+                          padding: EdgeInsets.all(8.0),
+                          width: MediaQuery.of(context).size.width * 0.7,
+                          height: 40.0,
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(20.0)),
+                          child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
                               Image(
@@ -80,7 +89,7 @@ class _LoginWidget extends State<LoginWidget> {
                               )
                             ],
                           ),
-                  ),
+                        ),
                   SizedBox(height: 50.0),
                 ],
               )),

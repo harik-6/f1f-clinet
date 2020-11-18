@@ -3,6 +3,7 @@ import 'package:f1fantasy/models/driver_model.dart';
 import 'package:f1fantasy/models/grand_prix_model.dart';
 import 'package:f1fantasy/models/user_league_model.dart';
 import 'package:f1fantasy/screens/league/joinleague/status_enum.dart';
+import 'package:f1fantasy/services/native/auth_service.dart';
 import 'package:f1fantasy/services/native/pref_service.dart';
 import 'package:f1fantasy/services/native/rest_service.dart';
 import 'package:f1fantasy/constants/app_constants.dart';
@@ -76,8 +77,11 @@ class LeagueService {
     };
     var response = await _restService.post(api_join_league, requestBody);
     PrefService prefService = PrefService();
+    if (response.statusCode == 401) {
+      await AuthService().signOut();
+      return null;
+    }
     if (response.statusCode == 201) {
-      print("success joined the league");
       List<Driver> dataToCahce = drivers
           .where((dr) => dr.isSelected == true)
           .map((dr) => dr.driver)
@@ -87,10 +91,7 @@ class LeagueService {
       return STATUS.success;
     }
     if (response.statusCode == 200) {
-      print("alread joined the league");
       var data = convert.jsonDecode(response.body);
-      print("Status 200 already joined");
-      print(data["league"].toString());
       await prefService.writData(cache_join_league + active.round.toString(),
           convert.jsonEncode(data["league"]["drivers"]));
       return STATUS.hasjoinedAlready;

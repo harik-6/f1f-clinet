@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:f1fantasy/services/native/auth_service.dart';
 import 'package:f1fantasy/services/native/pref_service.dart';
 import 'package:http/http.dart' as http;
@@ -8,6 +6,7 @@ import 'dart:convert' as convert;
 class RestService {
   static final RestService _instance = RestService._internal();
   static PrefService _cacheService;
+  static AuthService _authService;
 
   factory RestService() {
     return _instance;
@@ -20,6 +19,7 @@ class RestService {
 
   RestService._internal() {
     _cacheService = PrefService();
+    _authService = AuthService();
   }
 
   Future<http.Response> get(String key, String url,
@@ -39,10 +39,14 @@ class RestService {
     print("data from the api call " + url);
     Map<String, String> headers = {
       "Content-Type": "application/json",
-      "x-client-identifier": "R9oFF6spfLad4cBI3jddaFK40Zy1"
+      "x-client-identifier": _authService.getUser().uid
     };
     try {
       http.Response response = await http.get(url, headers: headers);
+      if (response.statusCode == 401) {
+        await _authService.signOut();
+        return null;
+      }
       if (response.statusCode == 200) {
         String value = convert.jsonEncode({
           "validTill": cacheTill.toLocal().toString(),
@@ -61,7 +65,7 @@ class RestService {
   Future<http.Response> post(String url, Map<String, dynamic> reqBody) async {
     Map<String, String> headers = {
       "Content-Type": "application/json",
-      "x-client-identifier": AuthService().getUser().uid
+      "x-client-identifier": _authService.getUser().uid
     };
     return await http.post(url,
         body: convert.jsonEncode(reqBody), headers: headers);

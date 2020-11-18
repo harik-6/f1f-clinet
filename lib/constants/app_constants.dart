@@ -1,4 +1,4 @@
-const String api_url = "http://192.168.43.171:8080";
+const String api_url = "http://192.168.42.218:8080";
 const String api_race_results = api_url + "/results?year=2020&round=";
 const String api_driver_standings = api_url + "/standings/drivers";
 const String api_constructor_standings = api_url + "/standings/constructors";
