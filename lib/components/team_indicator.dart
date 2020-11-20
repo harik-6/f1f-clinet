@@ -1,5 +1,5 @@
+import 'package:f1fantasy/constants/app_constants.dart';
 import 'package:flutter/material.dart';
-import 'package:f1fantasy/constants/team_constants.dart';
 
 class TeamIndicator extends StatelessWidget {
   final String teamName;
@@ -11,7 +11,7 @@ class TeamIndicator extends StatelessWidget {
       height: 30.0,
       child: DecoratedBox(
           decoration:
-              BoxDecoration(color: TeamConstants.teamColorsMap[teamName])),
+              BoxDecoration(color: AppConstants.teamColorsMap[teamName])),
     );
   }
 }

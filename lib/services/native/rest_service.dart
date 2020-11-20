@@ -32,7 +32,7 @@ class RestService {
       print("data from the cahe " + url);
       Map json = convert.jsonDecode(cache);
       DateTime valid = DateTime.parse(json["validTill"]);
-      if (valid.isAfter(DateTime.now())) {
+      if (valid.isAfter(DateTime.now().toLocal())) {
         return http.Response(json["value"], 200);
       }
     }

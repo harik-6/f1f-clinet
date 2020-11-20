@@ -1,4 +1,5 @@
 import 'package:f1fantasy/components/driver_tile.dart';
+import 'package:f1fantasy/constants/app_enums.dart';
 import 'package:f1fantasy/models/grand_prix_model.dart';
 import 'package:f1fantasy/services/native/tf_service.dart';
 import 'package:flutter/material.dart';
@@ -20,13 +21,12 @@ class _RaceScheduleState extends State<RaceSchedule> {
             itemCount: widget.list.length,
             itemBuilder: (context, index) {
               GrandPrix gp = widget.list[index];
-              DateTime date = gp.dateTime.toLocal();
               List<String> fmt = formatdateTime(gp.dateTime).split("T");
               return Padding(
                 padding:
                     const EdgeInsets.symmetric(vertical: 4.0, horizontal: 12.0),
                 child: Opacity(
-                  opacity: gp.active ? 1.0 : 0.5,
+                  opacity: gp.raceStatus == RACE_STATUS.scheduled ? 1.0 : 0.5,
                   child: DriverTile(
                     childWidget: ListTile(
                       tileColor: Colors.grey[900],
@@ -42,7 +42,9 @@ class _RaceScheduleState extends State<RaceSchedule> {
                         children: [
                           Text(fmt[0]),
                           SizedBox(height: 5.0),
-                          Text(fmt[1])
+                          Text(gp.raceStatus == RACE_STATUS.cancelled
+                              ? "cancelled"
+                              : fmt[1])
                         ],
                       ),
                     ),

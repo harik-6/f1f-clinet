@@ -7,22 +7,22 @@ import 'dart:convert' as convert;
 
 class ResultService {
   get defaultResultCacheTime {
-    DateTime now = DateTime.now();
-    return DateTime(now.year, now.month + 3);
+    DateTime now = DateTime.now().toLocal();
+    return now.add(Duration(days: 7));
   }
 
   get defaultStandingsCacheTime {
-    DateTime now = DateTime.now();
-    return DateTime(now.year, now.month, now.day + 3);
+    DateTime now = DateTime.now().toLocal();
+    return now.add(Duration(days: 45));
   }
 
   Future<List<RaceResult>> getraceResults(int round) async {
     try {
       RestService service = RestService();
       String rnd = (round - 4).toString();
-      String url = api_race_results + rnd;
+      String url = AppConstants.apiraceresults + rnd;
       var response = await service.get(
-          cache_race_results + rnd, url, defaultResultCacheTime);
+          AppConstants.cacheraceresults + rnd, url, defaultResultCacheTime);
       if (response.statusCode == 204) {
         return Future.value([]);
       }
@@ -41,8 +41,8 @@ class ResultService {
   Future<List<Driver>> getDriverStandings() async {
     try {
       RestService service = RestService();
-      var response = await service.get(cache_driver_standings,
-          api_driver_standings, defaultStandingsCacheTime);
+      var response = await service.get(AppConstants.cachedriverstandings,
+          AppConstants.apidriverstandings, defaultStandingsCacheTime);
       if (response.statusCode == 204) {
         return Future.value([]);
       }
@@ -61,8 +61,8 @@ class ResultService {
   Future<List<Constructor>> getConstructorStandings() async {
     try {
       RestService service = RestService();
-      var response = await service.get(api_constructor_standings,
-          api_constructor_standings, defaultStandingsCacheTime);
+      var response = await service.get(AppConstants.apiconstructorstandings,
+          AppConstants.apiconstructorstandings, defaultStandingsCacheTime);
       if (response.statusCode == 204) {
         return Future.value([]);
       }

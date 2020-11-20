@@ -4,7 +4,6 @@ import 'package:f1fantasy/components/points.dart';
 import 'package:f1fantasy/components/position.dart';
 import 'package:f1fantasy/components/team_icon.dart';
 import 'package:f1fantasy/models/constructor_model.dart';
-import '../../constants/team_constants.dart';
 
 class ConstructorStandings extends StatefulWidget {
   final List<Constructor> constructors;
@@ -48,9 +47,7 @@ class _ConstructorStandings extends State<ConstructorStandings>
                             SizedBox(width: 5.0),
                             Padding(
                               padding: EdgeInsets.symmetric(horizontal: 4.0),
-                              child: Text(
-                                  TeamConstants
-                                      .teamNames[constructor.shortName],
+                              child: Text(constructor.name,
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 16.0,

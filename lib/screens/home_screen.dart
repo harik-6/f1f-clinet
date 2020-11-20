@@ -1,8 +1,10 @@
 import 'package:f1fantasy/components/preloader.dart';
+import 'package:f1fantasy/constants/app_enums.dart';
 import 'package:f1fantasy/models/grand_prix_model.dart';
 import 'package:f1fantasy/screens/drawer_start.dart';
 import 'package:f1fantasy/services/league_service.dart';
 import 'package:f1fantasy/services/native/auth_service.dart';
+import 'package:f1fantasy/services/native/data_service.dart';
 import 'package:flutter/material.dart';
 import 'package:f1fantasy/screens/leaderboard/leaderboard_widget.dart';
 import 'package:f1fantasy/screens/league/league_widget.dart';
@@ -30,16 +32,26 @@ class _AppHome extends State<AppHome> {
     });
   }
 
+  Future<void> updateCacheStatus(bool seasonended) async {
+    setState(() {
+      isgpsLoading = false;
+    });
+    await DataService().updateCacheStatus(this.activeGp, seasonended);
+    return;
+  }
+
   void loadRaceSchedule() async {
     LeagueService gpService = LeagueService();
     List<GrandPrix> gpss = await gpService.getGrandPrixs();
-    List<GrandPrix> active =
-        gpss.reversed.where((gp) => gp.active == true).toList();
+    List<GrandPrix> active = gpss.reversed
+        .where((gp) => gp.raceStatus == RACE_STATUS.scheduled)
+        .toList();
     this.setState(() {
-      isgpsLoading = false;
       gps = gpss;
       activeGp = active.length > 0 ? active[0] : null;
     });
+    await this.updateCacheStatus(active.length == 0);
+    return;
   }
 
   @override
@@ -62,7 +74,7 @@ class _AppHome extends State<AppHome> {
           }),
           titleSpacing: 0.0,
           backgroundColor: Colors.grey[900],
-          title: Text("F1 Fantasy league"),
+          title: Text("F1 Fantasy"),
         ),
         drawer: Container(
             width: 200.0,
