@@ -18,6 +18,7 @@ class DataService {
   DataService._internal();
 
   Future<void> updateCacheStatus(GrandPrix activeGp, bool isseasonended) async {
+    print("is season ended " + isseasonended.toString());
     if (!isseasonended) {
       int round = activeGp.round;
       DateTime now = DateTime.now().toLocal();
@@ -29,15 +30,15 @@ class DataService {
             AppConstants.apicachestatus + round.toString(), timeToCahe);
         Map body = convert.jsonDecode(response.body);
         bool isRaceDataUpdated = (body["status"] as bool);
-        List<String> cacheToRemove = [
-          AppConstants.cacheraceschedule,
-          AppConstants.cacheuserleagues,
-          AppConstants.cachedriverstandings,
-          AppConstants.cacheconstructorstandings,
-          AppConstants.cacheleaderboard
-        ];
+        print("current race update status " + isRaceDataUpdated.toString());
         if (isRaceDataUpdated) {
-          _prefService.removeKey(cacheToRemove);
+          _prefService.removeKey([
+            AppConstants.cacheraceschedule,
+            AppConstants.cacheuserleagues,
+            AppConstants.cachedriverstandings,
+            AppConstants.cacheconstructorstandings,
+            AppConstants.cacheleaderboard
+          ]);
         }
       }
     } else {

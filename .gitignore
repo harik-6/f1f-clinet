@@ -10,3 +10,4 @@ pubspec.lock
 .packages
 .metadata
 F1Fantasy.iml
+*.log
