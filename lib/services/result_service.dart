@@ -18,7 +18,7 @@ class ResultService {
 
   Future<List<RaceResult>> getraceResults(int round) async {
     RestService service = RestService();
-    String rnd = (round - 4).toString();
+    String rnd = round.toString();
     String url = AppConstants.apiraceresults + rnd;
     var response = await service.get(
         AppConstants.cacheraceresults + rnd, url, defaultResultCacheTime);

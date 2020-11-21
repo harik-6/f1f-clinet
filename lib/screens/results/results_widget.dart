@@ -37,6 +37,7 @@ class _ResultsWidget extends State<ResultsWidget>
       });
       ResultService service = ResultService();
       List<RaceResult> raceResults = await service.getraceResults(round);
+      print(raceResults.toString());
       Map<int, List<RaceResult>> existing = this.results;
       existing[round] = raceResults;
       setState(() {
@@ -46,12 +47,11 @@ class _ResultsWidget extends State<ResultsWidget>
     }
   }
 
-
   @override
   void initState() {
     super.initState();
     this.setState(() {
-     gpRound = widget.gps[trackSelected].round; 
+      gpRound = widget.gps[trackSelected].round;
     });
     getRaceResults(widget.gps[trackSelected].round);
   }

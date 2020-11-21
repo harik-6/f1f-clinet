@@ -29,12 +29,12 @@ class AppConstants {
 
   static final Map<String, Color> teamColorsMap = {
     "mercedes": Colors.green[300],
-    "redbull": Colors.blue[900],
+    "red_bull": Colors.blue[900],
     "ferrari": Colors.red,
     "williams": Colors.white,
     "mclaren": Colors.orange[700],
     "aston": Colors.green[900],
-    "racingpoint": Colors.pink,
+    "racin_gpoint": Colors.pink,
     "alphatauri": Colors.blueAccent,
     "renault": Colors.yellow,
     "alpine": Colors.yellow,
@@ -44,8 +44,8 @@ class AppConstants {
 
   static final Map<String, String> teamImages = {
     "mercedes": 'assets/images/icons/mercedes.png',
-    "redbull": 'assets/images/icons/redbull.png',
-    "racingpoint": 'assets/images/icons/ractingpoint.png',
+    "red_bull": 'assets/images/icons/redbull.png',
+    "racing_point": 'assets/images/icons/racing_point.png',
     "aston": 'assets/images/icons/aston.png',
     "mclaren": 'assets/images/icons/mclaren.png',
     "renault": 'assets/images/icons/renault.png',

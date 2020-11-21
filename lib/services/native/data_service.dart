@@ -24,7 +24,6 @@ class DataService {
       DateTime now = DateTime.now().toLocal();
       DateTime raceEndTime = activeGp.dateTime.add(Duration(hours: 3));
       DateTime timeToCahe = now.add(Duration(seconds: 15));
-
       if (now.isAfter(raceEndTime)) {
         var response = await _restService.get(AppConstants.cachecachestatus,
             AppConstants.apicachestatus + round.toString(), timeToCahe);
@@ -32,18 +31,22 @@ class DataService {
         bool isRaceDataUpdated = (body["status"] as bool);
         print("current race update status " + isRaceDataUpdated.toString());
         if (isRaceDataUpdated) {
-          _prefService.removeKey([
-            AppConstants.cacheraceschedule,
-            AppConstants.cacheuserleagues,
-            AppConstants.cachedriverstandings,
-            AppConstants.cacheconstructorstandings,
-            AppConstants.cacheleaderboard
-          ]);
+          await forceUpdateCache();
         }
       }
     } else {
       _prefService.clearDate();
     }
     return;
+  }
+
+  Future<void> forceUpdateCache() async {
+    await _prefService.removeKey([
+      AppConstants.cacheraceschedule,
+      AppConstants.cacheuserleagues,
+      AppConstants.cachedriverstandings,
+      AppConstants.cacheconstructorstandings,
+      AppConstants.cacheleaderboard
+    ]);
   }
 }

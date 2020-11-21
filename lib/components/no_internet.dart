@@ -13,7 +13,7 @@ class NoInternet extends StatelessWidget {
           Icon(Icons.wifi_off, size: 48.0, color: Colors.white54),
           SizedBox(height: 10.0),
           Text("Device is not connected to internet",
-              style: TextStyle(fontSize: 18.0)),
+              style: TextStyle(fontSize: 16.0)),
         ],
       ),
     ));

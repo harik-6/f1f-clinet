@@ -53,6 +53,7 @@ class RestService {
           "value": response.body
         });
         await _cacheService.writData(key, value);
+        return response;
       }
       return http.Response("", 204);
     } on Exception catch (_) {

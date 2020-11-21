@@ -49,7 +49,7 @@ class _DriverStandings extends State<DriverStandings>
                       onTap: null,
                       child: ListTile(
                         title: DriverTile(
-                          childWidget: Row(
+                            childWidget: Row(
                           children: <Widget>[
                             Position(index + 1),
                             SizedBox(width: 5.0),
