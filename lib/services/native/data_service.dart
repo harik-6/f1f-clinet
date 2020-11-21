@@ -18,20 +18,25 @@ class DataService {
   DataService._internal();
 
   Future<void> updateCacheStatus(GrandPrix activeGp, bool isseasonended) async {
-    print("is season ended " + isseasonended.toString());
     if (!isseasonended) {
       int round = activeGp.round;
       DateTime now = DateTime.now().toLocal();
       DateTime raceEndTime = activeGp.dateTime.add(Duration(hours: 3));
       DateTime timeToCahe = now.add(Duration(seconds: 15));
+      print("Now " + now.toString());
+      print("Racend time " + raceEndTime.toString());
       if (now.isAfter(raceEndTime)) {
+        print("Race time completed");
         var response = await _restService.get(AppConstants.cachecachestatus,
             AppConstants.apicachestatus + round.toString(), timeToCahe);
         Map body = convert.jsonDecode(response.body);
         bool isRaceDataUpdated = (body["status"] as bool);
         print("current race update status " + isRaceDataUpdated.toString());
         if (isRaceDataUpdated) {
+          print("race data is updated/pulling all the new data" +
+              isRaceDataUpdated.toString());
           await forceUpdateCache();
+          _prefService.writData("latestCacheUpdate", now.toString());
         }
       }
     } else {

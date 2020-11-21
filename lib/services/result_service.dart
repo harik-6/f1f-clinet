@@ -8,12 +8,12 @@ import 'dart:convert' as convert;
 class ResultService {
   get defaultResultCacheTime {
     DateTime now = DateTime.now().toLocal();
-    return now.add(Duration(days: 7));
+    return now.add(Duration(days: 45));
   }
 
   get defaultStandingsCacheTime {
     DateTime now = DateTime.now().toLocal();
-    return now.add(Duration(days: 45));
+    return now.add(Duration(days: 7));
   }
 
   Future<List<RaceResult>> getraceResults(int round) async {
