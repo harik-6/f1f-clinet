@@ -34,7 +34,7 @@ class AppConstants {
     "williams": Colors.white,
     "mclaren": Colors.orange[700],
     "aston": Colors.green[900],
-    "racin_gpoint": Colors.pink,
+    "racing_point": Colors.pink,
     "alphatauri": Colors.blueAccent,
     "renault": Colors.yellow,
     "alpine": Colors.yellow,
