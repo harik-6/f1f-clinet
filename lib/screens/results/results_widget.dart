@@ -21,8 +21,8 @@ class _ResultsWidget extends State<ResultsWidget>
   Map<int, List<RaceResult>> results = <int, List<RaceResult>>{};
   final PageController pageController = PageController(initialPage: 0);
 
-  void selectTrack(int newtrack) {
-    int round = widget.gps[newtrack].round;
+  void selectTrack(int newtrack, GrandPrix gpp) {
+    int round = gpp.round;
     setState(() {
       trackSelected = newtrack;
       gpRound = round;
@@ -37,7 +37,6 @@ class _ResultsWidget extends State<ResultsWidget>
       });
       ResultService service = ResultService();
       List<RaceResult> raceResults = await service.getraceResults(round);
-      print(raceResults.toString());
       Map<int, List<RaceResult>> existing = this.results;
       existing[round] = raceResults;
       setState(() {

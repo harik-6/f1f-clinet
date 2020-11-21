@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:f1fantasy/constants/styles.dart';
 import 'package:f1fantasy/models/grand_prix_model.dart';
 
-typedef void Callback(int param);
+typedef void Callback(int param, GrandPrix param1);
 
 class TrackList extends StatelessWidget {
   final int activeTrack;
@@ -22,7 +22,7 @@ class TrackList extends StatelessWidget {
           GrandPrix gp = filtered[index];
           return GestureDetector(
             onTap: () {
-              selectTrack(index);
+              selectTrack(index, gp);
             },
             child: Padding(
               padding:
