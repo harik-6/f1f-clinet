@@ -1,4 +1,6 @@
+import 'dart:io';
 import 'package:f1fantasy/services/native/auth_service.dart';
+import 'package:f1fantasy/services/native/connection_service.dart';
 import 'package:f1fantasy/services/native/pref_service.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
@@ -7,6 +9,7 @@ class RestService {
   static final RestService _instance = RestService._internal();
   static PrefService _cacheService;
   static AuthService _authService;
+  static ConnectivityServie _connectivityServie;
 
   factory RestService() {
     return _instance;
@@ -43,6 +46,7 @@ class RestService {
     };
     try {
       http.Response response = await http.get(url, headers: headers);
+      print("response status" + response.statusCode.toString());
       if (response.statusCode == 401) {
         await _authService.signOut();
         return null;
@@ -54,11 +58,14 @@ class RestService {
         });
         await _cacheService.writData(key, value);
       }
+      if (response.statusCode == 500) {
+        return http.Response("", 204);
+      }
       return response;
     } catch (error) {
       print("Error in calling " + url);
       print("Error message " + error.toString());
-      throw Error();
+      return http.Response("", 204);
     }
   }
 
@@ -67,7 +74,18 @@ class RestService {
       "Content-Type": "application/json",
       "x-client-identifier": _authService.getUser().uid
     };
-    return await http.post(url,
-        body: convert.jsonEncode(reqBody), headers: headers);
+    try {
+      var response = await http.post(url,
+          body: convert.jsonEncode(reqBody), headers: headers);
+      if (response.statusCode == 401) {
+        await _authService.signOut();
+        return null;
+      }
+      return response;
+    } catch (error) {
+      print("Error in calling " + url);
+      print("Error message " + error.toString());
+      return http.Response("", 500);
+    }
   }
 }

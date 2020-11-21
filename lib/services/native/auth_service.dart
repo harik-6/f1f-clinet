@@ -64,7 +64,7 @@ class AuthService {
     return true;
   }
 
-  void signOut() async {
+  Future<void> signOut() async {
     await googleSignIn.disconnect();
     await new PrefService().clearDate();
     await auth.signOut();

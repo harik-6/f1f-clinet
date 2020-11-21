@@ -1,4 +1,3 @@
-import 'package:f1fantasy/components/refreshnow.dart';
 import 'package:f1fantasy/services/league_service.dart';
 import 'package:flutter/material.dart';
 import 'package:f1fantasy/components/preloader.dart';
@@ -32,7 +31,7 @@ class _LeaderBoardWidget extends State<LeaderBoardWidget>
     List<Leaderboard> ls = await LeagueService().getLeaderboard();
     setState(() {
       leaders = ls;
-      status = ls.length > 0 ? STATUS.success : STATUS.failed;
+      status = STATUS.success;
     });
     return;
   }
@@ -52,8 +51,6 @@ class _LeaderBoardWidget extends State<LeaderBoardWidget>
           switch (status) {
             case STATUS.loading:
               return PreLoader();
-            case STATUS.failed:
-              return Refresh(callback: loadLeaderBoard);
             case STATUS.success:
               return Column(
                 children: <Widget>[
