@@ -47,10 +47,6 @@ class RestService {
     try {
       http.Response response = await http.get(url, headers: headers);
       print("response status" + response.statusCode.toString());
-      if (response.statusCode == 401) {
-        await _authService.signOut();
-        return null;
-      }
       if (response.statusCode == 200) {
         String value = convert.jsonEncode({
           "validTill": cacheTill.toLocal().toString(),
@@ -58,12 +54,11 @@ class RestService {
         });
         await _cacheService.writData(key, value);
       }
-      if (response.statusCode == 500) {
-        return http.Response("", 204);
-      }
-      return response;
+      return http.Response("", 204);
+    } on Exception catch (_) {
+      return http.Response("", 204);
     } catch (error) {
-      print("Error in calling " + url);
+      print("Error in calling get " + url);
       print("Error message " + error.toString());
       return http.Response("", 204);
     }
@@ -77,15 +72,16 @@ class RestService {
     try {
       var response = await http.post(url,
           body: convert.jsonEncode(reqBody), headers: headers);
-      if (response.statusCode == 401) {
-        await _authService.signOut();
-        return null;
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return response;
       }
-      return response;
+      return http.Response("", 204);
+    } on Exception catch (_) {
+      return http.Response("", 204);
     } catch (error) {
-      print("Error in calling " + url);
+      print("Error in calling post " + url);
       print("Error message " + error.toString());
-      return http.Response("", 500);
+      return http.Response("", 204);
     }
   }
 }
