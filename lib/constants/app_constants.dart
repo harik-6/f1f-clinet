@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class AppConstants {
-  static String apiurl = "http://192.168.42.218:8080";
+  static String apiurl = "https://apif1f.xyz";
   static String apiraceresults =
       apiurl + "/results?year=" + getyear() + "&round=";
   static String apidriverstandings = apiurl + "/standings/drivers";
