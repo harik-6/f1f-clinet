@@ -87,7 +87,7 @@ class _LeaderBoardWidget extends State<LeaderBoardWidget>
                                   SizedBox(width: 8.0),
                                   DriverNames("", lead.name),
                                   Expanded(child: SizedBox.shrink()),
-                                  Points(2),
+                                  Points(lead.leagueCount),
                                   Points(lead.points)
                                 ],
                               ),
