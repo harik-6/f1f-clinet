@@ -28,7 +28,8 @@ class _MyLeaguesState extends State<MyLeagues> {
     Navigator.push(
         context,
         new MaterialPageRoute(
-            builder: (context) => MyDrivers(drivers: myLeagues[index].drivers)));
+            builder: (context) =>
+                MyDrivers(drivers: myLeagues[index].drivers)));
   }
 
   @override
@@ -82,6 +83,7 @@ class _MyLeaguesState extends State<MyLeagues> {
                       )
                     ],
                   );
+          default:
             return null;
         }
       },

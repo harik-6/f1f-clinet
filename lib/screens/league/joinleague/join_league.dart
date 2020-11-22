@@ -97,6 +97,8 @@ class _JoinLeagueState extends State<JoinLeague> {
                   ),
                 ),
               );
+            default:
+              return null;
           }
         })
       ],

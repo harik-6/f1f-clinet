@@ -1,6 +1,4 @@
-import 'dart:io';
 import 'package:f1fantasy/services/native/auth_service.dart';
-import 'package:f1fantasy/services/native/connection_service.dart';
 import 'package:f1fantasy/services/native/pref_service.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
@@ -9,7 +7,6 @@ class RestService {
   static final RestService _instance = RestService._internal();
   static PrefService _cacheService;
   static AuthService _authService;
-  static ConnectivityServie _connectivityServie;
 
   factory RestService() {
     return _instance;

@@ -88,25 +88,30 @@ class _AppHome extends State<AppHome> {
             type: BottomNavigationBarType.fixed,
             items: [
               BottomNavigationBarItem(
+                  // ignore: deprecated_member_use
                   title: Text("Home",
                       style: activeBottomIndex == 0
                           ? TextStyle(fontWeight: FontWeight.bold)
                           : null),
                   icon: Icon(Icons.home)),
               BottomNavigationBarItem(
+                  // ignore: deprecated_member_use
                   title: Text("Races",
                       style: activeBottomIndex == 1
                           ? TextStyle(fontWeight: FontWeight.bold)
                           : null),
                   icon: Icon(Icons.flag)),
               BottomNavigationBarItem(
+                  // ignore: deprecated_member_use
                   title: Text("Standings",
                       style: activeBottomIndex == 2
                           ? TextStyle(fontWeight: FontWeight.bold)
                           : null),
                   icon: Icon(Icons.leaderboard)),
               BottomNavigationBarItem(
-                  title: Text("Leaderboard"), icon: Icon(Icons.view_headline))
+                  // ignore: deprecated_member_use
+                  title: Text("Leaderboard"),
+                  icon: Icon(Icons.view_headline))
             ]),
         backgroundColor: Colors.black,
         body: SafeArea(

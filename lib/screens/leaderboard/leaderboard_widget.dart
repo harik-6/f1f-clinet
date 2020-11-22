@@ -97,8 +97,9 @@ class _LeaderBoardWidget extends State<LeaderBoardWidget>
                   )
                 ],
               );
+            default:
+              return null;
           }
-          return null;
         }));
   }
 }

@@ -31,8 +31,9 @@ class SwitchWidget extends StatelessWidget {
                   return null;
               }
               return null;
+            default:
+              return null;
           }
-          return null;
         });
   }
 }
