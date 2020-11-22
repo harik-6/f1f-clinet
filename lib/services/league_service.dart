@@ -42,7 +42,7 @@ class LeagueService {
 
   Future<List<GrandPrix>> getGrandPrixs() async {
     var response = await _restService.get(
-        AppConstants.cacheraceresults, AppConstants.apiraceschedule);
+        AppConstants.cacheraceschedule, AppConstants.apiraceschedule);
     if (response.statusCode == 204) {
       return [];
     }

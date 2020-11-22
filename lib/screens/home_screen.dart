@@ -32,32 +32,44 @@ class _AppHome extends State<AppHome> {
     });
   }
 
-  Future<void> updateCacheStatus(bool seasonended) async {
-    setState(() {
-      isgpsLoading = false;
-    });
-    await DataService().updateCacheStatus(this.activeGp, seasonended);
+  Future<void> updateCacheStatus(GrandPrix active) async {
+    bool isDataUpdated = await DataService().updateCacheStatus(active);
+    if (isDataUpdated) {
+      await this.loadRaceSchedule();
+    }
     return;
   }
 
-  void loadRaceSchedule() async {
+  Future<void> initDataCheck() async {
+    GrandPrix active = await this.loadRaceSchedule();
+    if (active != null) {
+      await updateCacheStatus(active);
+    }
+    return;
+  }
+
+  Future<GrandPrix> loadRaceSchedule() async {
+    setState(() {
+      isgpsLoading = true;
+    });
     LeagueService gpService = LeagueService();
     List<GrandPrix> gpss = await gpService.getGrandPrixs();
     List<GrandPrix> active = gpss.reversed
         .where((gp) => gp.raceStatus == RACE_STATUS.scheduled)
         .toList();
+    GrandPrix present = active.length > 0 ? active[0] : null;
     this.setState(() {
       gps = gpss;
-      activeGp = active.length > 0 ? active[0] : null;
+      activeGp = present;
+      isgpsLoading = false;
     });
-    await this.updateCacheStatus(active.length == 0);
-    return;
+    return present;
   }
 
   @override
   void initState() {
     super.initState();
-    this.loadRaceSchedule();
+    this.initDataCheck();
   }
 
   @override

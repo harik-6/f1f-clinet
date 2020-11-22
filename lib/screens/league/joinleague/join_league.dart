@@ -28,6 +28,15 @@ class _JoinLeagueState extends State<JoinLeague> {
     }
   }
 
+  bool _joinStatus() {
+    DateTime now = DateTime.now().toLocal();
+    DateTime qualyTime = widget.activeLeague.qualyTime.toLocal();
+    if (now.isAfter(qualyTime)) {
+      return false;
+    }
+    return true;
+  }
+
   @override
   void initState() {
     super.initState();
@@ -56,24 +65,30 @@ class _JoinLeagueState extends State<JoinLeague> {
         Builder(builder: (context) {
           switch (leagueStatus) {
             case STATUS.haveto:
-              return Container(
-                height: 40.0,
-                width: 100.0,
-                child: RaisedButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        new MaterialPageRoute(
-                            builder: (context) => DriverSelection(
-                                  activeLeague: widget.activeLeague,
-                                  callback: checkForLeagueStatus,
-                                )));
-                  },
-                  color: Colors.green[600],
-                  highlightColor: Colors.black,
-                  child: Text(
-                    "Join",
-                    style: TextStyle(color: Colors.white),
+              return Opacity(
+                opacity: _joinStatus() ? 1.0 : 0.2,
+                child: Container(
+                  height: 40.0,
+                  width: 100.0,
+                  child: IgnorePointer(
+                    ignoring: !_joinStatus(),
+                    child: RaisedButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            new MaterialPageRoute(
+                                builder: (context) => DriverSelection(
+                                      activeLeague: widget.activeLeague,
+                                      callback: checkForLeagueStatus,
+                                    )));
+                      },
+                      color: Colors.green[600],
+                      highlightColor: Colors.black,
+                      child: Text(
+                        "Join",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
                   ),
                 ),
               );

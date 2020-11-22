@@ -14,12 +14,14 @@ class GrandPrix {
   String gpName;
   String circuitName;
   DateTime dateTime;
+  DateTime qualyTime;
   int round;
   RACE_STATUS raceStatus;
   GrandPrix.jsonToModel(Map<String, dynamic> json) {
     gpName = json["gpName"];
     circuitName = json["circuitName"];
     dateTime = DateTime.parse(json["dateTime"]);
+    qualyTime = DateTime.parse(json["qualyTime"]);
     round = json["round"];
     raceStatus = getStatus(json["status"]);
   }

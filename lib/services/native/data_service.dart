@@ -17,40 +17,40 @@ class DataService {
 
   DataService._internal();
 
-  Future<void> updateCacheStatus(GrandPrix activeGp, bool isseasonended) async {
-    if (!isseasonended) {
-      int round = activeGp.round;
-      DateTime now = DateTime.now().toLocal();
-      DateTime raceEndTime =
-          activeGp.dateTime.add(Duration(hours: 3)).toLocal();
-      print("Now " + now.toString());
-      print("Racend time " + raceEndTime.toString());
-      if (now.isAfter(raceEndTime)) {
-        print("Race time completed");
-        Map<String, dynamic> reqBody = {
-          "year": activeGp.dateTime.year,
-          "round": round
-        };
-        var response =
-            await _restService.post(AppConstants.apicachestatus, reqBody);
-        Map body = convert.jsonDecode(response.body);
-        bool isRaceDataUpdated = (body["raceStatus"] as bool);
-        print("current race update status " + isRaceDataUpdated.toString());
-        if (isRaceDataUpdated) {
-          print("race data is updated/pulling all the new data" +
-              isRaceDataUpdated.toString());
-          await _prefService.removeKey([
-            AppConstants.cacheraceschedule,
-            AppConstants.cacheuserleagues,
-            AppConstants.cachedriverstandings,
-            AppConstants.cacheconstructorstandings,
-            AppConstants.cacheleaderboard
-          ]);
-        }
+  Future<bool> updateCacheStatus(GrandPrix activeGp) async {
+    int round = activeGp.round;
+    DateTime now = DateTime.now().toLocal();
+    DateTime raceEndTime = activeGp.dateTime.add(Duration(hours: 3)).toLocal();
+    print("Now " + now.toString());
+    print("Racend time " + raceEndTime.toString());
+    if (now.isAfter(raceEndTime)) {
+      print("Race time completed");
+      Map<String, dynamic> reqBody = {
+        "year": activeGp.dateTime.year,
+        "round": round
+      };
+      var response =
+          await _restService.post(AppConstants.apicachestatus, reqBody);
+      Map body = convert.jsonDecode(response.body);
+      bool isRaceDataUpdated = (body["raceStatus"] as bool);
+      print("current race update status " + isRaceDataUpdated.toString());
+      if (isRaceDataUpdated) {
+        print("race data is updated/pulling all the new data");
+        await _prefService.removeKey([
+          AppConstants.cacheraceschedule,
+          AppConstants.cacheuserleagues,
+          AppConstants.cachedriverstandings,
+          AppConstants.cacheconstructorstandings,
+          AppConstants.cacheleaderboard
+        ]);
+        return true;
       }
-    } else {
-      await _prefService.removeKey([AppConstants.cacheraceschedule]);
     }
+    return false;
+  }
+
+  Future<void> clearCache() async {
+    await _prefService.removeKey([AppConstants.cacheraceschedule]);
     return;
   }
 }
