@@ -24,10 +24,11 @@ class LeagueService {
     return now.add(Duration(days: 8));
   }
 
-  Future<List<DriverCredit>> getDriverCredits(int round) async {
+  Future<List<DriverCredit>> getDriverCredits(int round, int year) async {
+    String query = "?year=" + year.toString() + "&round=" + round.toString();
     var response = await _restService.get(
-        AppConstants.cachedrivercredits + round.toString(),
-        AppConstants.apidrivercredits + round.toString());
+        AppConstants.cachedrivercredits + query,
+        AppConstants.apidrivercredits + query);
     if (response.statusCode == 204) {
       return [];
     }

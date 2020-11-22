@@ -27,8 +27,14 @@ class DataService {
       print("Racend time " + raceEndTime.toString());
       if (now.isAfter(raceEndTime)) {
         print("Race time completed");
-        var response = await _restService.get(AppConstants.cachecachestatus,
-            AppConstants.apicachestatus + round.toString(), timeToCahe);
+        String query = "?year=" +
+            activeGp.dateTime.year.toString() +
+            "&round=" +
+            round.toString();
+        var response = await _restService.get(
+            AppConstants.cachecachestatus + query,
+            AppConstants.apicachestatus + query,
+            timeToCahe);
         Map body = convert.jsonDecode(response.body);
         bool isRaceDataUpdated = (body["status"] as bool);
         print("current race update status " + isRaceDataUpdated.toString());

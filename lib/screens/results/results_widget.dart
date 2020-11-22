@@ -29,16 +29,16 @@ class _ResultsWidget extends State<ResultsWidget>
       trackSelected = newtrack;
       gpRound = round;
     });
-    getRaceResults(round);
+    getRaceResults(round, gpp.dateTime.year);
   }
 
-  void getRaceResults(int round) async {
+  void getRaceResults(int round, int year) async {
     if (!results.containsKey(round)) {
       setState(() {
         isLoading = true;
       });
       ResultService service = ResultService();
-      List<RaceResult> raceResults = await service.getraceResults(round);
+      List<RaceResult> raceResults = await service.getraceResults(round, year);
       Map<int, List<RaceResult>> existing = this.results;
       existing[round] = raceResults;
       setState(() {
@@ -63,7 +63,8 @@ class _ResultsWidget extends State<ResultsWidget>
     this.setState(() {
       gpRound = widget.gps[trackSelected].round;
     });
-    getRaceResults(widget.gps[trackSelected].round);
+    getRaceResults(widget.gps[trackSelected].round,
+        widget.gps[trackSelected].dateTime.year);
     _filterCompletedRaces();
   }
 

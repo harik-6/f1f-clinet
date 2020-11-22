@@ -30,8 +30,8 @@ class _DriverSelection extends State<DriverSelection> {
 
   void loadAllDriver() async {
     LeagueService service = new LeagueService();
-    List<DriverCredit> drs =
-        await service.getDriverCredits(widget.activeLeague.round);
+    List<DriverCredit> drs = await service.getDriverCredits(
+        widget.activeLeague.round, widget.activeLeague.dateTime.year);
     setState(() {
       drivers = drs;
       isDrsLoading = false;
