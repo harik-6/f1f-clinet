@@ -19,7 +19,6 @@ class AppConstants {
   static final String cacheuserleagues = "userLeagues";
   static final String cachejoinleague = "league#";
   static final String cacheleaderboard = "leaderboard";
-  static final String cachecachestatus = "racestatus";
   static final String cachedrivercredits = "credits#";
 
   static final Map<String, Color> teamColorsMap = {

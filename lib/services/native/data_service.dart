@@ -21,22 +21,20 @@ class DataService {
     if (!isseasonended) {
       int round = activeGp.round;
       DateTime now = DateTime.now().toLocal();
-      DateTime raceEndTime = activeGp.dateTime.add(Duration(hours: 3));
-      DateTime timeToCahe = now.add(Duration(seconds: 15));
+      DateTime raceEndTime =
+          activeGp.dateTime.add(Duration(hours: 3)).toLocal();
       print("Now " + now.toString());
       print("Racend time " + raceEndTime.toString());
       if (now.isAfter(raceEndTime)) {
         print("Race time completed");
-        String query = "?year=" +
-            activeGp.dateTime.year.toString() +
-            "&round=" +
-            round.toString();
-        var response = await _restService.get(
-            AppConstants.cachecachestatus + query,
-            AppConstants.apicachestatus + query,
-            timeToCahe);
+        Map<String, dynamic> reqBody = {
+          "year": activeGp.dateTime.year,
+          "round": round
+        };
+        var response =
+            await _restService.post(AppConstants.apicachestatus, reqBody);
         Map body = convert.jsonDecode(response.body);
-        bool isRaceDataUpdated = (body["status"] as bool);
+        bool isRaceDataUpdated = (body["raceStatus"] as bool);
         print("current race update status " + isRaceDataUpdated.toString());
         if (isRaceDataUpdated) {
           print("race data is updated/pulling all the new data" +
