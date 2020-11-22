@@ -21,7 +21,7 @@ class LeagueService {
 
   get defaultStandingsCacheTime {
     DateTime now = DateTime.now().toLocal();
-    return now.add(Duration(days: 7));
+    return now.add(Duration(days: 8));
   }
 
   Future<List<DriverCredit>> getDriverCredits(int round) async {

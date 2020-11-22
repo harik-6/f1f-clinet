@@ -35,23 +35,18 @@ class DataService {
         if (isRaceDataUpdated) {
           print("race data is updated/pulling all the new data" +
               isRaceDataUpdated.toString());
-          await forceUpdateCache();
-          _prefService.writData("latestCacheUpdate", now.toString());
+          await _prefService.removeKey([
+            AppConstants.cacheraceschedule,
+            AppConstants.cacheuserleagues,
+            AppConstants.cachedriverstandings,
+            AppConstants.cacheconstructorstandings,
+            AppConstants.cacheleaderboard
+          ]);
         }
       }
     } else {
-      _prefService.clearDate();
+      await _prefService.removeKey([AppConstants.cacheraceschedule]);
     }
     return;
-  }
-
-  Future<void> forceUpdateCache() async {
-    await _prefService.removeKey([
-      AppConstants.cacheraceschedule,
-      AppConstants.cacheuserleagues,
-      AppConstants.cachedriverstandings,
-      AppConstants.cacheconstructorstandings,
-      AppConstants.cacheleaderboard
-    ]);
   }
 }

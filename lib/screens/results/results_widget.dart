@@ -1,3 +1,4 @@
+import 'package:f1fantasy/constants/app_enums.dart';
 import 'package:f1fantasy/models/grand_prix_model.dart';
 import 'package:flutter/material.dart';
 import 'package:f1fantasy/components/preloader.dart';
@@ -18,6 +19,7 @@ class _ResultsWidget extends State<ResultsWidget>
   int trackSelected = 0;
   bool isLoading = true;
   int gpRound = 0;
+  List<GrandPrix> completed = [];
   Map<int, List<RaceResult>> results = <int, List<RaceResult>>{};
   final PageController pageController = PageController(initialPage: 0);
 
@@ -46,6 +48,15 @@ class _ResultsWidget extends State<ResultsWidget>
     }
   }
 
+  void _filterCompletedRaces() {
+    List<GrandPrix> filtered = widget.gps
+        .where((GrandPrix gp) => gp.raceStatus == RACE_STATUS.completed)
+        .toList();
+    setState(() {
+      completed = filtered;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
@@ -53,6 +64,7 @@ class _ResultsWidget extends State<ResultsWidget>
       gpRound = widget.gps[trackSelected].round;
     });
     getRaceResults(widget.gps[trackSelected].round);
+    _filterCompletedRaces();
   }
 
   @override
@@ -60,15 +72,30 @@ class _ResultsWidget extends State<ResultsWidget>
     return Container(
       height: double.infinity,
       width: double.infinity,
-      child: Column(
-        children: <Widget>[
-          TrackList(widget.gps, trackSelected, selectTrack),
-          Expanded(
-              child: isLoading
-                  ? PreLoader()
-                  : RaceStandings(results: this.results[gpRound]))
-        ],
-      ),
+      child: completed.length == 0
+          ? Column(
+              children: [
+                Expanded(
+                    child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.flag, color: Colors.white, size: 36.0),
+                    SizedBox(height: 10.0),
+                    Text("Race results will be updated soon",
+                        style: TextStyle(fontSize: 16.0))
+                  ],
+                ))
+              ],
+            )
+          : Column(
+              children: <Widget>[
+                TrackList(completed, trackSelected, selectTrack),
+                Expanded(
+                    child: isLoading
+                        ? PreLoader()
+                        : RaceStandings(results: this.results[gpRound]))
+              ],
+            ),
     );
   }
 
