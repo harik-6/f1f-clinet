@@ -81,7 +81,7 @@ class _LoginWidget extends State<LoginWidget> {
                                 height: 32.0,
                               ),
                               Text(
-                                "Sign in with Google",
+                                "Continue with Google",
                                 style: TextStyle(
                                     color: Colors.black,
                                     fontSize: 16.0,

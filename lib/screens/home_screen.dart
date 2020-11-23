@@ -87,6 +87,45 @@ class _AppHome extends State<AppHome> {
           titleSpacing: 0.0,
           backgroundColor: Colors.grey[900],
           title: Text("F1 Fantasy"),
+          actions: [
+            IconButton(
+                icon: Icon(Icons.info_outline),
+                iconSize: 16.0,
+                onPressed: () {
+                  showDialog(
+                      context: context,
+                      builder: (_) => AlertDialog(
+                            title: Text("How league works?"),
+                            content: Container(
+                              height: 230.0,
+                              child: ListView(
+                                children: [
+                                  ListTile(
+                                      title: Text(
+                                          "1.User has to enter the league before qualying starts, on the race weekend.")),
+                                  ListTile(
+                                      title: Text(
+                                          "2.List of drivers will be available to choose.")),
+                                  ListTile(
+                                      title: Text(
+                                          "3.Choose in such a way to maximize the point scoring")),
+                                  ListTile(
+                                      title: Text(
+                                          "\n4.After the race ends,user will be awarded with the points scored by the driver during that race.")),
+                                ],
+                              ),
+                            ),
+                            actions: [
+                              RaisedButton(
+                                  child: Text("OK"),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  })
+                            ],
+                          ),
+                      barrierDismissible: true);
+                })
+          ],
         ),
         drawer: Container(
             width: 200.0,
