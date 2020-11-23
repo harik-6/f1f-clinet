@@ -112,7 +112,7 @@ class _LoginWidget extends State<LoginWidget> {
                                               content: TermsConditions(),
                                               actions: [
                                                 RaisedButton(
-                                                    child: Text("OK"),
+                                                    child: Text("I Understand"),
                                                     onPressed: () {
                                                       Navigator.of(context)
                                                           .pop();
