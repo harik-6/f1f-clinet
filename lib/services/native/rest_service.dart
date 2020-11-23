@@ -29,21 +29,18 @@ class RestService {
     }
     String cache = await _cacheService.readDate(key);
     if (cache != null) {
-      print("data from the cahe " + url);
       Map json = convert.jsonDecode(cache);
       DateTime valid = DateTime.parse(json["validTill"]);
       if (valid.isAfter(DateTime.now().toLocal())) {
         return http.Response(json["value"], 200);
       }
     }
-    print("data from the api call " + url);
     Map<String, String> headers = {
       "Content-Type": "application/json",
       "x-client-identifier": _authService.getUser().uid
     };
     try {
       http.Response response = await http.get(url, headers: headers);
-      print("response status" + response.statusCode.toString());
       if (response.statusCode == 200) {
         String value = convert.jsonEncode({
           "validTill": cacheTill.toLocal().toString(),
@@ -56,8 +53,6 @@ class RestService {
     } on Exception catch (_) {
       return http.Response("", 204);
     } catch (error) {
-      print("Error in calling get " + url);
-      print("Error message " + error.toString());
       return http.Response("", 204);
     }
   }
@@ -77,8 +72,6 @@ class RestService {
     } on Exception catch (_) {
       return http.Response("", 204);
     } catch (error) {
-      print("Error in calling post " + url);
-      print("Error message " + error.toString());
       return http.Response("", 204);
     }
   }
