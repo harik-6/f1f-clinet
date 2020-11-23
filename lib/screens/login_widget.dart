@@ -1,4 +1,5 @@
 import 'package:f1fantasy/models/user_model.dart';
+import 'package:f1fantasy/screens/standings/terms_condition.dart';
 import 'package:f1fantasy/services/native/auth_service.dart';
 import 'package:flutter/material.dart';
 
@@ -56,40 +57,80 @@ class _LoginWidget extends State<LoginWidget> {
                           padding: EdgeInsets.all(8.0),
                           child: Text("Try again"))
                       : SizedBox.shrink(),
-                  isAuthenticating
-                      ? Column(
-                          children: [
+                  Column(
+                    children: isAuthenticating
+                        ? [
                             CircularProgressIndicator(),
-                            SizedBox(height: 5.0),
+                            SizedBox(height: 10.0),
                             Text("Signing in")
-                          ],
-                        )
-                      : Container(
-                          padding: EdgeInsets.all(8.0),
-                          width: MediaQuery.of(context).size.width * 0.7,
-                          height: 40.0,
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(20.0)),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Image(
-                                image:
-                                    AssetImage('assets/images/google-icon.png'),
-                                width: 32.0,
-                                height: 32.0,
+                          ]
+                        : [
+                            Container(
+                              padding: EdgeInsets.all(8.0),
+                              width: MediaQuery.of(context).size.width * 0.7,
+                              height: 40.0,
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(20.0)),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Image(
+                                    image: AssetImage(
+                                        'assets/images/google-icon.png'),
+                                    width: 32.0,
+                                    height: 32.0,
+                                  ),
+                                  Text(
+                                    "Continue with Google",
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.bold),
+                                  )
+                                ],
                               ),
-                              Text(
-                                "Continue with Google",
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 16.0,
-                                    fontWeight: FontWeight.bold),
-                              )
-                            ],
-                          ),
-                        ),
+                            ),
+                            SizedBox(height: 20.0),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text("By signing in,you agree with the",
+                                    style: TextStyle(
+                                      color: Colors.white54,
+                                      fontSize: 12.0,
+                                    )),
+                                GestureDetector(
+                                  onTap: () {
+                                    showDialog(
+                                        context: context,
+                                        builder: (_) => AlertDialog(
+                                              contentPadding:
+                                                  EdgeInsets.all(8.0),
+                                              title: Text(
+                                                  "Terms & conditions,Privacy Policy"),
+                                              content: TermsConditions(),
+                                              actions: [
+                                                RaisedButton(
+                                                    child: Text("OK"),
+                                                    onPressed: () {
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                    })
+                                              ],
+                                            ),
+                                        barrierDismissible: true);
+                                  },
+                                  child: Text(" Terms & Conditions",
+                                      style: TextStyle(
+                                        color: Colors.blue,
+                                        fontSize: 12.0,
+                                      )),
+                                )
+                              ],
+                            )
+                          ],
+                  ),
                   SizedBox(height: 50.0),
                 ],
               )),
