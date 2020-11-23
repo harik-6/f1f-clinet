@@ -71,7 +71,10 @@ class SideDrawer extends StatelessWidget {
                 title: Text("Sign out"),
                 trailing: Icon(Icons.logout, color: Colors.white),
               ),
-            )
+            ),
+            Text(DateTime.now().year.toString() + " \u00a9 F1Fantasy",
+                style: TextStyle(color: Colors.white54)),
+            SizedBox(height: 5.0)
           ],
         ),
       ),
