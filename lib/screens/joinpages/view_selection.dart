@@ -1,6 +1,7 @@
 import 'package:f1fantasy/components/driver_names.dart';
 import 'package:f1fantasy/components/driver_tile.dart';
 import 'package:f1fantasy/components/points.dart';
+import 'package:f1fantasy/components/team_icon.dart';
 import 'package:f1fantasy/components/team_indicator.dart';
 import 'package:f1fantasy/constants/styles.dart';
 import 'package:f1fantasy/models/driver_model.dart';
@@ -22,9 +23,76 @@ class ViewMySelection extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [Text("Edit"), Icon(Icons.edit, color: Colors.white)],
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text("Edit"),
+                    Icon(Icons.edit, color: Colors.white, size: 14.0)
+                  ],
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+                child: Text("Pole position", style: headerText),
+              ),
+              ListTile(
+                title: DriverTile(
+                  childWidget: Row(
+                    children: <Widget>[
+                      SizedBox(width: 10.0),
+                      TeamIndicator(detail.fastest.team),
+                      SizedBox(width: 8.0),
+                      DriverNames(
+                          detail.fastest.firstName, detail.fastest.secondName),
+                      Expanded(child: SizedBox.shrink()),
+                      TeamIcon(detail.fastest.team, 8.0)
+                    ],
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+                child: Text("Fastest lap", style: headerText),
+              ),
+              ListTile(
+                title: DriverTile(
+                  childWidget: Row(
+                    children: <Widget>[
+                      SizedBox(width: 10.0),
+                      TeamIndicator(detail.pole.team),
+                      SizedBox(width: 8.0),
+                      DriverNames(
+                          detail.pole.firstName, detail.pole.secondName),
+                      Expanded(child: SizedBox.shrink()),
+                      TeamIcon(detail.pole.team, 8.0)
+                    ],
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+                child: Text(
+                    "Driver for " +
+                        detail.userDriverPosition.toString() +
+                        "th position",
+                    style: headerText),
+              ),
+              ListTile(
+                title: DriverTile(
+                  childWidget: Row(
+                    children: <Widget>[
+                      SizedBox(width: 10.0),
+                      TeamIndicator(detail.userDriver.team),
+                      SizedBox(width: 8.0),
+                      DriverNames(detail.userDriver.firstName,
+                          detail.userDriver.secondName),
+                      Expanded(child: SizedBox.shrink()),
+                      TeamIcon(detail.userDriver.team, 8.0)
+                    ],
+                  ),
+                ),
               ),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
@@ -52,57 +120,6 @@ class ViewMySelection extends StatelessWidget {
                   },
                 ),
               ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-                child: Text("Pole position", style: headerText),
-              ),
-              DriverTile(
-                childWidget: Row(
-                  children: <Widget>[
-                    SizedBox(width: 10.0),
-                    TeamIndicator(detail.fastest.team),
-                    SizedBox(width: 8.0),
-                    DriverNames(
-                        detail.fastest.firstName, detail.fastest.secondName),
-                    Expanded(child: SizedBox.shrink()),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-                child: Text("Fastest lap", style: headerText),
-              ),
-              DriverTile(
-                childWidget: Row(
-                  children: <Widget>[
-                    SizedBox(width: 10.0),
-                    TeamIndicator(detail.pole.team),
-                    SizedBox(width: 8.0),
-                    DriverNames(detail.pole.firstName, detail.pole.secondName),
-                    Expanded(child: SizedBox.shrink()),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-                child: Text(
-                    "Driver for " +
-                        detail.userDriverPosition.toString() +
-                        " position",
-                    style: headerText),
-              ),
-              DriverTile(
-                childWidget: Row(
-                  children: <Widget>[
-                    SizedBox(width: 10.0),
-                    TeamIndicator(detail.userDriver.team),
-                    SizedBox(width: 8.0),
-                    DriverNames(detail.userDriver.firstName,
-                        detail.userDriver.secondName),
-                    Expanded(child: SizedBox.shrink()),
-                  ],
-                ),
-              )
             ],
           ),
         ));

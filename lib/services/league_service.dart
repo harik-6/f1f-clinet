@@ -82,32 +82,35 @@ class LeagueService {
       "uid": AuthService().getUser().uid,
       "year": DateTime.now().year
     };
-    print(requestBody.toString());
     await Future.delayed(Duration(seconds: 5));
     // var response =
     //     await _restService.post(AppConstants.apijoinleague, requestBody);
     PrefService prefService = PrefService();
     // if (response.statusCode == 201) {
     if (true) {
-      List<Driver> driversToCahce = drivers
-          .where((dr) => dr.isSelected == true)
-          .map((dr) => dr.driver)
-          .toList();
-      Map<String, Driver> drMap =
-          drivers.map((dr) => dr.driver) as Map<String, Driver>;
+      List<Driver> driversToCahce =
+          drivers.where((dr) => dr.isSelected == true).map((dr) {
+        dr.driver.points = 0;
+        return dr.driver;
+      }).toList();
+      Map<String, Driver> drMap = Map<String, Driver>();
+      drivers.forEach((dr) {
+        drMap[dr.driver.id] = dr.driver;
+      });
       Driver fastest = drMap[fastestId];
       Driver pole = drMap[poleId];
       Driver custom = drMap[customId];
-      LeagueDetails tocache = LeagueDetails(
-          gpName: active.gpName,
-          round: active.round,
-          drivers: driversToCahce,
-          year: DateTime.now().year,
-          points: 0,
-          fastest: fastest,
-          pole: pole,
-          userDriver: custom,
-          userDriverPosition: customPosition);
+      Map<String, dynamic> tocache = {
+        "gpName": active.gpName,
+        "round": active.round,
+        "drivers": driversToCahce,
+        "year": DateTime.now().year,
+        "points": 0,
+        "fastest": fastest,
+        "pole": pole,
+        "userDriver": custom,
+        "userDriverPosition": customPosition
+      };
       await prefService.writData(
           AppConstants.cachejoinleague + active.round.toString(),
           convert.jsonEncode(tocache));
