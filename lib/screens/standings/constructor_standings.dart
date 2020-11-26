@@ -49,7 +49,7 @@ class _ConstructorStandings extends State<ConstructorStandings> {
                               child: Text(constructor.name,
                                   style: TextStyle(
                                     color: Colors.white,
-                                    fontSize: 16.0,
+                                    fontSize: 14.0,
                                   )),
                             ),
                             Expanded(child: SizedBox.shrink()),

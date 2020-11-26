@@ -11,8 +11,8 @@ class TeamIcon extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: padding),
         child: Image(
           image: AssetImage(AppConstants.teamImages[teamName]),
-          width: 30.0,
-          height: 30.0,
+          width: 25.0,
+          height: 25.0,
         ));
   }
 }

@@ -21,16 +21,14 @@ class _StandingWidget extends State<StandingWidget> {
   List<Driver> drivers = [];
   List<Constructor> constructors = [];
 
-  final PageController pageController = PageController(
-    initialPage: 0
-  );
+  final PageController pageController = PageController(initialPage: 0);
 
   void loadDriverStandings() async {
     ResultService service = new ResultService();
     List<Driver> drs = await service.getDriverStandings();
     setState(() {
       isDrsLoading = false;
-      drivers  = drs;
+      drivers = drs;
     });
   }
 
@@ -39,7 +37,7 @@ class _StandingWidget extends State<StandingWidget> {
     List<Constructor> cons = await service.getConstructorStandings();
     setState(() {
       isConsLoading = false;
-      constructors  = cons;
+      constructors = cons;
     });
   }
 
@@ -59,7 +57,6 @@ class _StandingWidget extends State<StandingWidget> {
     loadDriverStandings();
     loadConstructorStandings();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -102,8 +99,12 @@ class _StandingWidget extends State<StandingWidget> {
               onPageChanged: changeActiveTab,
               controller: pageController,
               children: <Widget>[
-                isDrsLoading?PreLoader():DriverStandings(drivers: this.drivers),
-                isConsLoading?PreLoader():ConstructorStandings(constructors: this.constructors)
+                isDrsLoading
+                    ? PreLoader()
+                    : DriverStandings(drivers: this.drivers),
+                isConsLoading
+                    ? PreLoader()
+                    : ConstructorStandings(constructors: this.constructors)
               ],
             ),
           )

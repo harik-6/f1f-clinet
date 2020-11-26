@@ -15,13 +15,14 @@ class DriverNames extends StatelessWidget {
           this.fname.length > 0
               ? Text(this.fname,
                   style: TextStyle(
+                    fontSize: 13.0,
                     color: Colors.white54,
                   ))
               : SizedBox.shrink(),
           Text(this.sname,
               style: TextStyle(
                   color: Colors.white,
-                  fontSize: 16.0,
+                  fontSize: 15.0,
                   fontWeight: FontWeight.w600)),
         ],
       ),

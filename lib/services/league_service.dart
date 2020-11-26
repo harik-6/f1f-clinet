@@ -2,7 +2,6 @@ import 'dart:convert' as convert;
 import 'package:f1fantasy/models/driver_model.dart';
 import 'package:f1fantasy/models/grand_prix_model.dart';
 import 'package:f1fantasy/models/user_league_model.dart';
-import 'package:f1fantasy/screens/league/joinleague/status_enum.dart';
 import 'package:f1fantasy/services/native/pref_service.dart';
 import 'package:f1fantasy/services/native/rest_service.dart';
 import 'package:f1fantasy/constants/app_constants.dart';
@@ -60,8 +59,7 @@ class LeagueService {
     return list;
   }
 
-  Future<STATUS> joinLeague(
-      List<DriverCredit> drivers, GrandPrix active) async {
+  Future<bool> joinLeague(List<DriverCredit> drivers, GrandPrix active) async {
     List<String> dids = drivers
         .where((dr) => dr.isSelected == true)
         .map((dr) => dr.driver.id)
@@ -84,16 +82,9 @@ class LeagueService {
       await prefService.writData(
           AppConstants.cachejoinleague + active.round.toString(),
           convert.jsonEncode(dataToCahce));
-      return STATUS.success;
+      return true;
     }
-    if (response.statusCode == 200) {
-      var data = convert.jsonDecode(response.body);
-      await prefService.writData(
-          AppConstants.cachejoinleague + active.round.toString(),
-          convert.jsonEncode(data["league"]["drivers"]));
-      return STATUS.hasjoinedAlready;
-    }
-    return STATUS.failed;
+    return false;
   }
 
   Future<List<Driver>> readSelection(GrandPrix activeleague) async {

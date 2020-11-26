@@ -47,24 +47,24 @@ class _ResultsWidget extends State<ResultsWidget> {
     }
   }
 
-  void _filterCompletedRaces() {
+  List<GrandPrix> _filterCompletedRaces() {
     List<GrandPrix> filtered = widget.gps
         .where((GrandPrix gp) => gp.raceStatus == RACE_STATUS.completed)
         .toList();
     setState(() {
       completed = filtered;
     });
+    return filtered;
   }
 
   @override
   void initState() {
     super.initState();
+    List<GrandPrix> x = _filterCompletedRaces();
     this.setState(() {
-      gpRound = widget.gps[trackSelected].round;
+      gpRound = x[trackSelected].round;
     });
-    _filterCompletedRaces();
-    getRaceResults(widget.gps[trackSelected].round,
-        widget.gps[trackSelected].dateTime.year);
+    getRaceResults(x[trackSelected].round, x[trackSelected].dateTime.year);
   }
 
   @override
