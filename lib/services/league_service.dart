@@ -84,10 +84,11 @@ class LeagueService {
     };
     print(requestBody.toString());
     await Future.delayed(Duration(seconds: 5));
-    var response =
-        await _restService.post(AppConstants.apijoinleague, requestBody);
+    // var response =
+    //     await _restService.post(AppConstants.apijoinleague, requestBody);
     PrefService prefService = PrefService();
-    if (response.statusCode == 201) {
+    // if (response.statusCode == 201) {
+    if (true) {
       List<Driver> driversToCahce = drivers
           .where((dr) => dr.isSelected == true)
           .map((dr) => dr.driver)
@@ -115,13 +116,11 @@ class LeagueService {
     return false;
   }
 
-  Future<List<Driver>> readSelection(GrandPrix activeleague) async {
+  Future<LeagueDetails> readSelection(GrandPrix activeleague) async {
     String cache = await PrefService()
         .readDate(AppConstants.cachejoinleague + activeleague.round.toString());
-    if (cache == null) return [];
-    return (convert.jsonDecode(cache) as List)
-        .map((datum) => Driver.jsonToModel(datum))
-        .toList();
+    if (cache == null) return null;
+    return LeagueDetails.jsonToModel(convert.jsonDecode(cache));
   }
 
   Future<List<League>> getUserLeagues() async {

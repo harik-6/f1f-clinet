@@ -1,6 +1,8 @@
 import 'package:f1fantasy/models/grand_prix_model.dart';
 import 'package:f1fantasy/models/driver_model.dart';
+import 'package:f1fantasy/models/user_league_details.dart';
 import 'package:f1fantasy/screens/joinpages/page_view.dart';
+import 'package:f1fantasy/screens/joinpages/view_selection.dart';
 import 'package:f1fantasy/services/league_service.dart';
 import 'package:flutter/material.dart';
 
@@ -13,12 +15,14 @@ class JoinLeague extends StatefulWidget {
 
 class _JoinLeagueState extends State<JoinLeague> {
   bool joined = false;
+  LeagueDetails existing;
   void checkForLeagueStatus() async {
     LeagueService service = LeagueService();
-    List<Driver> drs = await service.readSelection(widget.activeLeague);
-    if (drs.length > 0) {
+    LeagueDetails lgdt = await service.readSelection(widget.activeLeague);
+    if (lgdt != null) {
       setState(() {
         joined = true;
+        existing = lgdt;
       });
     }
   }
@@ -68,9 +72,8 @@ class _JoinLeagueState extends State<JoinLeague> {
                         Navigator.push(
                             context,
                             new MaterialPageRoute(
-                                builder: (context) => JoiningPageView(
-                                      callback: checkForLeagueStatus,
-                                      activeLeague: widget.activeLeague,
+                                builder: (context) => ViewMySelection(
+                                      detail: existing,
                                     )));
                       },
                       color: Colors.green[600],
