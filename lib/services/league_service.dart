@@ -24,11 +24,17 @@ class LeagueService {
     return now.add(Duration(days: 8));
   }
 
+  get defaultCacheTime {
+    DateTime now = DateTime.now().toLocal();
+    return now.add(Duration(hours: 24));
+  }
+
   Future<List<DriverCredit>> getDriverCredits(int round, int year) async {
     String query = "?year=" + year.toString() + "&round=" + round.toString();
     var response = await _restService.get(
         AppConstants.cachedrivercredits + query,
-        AppConstants.apidrivercredits + query);
+        AppConstants.apidrivercredits + query,
+        defaultCacheTime);
     if (response.statusCode == 204) {
       return [];
     }
@@ -41,8 +47,8 @@ class LeagueService {
   }
 
   Future<List<GrandPrix>> getGrandPrixs() async {
-    var response = await _restService.get(
-        AppConstants.cacheraceschedule, AppConstants.apiraceschedule);
+    var response = await _restService.get(AppConstants.cacheraceschedule,
+        AppConstants.apiraceschedule, defaultCacheTime);
     if (response.statusCode == 204) {
       return [];
     }

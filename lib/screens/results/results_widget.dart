@@ -14,8 +14,7 @@ class ResultsWidget extends StatefulWidget {
   _ResultsWidget createState() => _ResultsWidget();
 }
 
-class _ResultsWidget extends State<ResultsWidget>
-    with AutomaticKeepAliveClientMixin {
+class _ResultsWidget extends State<ResultsWidget> {
   int trackSelected = 0;
   bool isLoading = true;
   int gpRound = 0;
@@ -63,9 +62,9 @@ class _ResultsWidget extends State<ResultsWidget>
     this.setState(() {
       gpRound = widget.gps[trackSelected].round;
     });
+    _filterCompletedRaces();
     getRaceResults(widget.gps[trackSelected].round,
         widget.gps[trackSelected].dateTime.year);
-    _filterCompletedRaces();
   }
 
   @override
@@ -99,7 +98,4 @@ class _ResultsWidget extends State<ResultsWidget>
             ),
     );
   }
-
-  @override
-  bool get wantKeepAlive => true;
 }

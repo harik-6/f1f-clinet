@@ -8,19 +8,18 @@ import 'package:flutter/material.dart';
 class LeagueWidget extends StatefulWidget {
   final List<GrandPrix> grandsprix;
   final GrandPrix activeLeague;
-  LeagueWidget({Key key, this.grandsprix, this.activeLeague}) : super(key: key);
+  final bool refreshIndication;
+  LeagueWidget(
+      {Key key, this.grandsprix, this.activeLeague, this.refreshIndication})
+      : super(key: key);
 
   @override
   _LeagueWidget createState() => _LeagueWidget();
 }
 
-class _LeagueWidget extends State<LeagueWidget>
-    with AutomaticKeepAliveClientMixin {
+class _LeagueWidget extends State<LeagueWidget> {
   int activeTab = 0;
   final PageController pageController = PageController(initialPage: 0);
-
-  @override
-  bool get wantKeepAlive => true;
 
   void changeActiveTab(newtab) {
     setState(() {

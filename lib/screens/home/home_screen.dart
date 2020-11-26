@@ -1,10 +1,9 @@
 import 'package:f1fantasy/components/preloader.dart';
 import 'package:f1fantasy/constants/app_enums.dart';
 import 'package:f1fantasy/models/grand_prix_model.dart';
-import 'package:f1fantasy/screens/drawer_start.dart';
+import 'package:f1fantasy/screens/home/drawer_start.dart';
 import 'package:f1fantasy/services/league_service.dart';
 import 'package:f1fantasy/services/native/auth_service.dart';
-import 'package:f1fantasy/services/native/data_service.dart';
 import 'package:flutter/material.dart';
 import 'package:f1fantasy/screens/leaderboard/leaderboard_widget.dart';
 import 'package:f1fantasy/screens/league/league_widget.dart';
@@ -24,6 +23,7 @@ class _AppHome extends State<AppHome> {
   List<GrandPrix> gps = [];
   GrandPrix activeGp;
   bool isgpsLoading = true;
+  List<bool> refreshIndicator = [false, false, false, false];
 
   void changeActiveIndex(int newindex) {
     pageViewController.jumpToPage(newindex);
@@ -32,23 +32,7 @@ class _AppHome extends State<AppHome> {
     });
   }
 
-  Future<void> updateCacheStatus(GrandPrix active) async {
-    bool isDataUpdated = await DataService().updateCacheStatus(active);
-    if (isDataUpdated) {
-      await this.loadRaceSchedule();
-    }
-    return;
-  }
-
-  Future<void> initDataCheck() async {
-    GrandPrix active = await this.loadRaceSchedule();
-    if (active != null) {
-      await updateCacheStatus(active);
-    }
-    return;
-  }
-
-  Future<GrandPrix> loadRaceSchedule() async {
+  Future<void> loadRaceSchedule() async {
     setState(() {
       isgpsLoading = true;
     });
@@ -63,13 +47,20 @@ class _AppHome extends State<AppHome> {
       activeGp = present;
       isgpsLoading = false;
     });
-    return present;
+    return;
+  }
+
+  void _regreshScreen() {
+    this.setState(() {
+      refreshIndicator[activeBottomIndex] =
+          !refreshIndicator[activeBottomIndex];
+    });
   }
 
   @override
   void initState() {
     super.initState();
-    this.initDataCheck();
+    this.loadRaceSchedule();
   }
 
   @override
@@ -88,43 +79,12 @@ class _AppHome extends State<AppHome> {
           backgroundColor: Colors.grey[900],
           title: Text("F1 Fantasy"),
           actions: [
-            IconButton(
-                icon: Icon(Icons.info_outline),
-                iconSize: 16.0,
-                onPressed: () {
-                  showDialog(
-                      context: context,
-                      builder: (_) => AlertDialog(
-                            title: Text("How league works?"),
-                            content: Container(
-                              height: 230.0,
-                              child: ListView(
-                                children: [
-                                  ListTile(
-                                      title: Text(
-                                          "1.User has to enter the league before qualying starts, on the race weekend.")),
-                                  ListTile(
-                                      title: Text(
-                                          "2.List of drivers will be available to choose.")),
-                                  ListTile(
-                                      title: Text(
-                                          "3.Choose in such a way to maximize the point scoring")),
-                                  ListTile(
-                                      title: Text(
-                                          "\n4.After the race ends,user will be awarded with the points scored by the driver during that race.")),
-                                ],
-                              ),
-                            ),
-                            actions: [
-                              RaisedButton(
-                                  child: Text("OK"),
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  })
-                            ],
-                          ),
-                      barrierDismissible: true);
-                })
+            PopupMenuButton(itemBuilder: (context) {
+              return [
+                PopupMenuItem(child: Text("Refresh")),
+                PopupMenuItem(child: Text("League"))
+              ];
+            })
           ],
         ),
         drawer: Container(
@@ -172,7 +132,11 @@ class _AppHome extends State<AppHome> {
           children: [
             isgpsLoading
                 ? PreLoader()
-                : LeagueWidget(grandsprix: gps, activeLeague: activeGp),
+                : LeagueWidget(
+                    grandsprix: gps,
+                    activeLeague: activeGp,
+                    refreshIndication: refreshIndicator[0],
+                  ),
             isgpsLoading ? PreLoader() : ResultsWidget(gps: gps),
             StandingWidget(),
             LeaderBoardWidget()

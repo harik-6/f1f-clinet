@@ -1,8 +1,8 @@
 import 'package:f1fantasy/components/no_internet.dart';
 import 'package:f1fantasy/components/preloader.dart';
 import 'package:f1fantasy/constants/app_enums.dart';
-import 'package:f1fantasy/screens/home_screen.dart';
-import 'package:f1fantasy/screens/login_widget.dart';
+import 'package:f1fantasy/screens/home/home_screen.dart';
+import 'package:f1fantasy/screens/login/login_widget.dart';
 import 'package:f1fantasy/services/native/connection_service.dart';
 import 'package:flutter/material.dart';
 

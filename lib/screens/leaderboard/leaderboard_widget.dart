@@ -16,13 +16,9 @@ class LeaderBoardWidget extends StatefulWidget {
   }
 }
 
-class _LeaderBoardWidget extends State<LeaderBoardWidget>
-    with AutomaticKeepAliveClientMixin {
+class _LeaderBoardWidget extends State<LeaderBoardWidget> {
   STATUS status = STATUS.loading;
   List<Leaderboard> leaders = [];
-
-  @override
-  bool get wantKeepAlive => true;
 
   void loadLeaderBoard() async {
     setState(() {

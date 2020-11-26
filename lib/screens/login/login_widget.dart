@@ -1,5 +1,5 @@
 import 'package:f1fantasy/models/user_model.dart';
-import 'package:f1fantasy/screens/standings/terms_condition.dart';
+import 'package:f1fantasy/screens/login/terms_condition.dart';
 import 'package:f1fantasy/services/native/auth_service.dart';
 import 'package:flutter/material.dart';
 
