@@ -1,7 +1,7 @@
 import 'package:f1fantasy/components/driver_tile.dart';
 import 'package:f1fantasy/components/preloader.dart';
 import 'package:f1fantasy/models/user_league_model.dart';
-import 'package:f1fantasy/screens/league/myleagues/my_drivers.dart';
+import 'package:f1fantasy/screens/league/league_details.dart';
 import 'package:f1fantasy/services/league_service.dart';
 import 'package:flutter/material.dart';
 
@@ -22,14 +22,6 @@ class _MyLeaguesState extends State<MyLeagues> {
       status = STATUS.loaded;
       myLeagues = all;
     });
-  }
-
-  void _navigateToShowLeague(BuildContext context, int index) {
-    Navigator.push(
-        context,
-        new MaterialPageRoute(
-            builder: (context) =>
-                MyDrivers(drivers: myLeagues[index].drivers)));
   }
 
   @override
@@ -72,7 +64,13 @@ class _MyLeaguesState extends State<MyLeagues> {
                                     icon: Icon(Icons.navigate_next,
                                         color: Colors.green),
                                     onPressed: () {
-                                      _navigateToShowLeague(context, index);
+                                      Navigator.push(
+                                          context,
+                                          new MaterialPageRoute(
+                                              builder: (context) =>
+                                                  DetailedLeagueDetails(
+                                                    league: league,
+                                                  )));
                                     },
                                   ),
                                 ),

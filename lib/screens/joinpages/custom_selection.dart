@@ -34,18 +34,11 @@ class _CustomPosition extends State<CustomPosition> {
         height: double.infinity,
         width: double.infinity,
         child: Padding(
-          padding: EdgeInsets.symmetric(vertical: 20.0),
+          padding: EdgeInsets.symmetric(vertical: 5.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Padding(
-                padding: EdgeInsets.only(
-                    top: 4.0, bottom: 4.0, left: 20.0, right: 90.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [Text(widget.roundtype, style: headerText)],
-                ),
-              ),
+              Center(child: Text(widget.roundtype, style: headerText)),
               Expanded(
                   child: Padding(
                 padding: EdgeInsets.symmetric(vertical: 8.0),
@@ -71,8 +64,8 @@ class _CustomPosition extends State<CustomPosition> {
                                 Expanded(child: SizedBox.shrink()),
                                 _selectedDriverId == driver.id
                                     ? Icon(
-                                        Icons.circle,
-                                        color: Colors.green,
+                                        Icons.check_circle,
+                                        color: Colors.green[600],
                                       )
                                     : Icon(
                                         Icons.circle,

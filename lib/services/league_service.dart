@@ -1,7 +1,9 @@
 import 'dart:convert' as convert;
 import 'package:f1fantasy/models/driver_model.dart';
 import 'package:f1fantasy/models/grand_prix_model.dart';
+import 'package:f1fantasy/models/user_league_details.dart';
 import 'package:f1fantasy/models/user_league_model.dart';
+import 'package:f1fantasy/services/native/auth_service.dart';
 import 'package:f1fantasy/services/native/pref_service.dart';
 import 'package:f1fantasy/services/native/rest_service.dart';
 import 'package:f1fantasy/constants/app_constants.dart';
@@ -59,7 +61,13 @@ class LeagueService {
     return list;
   }
 
-  Future<bool> joinLeague(List<DriverCredit> drivers, GrandPrix active) async {
+  Future<bool> joinLeague(
+      List<DriverCredit> drivers,
+      String poleId,
+      String fastestId,
+      String customId,
+      int customPosition,
+      GrandPrix active) async {
     List<String> dids = drivers
         .where((dr) => dr.isSelected == true)
         .map((dr) => dr.driver.id)
@@ -67,21 +75,41 @@ class LeagueService {
     Map<String, dynamic> requestBody = {
       "gpName": active.gpName,
       "round": active.round,
-      "driverIds": dids,
-      "uid": "userIdComesHere",
+      "leaguDriverIds": dids,
+      "poleDriverId": poleId,
+      "fastestDriver": fastestId,
+      "customDriver": {"driverId": customId, "customPosition": customPosition},
+      "uid": AuthService().getUser().uid,
       "year": DateTime.now().year
     };
+    print(requestBody.toString());
+    await Future.delayed(Duration(seconds: 5));
     var response =
         await _restService.post(AppConstants.apijoinleague, requestBody);
     PrefService prefService = PrefService();
     if (response.statusCode == 201) {
-      List<Driver> dataToCahce = drivers
+      List<Driver> driversToCahce = drivers
           .where((dr) => dr.isSelected == true)
           .map((dr) => dr.driver)
           .toList();
+      Map<String, Driver> drMap =
+          drivers.map((dr) => dr.driver) as Map<String, Driver>;
+      Driver fastest = drMap[fastestId];
+      Driver pole = drMap[poleId];
+      Driver custom = drMap[customId];
+      LeagueDetails tocache = LeagueDetails(
+          gpName: active.gpName,
+          round: active.round,
+          drivers: driversToCahce,
+          year: DateTime.now().year,
+          points: 0,
+          fastest: fastest,
+          pole: pole,
+          userDriver: custom,
+          userDriverPosition: customPosition);
       await prefService.writData(
           AppConstants.cachejoinleague + active.round.toString(),
-          convert.jsonEncode(dataToCahce));
+          convert.jsonEncode(tocache));
       return true;
     }
     return false;
@@ -121,5 +149,20 @@ class LeagueService {
         .toList();
     lgs.sort((a, b) => a.points < b.points ? 1 : -1);
     return lgs;
+  }
+
+  Future<LeagueDetails> getLeagueDetails(League league) async {
+    String query =
+        "?year=" + league.year.toString() + "&round=" + league.round.toString();
+    var response = await _restService.get(
+        AppConstants.cacheuserleaguesdetails + query,
+        AppConstants.apiuserleaguesdetails + query,
+        defaultStandingsCacheTime);
+    if (response.statusCode == 204) {
+      return null;
+    }
+    Map data = convert.jsonDecode(response.body);
+    LeagueDetails lg = LeagueDetails.jsonToModel(data["leagueDetails"]);
+    return lg;
   }
 }

@@ -12,15 +12,13 @@ class JoinLeague extends StatefulWidget {
 }
 
 class _JoinLeagueState extends State<JoinLeague> {
-  List<Driver> drivers = [];
-  Duration tillQualy;
-
+  bool joined = false;
   void checkForLeagueStatus() async {
     LeagueService service = LeagueService();
     List<Driver> drs = await service.readSelection(widget.activeLeague);
     if (drs.length > 0) {
       setState(() {
-        drivers = drs;
+        joined = true;
       });
     }
   }
@@ -61,16 +59,12 @@ class _JoinLeagueState extends State<JoinLeague> {
                         style: TextStyle(color: Colors.white54)))
               ],
             ),
-            Opacity(
-              opacity: _joinStatus() ? 1.0 : 0.2,
-              child: Container(
-                height: 40.0,
-                width: 100.0,
-                child: IgnorePointer(
-                  ignoring: !_joinStatus(),
-                  child: RaisedButton(
-                    onPressed: () {
-                      if (_joinStatus()) {
+            joined
+                ? Container(
+                    height: 40.0,
+                    width: 100.0,
+                    child: RaisedButton(
+                      onPressed: () {
                         Navigator.push(
                             context,
                             new MaterialPageRoute(
@@ -78,18 +72,44 @@ class _JoinLeagueState extends State<JoinLeague> {
                                       callback: checkForLeagueStatus,
                                       activeLeague: widget.activeLeague,
                                     )));
-                      }
-                    },
-                    color: Colors.green[600],
-                    highlightColor: Colors.black,
-                    child: Text(
-                      "Join",
-                      style: TextStyle(color: Colors.white),
+                      },
+                      color: Colors.green[600],
+                      highlightColor: Colors.black,
+                      child: Text(
+                        "View",
+                        style: TextStyle(color: Colors.white),
+                      ),
                     ),
-                  ),
-                ),
-              ),
-            )
+                  )
+                : Opacity(
+                    opacity: _joinStatus() ? 1.0 : 0.2,
+                    child: Container(
+                      height: 40.0,
+                      width: 100.0,
+                      child: IgnorePointer(
+                        ignoring: !_joinStatus(),
+                        child: RaisedButton(
+                          onPressed: () {
+                            if (_joinStatus()) {
+                              Navigator.push(
+                                  context,
+                                  new MaterialPageRoute(
+                                      builder: (context) => JoiningPageView(
+                                            callback: checkForLeagueStatus,
+                                            activeLeague: widget.activeLeague,
+                                          )));
+                            }
+                          },
+                          color: Colors.green[600],
+                          highlightColor: Colors.black,
+                          child: Text(
+                            "Join",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                      ),
+                    ),
+                  )
           ],
         ),
       ],

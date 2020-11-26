@@ -2,7 +2,7 @@ import 'package:f1fantasy/constants/styles.dart';
 import 'package:f1fantasy/models/grand_prix_model.dart';
 import 'package:f1fantasy/screens/league/join_league.dart';
 import 'package:f1fantasy/screens/league/race_schedule.dart';
-import 'package:f1fantasy/screens/league/myleagues/my_leagues.dart';
+import 'package:f1fantasy/screens/league/my_leagues.dart';
 import 'package:flutter/material.dart';
 
 class LeagueWidget extends StatefulWidget {

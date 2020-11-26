@@ -10,6 +10,7 @@ class AppConstants {
   static final String apiraceschedule = apiurl + "schedule";
   static final String apijoinleague = apiurl + "league/join";
   static final String apiuserleagues = apiurl + "league/user";
+  static final String apiuserleaguesdetails = apiurl + "league/details";
   static final String apileaderboard = apiurl + "leaderboard";
   static final String apicachestatus = apiurl + "racestatus";
   static final String cacheraceschedule = "grandprix";
@@ -17,6 +18,7 @@ class AppConstants {
   static final String cacheconstructorstandings = "constructorStandings";
   static final String cacheraceresults = "result#";
   static final String cacheuserleagues = "userLeagues";
+  static final String cacheuserleaguesdetails = apiurl + "leaguedetails#";
   static final String cachejoinleague = "league#";
   static final String cacheleaderboard = "leaderboard";
   static final String cachedrivercredits = "credits#";

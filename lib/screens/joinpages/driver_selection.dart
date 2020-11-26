@@ -57,87 +57,96 @@ class _DriverSelection extends State<DriverSelection> {
     return Container(
         height: double.infinity,
         width: double.infinity,
-        child: Padding(
-          padding: EdgeInsets.symmetric(vertical: 20.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Padding(
-                padding: EdgeInsets.only(
-                    top: 4.0, bottom: 4.0, left: 20.0, right: 90.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text("Total credits available", style: headerText),
-                    Text(totalCredits.toString(), style: headerText)
-                  ],
-                ),
-              ),
-              Expanded(
-                  child: Padding(
-                padding: EdgeInsets.symmetric(vertical: 8.0),
-                child: ListView.builder(
-                  itemCount: drivers.length,
-                  itemBuilder: (context, index) {
-                    DriverCredit dr = drivers[index];
-                    Driver driver = dr.driver;
-                    bool active = isActive(dr);
-                    return Container(
-                      key: Key(driver.firstName),
-                      width: double.infinity,
-                      height: 80.0,
-                      child: Opacity(
-                        opacity: active ? 1.0 : 0.5,
-                        child: ListTile(
-                          title: DriverTile(
-                            childWidget: Row(
-                              children: <Widget>[
-                                SizedBox(width: 10.0),
-                                TeamIndicator(driver.team),
-                                SizedBox(width: 8.0),
-                                DriverNames(
-                                    driver.firstName, driver.secondName),
-                                Expanded(child: SizedBox.shrink()),
-                                Padding(
-                                  padding:
-                                      EdgeInsets.symmetric(horizontal: 16.0),
-                                  child: Text(dr.creditPoints.toString(),
-                                      style: TextStyle(color: Colors.white)),
-                                ),
-                                IgnorePointer(
-                                  ignoring: !active,
-                                  child: dr.isSelected
-                                      ? IconButton(
-                                          icon: Icon(
-                                            Icons.horizontal_rule_outlined,
-                                            color: Colors.red,
-                                          ),
-                                          onPressed: () {
-                                            removeFromList(index);
-                                          },
-                                        )
-                                      : IconButton(
-                                          icon: Icon(
-                                            Icons.add,
-                                            color: Colors.green,
-                                          ),
-                                          onPressed: () {
-                                            addToList(index);
-                                          },
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: Center(child: Text("Choose drivers", style: headerText)),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Text("Total credits available"),
+                SizedBox(width: 50.0),
+                Text(totalCredits.toString(), style: headerText)
+              ],
+            ),
+            Expanded(
+                child: Padding(
+              padding: EdgeInsets.symmetric(vertical: 8.0),
+              child: ListView.builder(
+                itemCount: drivers.length,
+                itemBuilder: (context, index) {
+                  DriverCredit dr = drivers[index];
+                  Driver driver = dr.driver;
+                  bool active = isActive(dr);
+                  return Container(
+                    key: Key(driver.firstName),
+                    width: double.infinity,
+                    height: 80.0,
+                    child: Opacity(
+                      opacity: active ? 1.0 : 0.5,
+                      child: ListTile(
+                        title: DriverTile(
+                          childWidget: Row(
+                            children: <Widget>[
+                              SizedBox(width: 10.0),
+                              TeamIndicator(driver.team),
+                              SizedBox(width: 8.0),
+                              DriverNames(driver.firstName, driver.secondName),
+                              Expanded(child: SizedBox.shrink()),
+                              Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 16.0),
+                                child: Text(dr.creditPoints.toString(),
+                                    style: TextStyle(color: Colors.white)),
+                              ),
+                              IgnorePointer(
+                                ignoring: !active,
+                                child: dr.isSelected
+                                    ? IconButton(
+                                        icon: Icon(
+                                          Icons.horizontal_rule_outlined,
+                                          color: Colors.red,
                                         ),
-                                )
-                              ],
-                            ),
+                                        onPressed: () {
+                                          removeFromList(index);
+                                        },
+                                      )
+                                    : IconButton(
+                                        icon: Icon(
+                                          Icons.add,
+                                          color: Colors.green,
+                                        ),
+                                        onPressed: () {
+                                          addToList(index);
+                                        },
+                                      ),
+                              )
+                            ],
                           ),
                         ),
                       ),
-                    );
-                  },
+                    ),
+                  );
+                },
+              ),
+            )),
+            Container(
+              width: double.infinity,
+              height: 50.0,
+              child: RaisedButton(
+                onPressed: () {
+                  widget.callback(drivers);
+                },
+                color: Colors.green[600],
+                child: Text(
+                  "Join league",
+                  style: TextStyle(color: Colors.white, fontSize: 20.0),
                 ),
-              )),
-              SizedBox(height: 20.0)
-            ],
-          ),
+              ),
+            )
+          ],
         ));
   }
 }
