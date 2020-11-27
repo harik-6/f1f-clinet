@@ -22,10 +22,13 @@ class JoiningPageViewState extends State<JoiningPageView> {
   final PageController pageViewController = new PageController(initialPage: 0);
   int currentPage = 0;
   List<DriverCredit> drCredits = [];
-  String fastestDriver;
-  String poleDriver;
-  String customDriver;
+  List<DriverCredit> userSelected = [];
+  String fastestDriver = "-1";
+  String poleDriver = "-1";
+  String customDriver = "-1";
+  int drCount = 0;
   int customDriverPosition;
+
   LEAGUE_STATUS lstatus = LEAGUE_STATUS.loading;
 
   void _loadAllDriver() async {
@@ -38,19 +41,39 @@ class JoiningPageViewState extends State<JoiningPageView> {
     });
   }
 
-  void _joinLeague(List<DriverCredit> chosen) async {
+  bool isValid() {
+    return DateTime.now()
+        .toLocal()
+        .isBefore(widget.activeLeague.qualyTime.toLocal());
+  }
+
+  void _setDrivers(List<DriverCredit> drss) {
     setState(() {
-      lstatus = LEAGUE_STATUS.joining;
+      userSelected = drss;
+      drCount = drss.where((dr) => dr.isSelected == true).toList().length;
     });
-    LeagueService service = new LeagueService();
-    bool isSuccess = await service.joinLeague(chosen, poleDriver, fastestDriver,
-        customDriver, customDriverPosition, widget.activeLeague);
-    if (isSuccess) {
-      widget.callback();
+  }
+
+  Future<void> _joinLeague() async {
+    if (isValid()) {
+      setState(() {
+        lstatus = LEAGUE_STATUS.joining;
+      });
+      LeagueService service = new LeagueService();
+      bool isSuccess = await service.joinLeague(
+          userSelected,
+          poleDriver,
+          fastestDriver,
+          customDriver,
+          customDriverPosition,
+          widget.activeLeague);
+      if (isSuccess) {
+        widget.callback();
+      }
+      setState(() {
+        lstatus = isSuccess ? LEAGUE_STATUS.success : LEAGUE_STATUS.failure;
+      });
     }
-    setState(() {
-      lstatus = isSuccess ? LEAGUE_STATUS.success : LEAGUE_STATUS.failure;
-    });
   }
 
   void _setCurrentPage(int page) {
@@ -96,8 +119,14 @@ class JoiningPageViewState extends State<JoiningPageView> {
   @override
   void initState() {
     super.initState();
-    _loadAllDriver();
-    _setCustomPositionNumber(widget.userRandomRound);
+    if (!isValid()) {
+      setState(() {
+        lstatus = LEAGUE_STATUS.timeend;
+      });
+    } else {
+      _loadAllDriver();
+      _setCustomPositionNumber(widget.userRandomRound);
+    }
   }
 
   @override
@@ -112,6 +141,19 @@ class JoiningPageViewState extends State<JoiningPageView> {
         body: SafeArea(
           child: Builder(builder: (context) {
             switch (lstatus) {
+              case LEAGUE_STATUS.timeend:
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Icon(Icons.flag, color: Colors.white, size: 60.0),
+                    SizedBox(height: 20.0),
+                    Center(
+                      child: Text("League entry time ended",
+                          style: TextStyle(fontSize: 18.0)),
+                    )
+                  ],
+                );
               case LEAGUE_STATUS.loading:
                 return PreLoader();
               case LEAGUE_STATUS.inprocess:
@@ -163,11 +205,46 @@ class JoiningPageViewState extends State<JoiningPageView> {
                           ),
                           DriverSelection(
                             drCredits: drCredits,
-                            callback: _joinLeague,
+                            callback: _setDrivers,
                           )
                         ],
                       ),
-                    )
+                    ),
+                    !(drCount > 0 &&
+                            fastestDriver != "-1" &&
+                            poleDriver != "-1" &&
+                            customDriver != "-1")
+                        ? Opacity(
+                            opacity: 0.2,
+                            child: Container(
+                              width: double.infinity,
+                              height: 50.0,
+                              child: RaisedButton(
+                                onPressed: () {},
+                                color: Colors.green[600],
+                                child: Text(
+                                  "Join league",
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 20.0),
+                                ),
+                              ),
+                            ),
+                          )
+                        : Container(
+                            width: double.infinity,
+                            height: 50.0,
+                            child: RaisedButton(
+                              onPressed: () async {
+                                await _joinLeague();
+                              },
+                              color: Colors.green[600],
+                              child: Text(
+                                "Join league",
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 20.0),
+                              ),
+                            ),
+                          )
                   ],
                 );
               case LEAGUE_STATUS.joining:

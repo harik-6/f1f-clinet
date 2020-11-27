@@ -77,7 +77,6 @@ class _CustomPosition extends State<CustomPosition> {
                   },
                 ),
               )),
-              SizedBox(height: 20.0)
             ],
           ),
         ));

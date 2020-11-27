@@ -28,6 +28,7 @@ class _DriverSelection extends State<DriverSelection> {
       drivers = present;
       totalCredits = credits;
     });
+    widget.callback(present);
   }
 
   void removeFromList(int index) {
@@ -38,6 +39,7 @@ class _DriverSelection extends State<DriverSelection> {
       drivers = present;
       totalCredits = credits;
     });
+    widget.callback(present);
   }
 
   bool isActive(DriverCredit selection) {
@@ -132,20 +134,6 @@ class _DriverSelection extends State<DriverSelection> {
                 },
               ),
             )),
-            Container(
-              width: double.infinity,
-              height: 50.0,
-              child: RaisedButton(
-                onPressed: () {
-                  widget.callback(drivers);
-                },
-                color: Colors.green[600],
-                child: Text(
-                  "Join league",
-                  style: TextStyle(color: Colors.white, fontSize: 20.0),
-                ),
-              ),
-            )
           ],
         ));
   }
