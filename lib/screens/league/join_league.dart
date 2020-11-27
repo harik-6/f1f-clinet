@@ -36,6 +36,19 @@ class _JoinLeagueState extends State<JoinLeague> {
     return true;
   }
 
+  void _navigatoSelection(BuildContext context, int rnum) {
+    if (_joinStatus()) {
+      Navigator.push(
+          context,
+          new MaterialPageRoute(
+              builder: (context) => JoiningPageView(
+                    callback: checkForLeagueStatus,
+                    activeLeague: widget.activeLeague,
+                    userRandomRound: rnum,
+                  )));
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -73,8 +86,10 @@ class _JoinLeagueState extends State<JoinLeague> {
                             context,
                             new MaterialPageRoute(
                                 builder: (context) => ViewMySelection(
-                                      detail: existing,
-                                    )));
+                                    detail: existing,
+                                    editCallback: (int nm) {
+                                      _navigatoSelection(context, nm);
+                                    })));
                       },
                       color: Colors.green[600],
                       highlightColor: Colors.black,
@@ -93,15 +108,7 @@ class _JoinLeagueState extends State<JoinLeague> {
                         ignoring: !_joinStatus(),
                         child: RaisedButton(
                           onPressed: () {
-                            if (_joinStatus()) {
-                              Navigator.push(
-                                  context,
-                                  new MaterialPageRoute(
-                                      builder: (context) => JoiningPageView(
-                                            callback: checkForLeagueStatus,
-                                            activeLeague: widget.activeLeague,
-                                          )));
-                            }
+                            _navigatoSelection(context, -1);
                           },
                           color: Colors.green[600],
                           highlightColor: Colors.black,

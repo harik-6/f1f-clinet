@@ -6,9 +6,12 @@ class LeagueDetails {
   int round;
   List<Driver> drivers;
   Driver fastest;
+  bool fastestResult;
   Driver pole;
+  bool poleResult;
   Driver userDriver;
   int userDriverPosition;
+  bool userDriverResult;
   int points;
   LeagueDetails(
       {this.gpName,
@@ -24,13 +27,16 @@ class LeagueDetails {
     drivers = (json["drivers"] as List)
         .map((driver) => Driver.jsonToModel(driver))
         .toList();
-    year = json["year"];
-    round = json["round"];
+    year = int.parse(json["year"]);
+    round = int.parse(json["round"]);
     points = json["points"];
     gpName = json["gpName"];
     fastest = Driver.jsonToModel(json["fastest"]);
     pole = Driver.jsonToModel(json["pole"]);
     userDriver = Driver.jsonToModel(json["userDriver"]);
     userDriverPosition = json["userDriverPosition"];
+    fastestResult = json["fastestResult"];
+    poleResult = json["poleResult"];
+    userDriverResult = json["userDriverResult"];
   }
 }

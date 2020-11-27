@@ -39,7 +39,7 @@ class _DetailedLeagueDetailsState extends State<DetailedLeagueDetails> {
   @override
   void initState() {
     super.initState();
-    if (widget.league == null) {
+    if (widget.league != null) {
       _loadLeagueDetail();
     } else {
       _setLeagueDetails(widget.leagueDetails);
@@ -50,7 +50,7 @@ class _DetailedLeagueDetailsState extends State<DetailedLeagueDetails> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("My Drivers"),
+          title: Text("League result"),
           backgroundColor: Colors.grey[900],
         ),
         backgroundColor: Colors.black,
@@ -60,10 +60,91 @@ class _DetailedLeagueDetailsState extends State<DetailedLeagueDetails> {
               : Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 30.0, vertical: 5.0),
+                        child: Text("Pts"),
+                      ),
+                    ),
                     Padding(
                       padding: EdgeInsets.symmetric(
                           horizontal: 20.0, vertical: 10.0),
-                      child: Text("Driver selected", style: headerText),
+                      child: Text("Pole position", style: headerText),
+                    ),
+                    ListTile(
+                      title: DriverTile(
+                        childWidget: Row(
+                          children: <Widget>[
+                            SizedBox(width: 10.0),
+                            TeamIndicator(detail.fastest.team),
+                            SizedBox(width: 8.0),
+                            DriverNames(detail.fastest.firstName,
+                                detail.fastest.secondName),
+                            Expanded(child: SizedBox.shrink()),
+                            detail.poleResult
+                                ? Icon(Icons.check, color: Colors.green[600])
+                                : Icon(Icons.close, color: Colors.red),
+                            Points(detail.poleResult ? 1 : 0)
+                          ],
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 20.0, vertical: 10.0),
+                      child: Text("Fastest lap", style: headerText),
+                    ),
+                    ListTile(
+                      title: DriverTile(
+                        childWidget: Row(
+                          children: <Widget>[
+                            SizedBox(width: 10.0),
+                            TeamIndicator(detail.pole.team),
+                            SizedBox(width: 8.0),
+                            DriverNames(
+                                detail.pole.firstName, detail.pole.secondName),
+                            Expanded(child: SizedBox.shrink()),
+                            detail.fastestResult
+                                ? Icon(Icons.check, color: Colors.green[600])
+                                : Icon(Icons.close, color: Colors.red),
+                            Points(detail.fastestResult ? 1 : 0)
+                          ],
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 20.0, vertical: 10.0),
+                      child: Text(
+                          "Driver finished at position " +
+                              detail.userDriverPosition.toString(),
+                          style: headerText),
+                    ),
+                    ListTile(
+                      title: DriverTile(
+                        childWidget: Row(
+                          children: <Widget>[
+                            SizedBox(width: 10.0),
+                            TeamIndicator(detail.userDriver.team),
+                            SizedBox(width: 8.0),
+                            DriverNames(detail.userDriver.firstName,
+                                detail.userDriver.secondName),
+                            Expanded(child: SizedBox.shrink()),
+                            detail.userDriverResult
+                                ? Icon(Icons.check, color: Colors.green[600])
+                                : Icon(Icons.close, color: Colors.red),
+                            Points(detail.userDriverResult ? 10 : 0)
+                          ],
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 20.0, vertical: 10.0),
+                      child: Text("Driver selected (Race points)",
+                          style: headerText),
                     ),
                     Expanded(
                       child: ListView.builder(
@@ -86,61 +167,6 @@ class _DetailedLeagueDetailsState extends State<DetailedLeagueDetails> {
                             ),
                           );
                         },
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: 20.0, vertical: 10.0),
-                      child: Text("Pole position", style: headerText),
-                    ),
-                    DriverTile(
-                      childWidget: Row(
-                        children: <Widget>[
-                          SizedBox(width: 10.0),
-                          TeamIndicator(detail.fastest.team),
-                          SizedBox(width: 8.0),
-                          DriverNames(detail.fastest.firstName,
-                              detail.fastest.secondName),
-                          Expanded(child: SizedBox.shrink()),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: 20.0, vertical: 10.0),
-                      child: Text("Fastest lap", style: headerText),
-                    ),
-                    DriverTile(
-                      childWidget: Row(
-                        children: <Widget>[
-                          SizedBox(width: 10.0),
-                          TeamIndicator(detail.pole.team),
-                          SizedBox(width: 8.0),
-                          DriverNames(
-                              detail.pole.firstName, detail.pole.secondName),
-                          Expanded(child: SizedBox.shrink()),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: 20.0, vertical: 10.0),
-                      child: Text(
-                          "Driver for " +
-                              detail.userDriverPosition.toString() +
-                              " position",
-                          style: headerText),
-                    ),
-                    DriverTile(
-                      childWidget: Row(
-                        children: <Widget>[
-                          SizedBox(width: 10.0),
-                          TeamIndicator(detail.userDriver.team),
-                          SizedBox(width: 8.0),
-                          DriverNames(detail.userDriver.firstName,
-                              detail.userDriver.secondName),
-                          Expanded(child: SizedBox.shrink()),
-                        ],
                       ),
                     )
                   ],

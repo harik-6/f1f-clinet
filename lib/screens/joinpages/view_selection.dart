@@ -10,12 +10,13 @@ import 'package:flutter/material.dart';
 
 class ViewMySelection extends StatelessWidget {
   final LeagueDetails detail;
-  ViewMySelection({this.detail});
+  final Function editCallback;
+  ViewMySelection({this.detail, this.editCallback});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("My Selection"),
+          title: Text("My Predictions"),
           backgroundColor: Colors.grey[900],
         ),
         backgroundColor: Colors.black,
@@ -23,19 +24,25 @@ class ViewMySelection extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text("Edit"),
-                    Icon(Icons.edit, color: Colors.white, size: 14.0)
-                  ],
+              GestureDetector(
+                onTap: () {
+                  Navigator.of(context).pop();
+                  editCallback(detail.userDriverPosition);
+                },
+                child: Padding(
+                  padding: EdgeInsets.only(right: 20.0, top: 20.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text("Edit"),
+                      Icon(Icons.edit, color: Colors.white, size: 14.0)
+                    ],
+                  ),
                 ),
               ),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-                child: Text("Pole position", style: headerText),
+                child: Text("Who will take the Pole?", style: headerText),
               ),
               ListTile(
                 title: DriverTile(
@@ -54,7 +61,7 @@ class ViewMySelection extends StatelessWidget {
               ),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-                child: Text("Fastest lap", style: headerText),
+                child: Text("Who will set the Fastest Lap?", style: headerText),
               ),
               ListTile(
                 title: DriverTile(
@@ -74,9 +81,9 @@ class ViewMySelection extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
                 child: Text(
-                    "Driver for " +
+                    "Who will finish at position number " +
                         detail.userDriverPosition.toString() +
-                        "th position",
+                        " ?",
                     style: headerText),
               ),
               ListTile(

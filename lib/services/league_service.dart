@@ -75,19 +75,19 @@ class LeagueService {
     Map<String, dynamic> requestBody = {
       "gpName": active.gpName,
       "round": active.round,
+      "year": DateTime.now().year,
       "leaguDriverIds": dids,
       "poleDriverId": poleId,
-      "fastestDriver": fastestId,
-      "customDriver": {"driverId": customId, "customPosition": customPosition},
+      "fastestDriverId": fastestId,
+      "customDriverId": customId,
+      "customDriverPosition": customPosition,
       "uid": AuthService().getUser().uid,
-      "year": DateTime.now().year
     };
-    await Future.delayed(Duration(seconds: 5));
-    // var response =
-    //     await _restService.post(AppConstants.apijoinleague, requestBody);
+    var response =
+        await _restService.post(AppConstants.apijoinleague, requestBody);
     PrefService prefService = PrefService();
-    // if (response.statusCode == 201) {
-    if (true) {
+    if (response.statusCode == 201) {
+      // if (true) {
       List<Driver> driversToCahce =
           drivers.where((dr) => dr.isSelected == true).map((dr) {
         dr.driver.points = 0;
@@ -102,9 +102,9 @@ class LeagueService {
       Driver custom = drMap[customId];
       Map<String, dynamic> tocache = {
         "gpName": active.gpName,
-        "round": active.round,
+        "round": active.round.toString(),
         "drivers": driversToCahce,
-        "year": DateTime.now().year,
+        "year": DateTime.now().year.toString(),
         "points": 0,
         "fastest": fastest,
         "pole": pole,
@@ -164,7 +164,7 @@ class LeagueService {
       return null;
     }
     Map data = convert.jsonDecode(response.body);
-    LeagueDetails lg = LeagueDetails.jsonToModel(data["leagueDetails"]);
+    LeagueDetails lg = LeagueDetails.jsonToModel(data["leagueDetail"]);
     return lg;
   }
 }

@@ -12,7 +12,8 @@ import 'dart:math';
 class JoiningPageView extends StatefulWidget {
   final Function callback;
   final GrandPrix activeLeague;
-  JoiningPageView({this.callback, this.activeLeague});
+  final int userRandomRound;
+  JoiningPageView({this.callback, this.activeLeague, this.userRandomRound});
   @override
   JoiningPageViewState createState() => JoiningPageViewState();
 }
@@ -63,10 +64,14 @@ class JoiningPageViewState extends State<JoiningPageView> {
     _setCurrentPage(page);
   }
 
-  void _setCustomPositionNumber() {
-    Random random = new Random();
+  void _setCustomPositionNumber(int already) {
+    int n = already;
+    if (already == -1) {
+      Random random = new Random();
+      n = random.nextInt(20) + 1;
+    }
     setState(() {
-      customDriverPosition = random.nextInt(20) + 1;
+      customDriverPosition = n;
     });
   }
 
@@ -92,7 +97,7 @@ class JoiningPageViewState extends State<JoiningPageView> {
   void initState() {
     super.initState();
     _loadAllDriver();
-    _setCustomPositionNumber();
+    _setCustomPositionNumber(widget.userRandomRound);
   }
 
   @override
@@ -151,7 +156,7 @@ class JoiningPageViewState extends State<JoiningPageView> {
                             drCredits: drCredits,
                             callback: _customRacePositionCallback,
                             roundtype:
-                                "Who will finish at position number $customDriverPosition ?",
+                                "Who will finish the race at position number $customDriverPosition ?",
                           ),
                           DriverSelection(
                             drCredits: drCredits,
