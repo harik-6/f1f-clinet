@@ -17,14 +17,13 @@ class RestService {
     _authService = AuthService();
   }
 
-  Future<http.Response> get(String key, String url,
-      DateTime cacheTill) async {
+  Future<http.Response> get(String key, String url, DateTime cacheTill) async {
     String cache = await _cacheService.readDate(key);
     if (cache != null) {
       Map json = convert.jsonDecode(cache);
       DateTime valid = DateTime.parse(json["validTill"]);
       if (valid.isAfter(DateTime.now().toLocal())) {
-        print("Data fetched from cache " + url);
+        // print("Data fetched from cache " + url);
         return http.Response(json["value"], 200);
       }
     }
@@ -33,7 +32,7 @@ class RestService {
       "x-client-identifier": _authService.getUser().uid
     };
     try {
-      print("Data being fetched from backend " + url);
+      // print("Data being fetched from backend " + url);
       http.Response response = await http.get(url, headers: headers);
       if (response.statusCode == 200) {
         String value = convert.jsonEncode({

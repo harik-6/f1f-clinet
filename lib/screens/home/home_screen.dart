@@ -4,6 +4,7 @@ import 'package:f1fantasy/constants/app_enums.dart';
 import 'package:f1fantasy/constants/styles.dart';
 import 'package:f1fantasy/models/grand_prix_model.dart';
 import 'package:f1fantasy/screens/home/drawer_start.dart';
+import 'package:f1fantasy/screens/home/league_info.dart';
 import 'package:f1fantasy/services/league_service.dart';
 import 'package:f1fantasy/services/native/auth_service.dart';
 import 'package:f1fantasy/services/native/pref_service.dart';
@@ -74,47 +75,59 @@ class _AppHome extends State<AppHome> {
     return;
   }
 
-  Future<void> _regreshScreen() async {
+  Future<void> _subRefresh() async {
+    setState(() {
+      refreshing = true;
+    });
     switch (activeBottomIndex) {
-      case 0:
-        await _cacheService.removeKey(
-            [AppConstants.cacheraceschedule, AppConstants.cacheuserleagues]);
-        await loadRaceSchedule();
-        break;
-      case 1:
-        await _cacheService.removeKey([AppConstants.cacheraceschedule]);
-        await loadRaceSchedule();
-        break;
       case 2:
-        setState(() {
-          refreshing = true;
-        });
         await _cacheService.removeKey([
           AppConstants.cachedriverstandings,
           AppConstants.cacheconstructorstandings
         ]);
-        setState(() {
-          refreshing = false;
-        });
         break;
       case 3:
-        setState(() {
-          refreshing = true;
-        });
         await _cacheService.removeKey([AppConstants.cacheleaderboard]);
-        setState(() {
-          refreshing = false;
-        });
         break;
       default:
         break;
     }
+    setState(() {
+      refreshing = false;
+    });
     return;
   }
 
-  void _actionSelected(int value) async {
+  Future<void> _regreshScreen() async {
+    if (activeBottomIndex == 0 || activeBottomIndex == 1) {
+      await _cacheService.removeKey(
+          [AppConstants.cacheraceschedule, AppConstants.cacheuserleagues]);
+      await loadRaceSchedule();
+    } else {
+      await _subRefresh();
+    }
+    return;
+  }
+
+  void _actionSelected(int value, BuildContext context) async {
     if (value == 1) {
       await _regreshScreen();
+    } else {
+      showDialog(
+          context: context,
+          builder: (_) => AlertDialog(
+                contentPadding: EdgeInsets.all(8.0),
+                title: Text("How league works?"),
+                content: LeagueRulesInfo(),
+                actions: [
+                  RaisedButton(
+                      child: Text("OK"),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      })
+                ],
+              ),
+          barrierDismissible: true);
     }
   }
 
@@ -143,7 +156,9 @@ class _AppHome extends State<AppHome> {
             PopupMenuButton(
                 color: Colors.grey[900],
                 offset: Offset(20.0, 50.0),
-                onSelected: _actionSelected,
+                onSelected: (value) {
+                  _actionSelected(value, context);
+                },
                 itemBuilder: (context) {
                   return [
                     PopupMenuItem(
