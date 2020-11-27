@@ -1,9 +1,12 @@
 import 'package:f1fantasy/components/preloader.dart';
+import 'package:f1fantasy/constants/app_constants.dart';
 import 'package:f1fantasy/constants/app_enums.dart';
+import 'package:f1fantasy/constants/styles.dart';
 import 'package:f1fantasy/models/grand_prix_model.dart';
 import 'package:f1fantasy/screens/home/drawer_start.dart';
 import 'package:f1fantasy/services/league_service.dart';
 import 'package:f1fantasy/services/native/auth_service.dart';
+import 'package:f1fantasy/services/native/pref_service.dart';
 import 'package:flutter/material.dart';
 import 'package:f1fantasy/screens/leaderboard/leaderboard_widget.dart';
 import 'package:f1fantasy/screens/league/league_widget.dart';
@@ -19,11 +22,11 @@ class AppHome extends StatefulWidget {
 
 class _AppHome extends State<AppHome> {
   final PageController pageViewController = new PageController(initialPage: 0);
+  final PrefService _cacheService = PrefService();
   int activeBottomIndex = 0;
   List<GrandPrix> gps = [];
   GrandPrix activeGp;
   bool isgpsLoading = true;
-  List<bool> refreshIndicator = [false, false, false, false];
 
   void changeActiveIndex(int newindex) {
     pageViewController.jumpToPage(newindex);
@@ -50,11 +53,25 @@ class _AppHome extends State<AppHome> {
     return;
   }
 
-  void _regreshScreen() {
-    this.setState(() {
-      refreshIndicator[activeBottomIndex] =
-          !refreshIndicator[activeBottomIndex];
-    });
+  Future<void> _regreshScreen() async {
+    switch (activeBottomIndex) {
+      case 0:
+        await _cacheService.removeKey([AppConstants.cacheraceschedule]);
+        await loadRaceSchedule();
+        break;
+      case 3:
+        await _cacheService.removeKey([AppConstants.cacheleaderboard]);
+        break;
+      default:
+        break;
+    }
+    return;
+  }
+
+  void _actionSelected(int value) async {
+    if (value == 1) {
+      await _regreshScreen();
+    }
   }
 
   @override
@@ -79,12 +96,36 @@ class _AppHome extends State<AppHome> {
           backgroundColor: Colors.grey[900],
           title: Text("F1 Fantasy"),
           actions: [
-            PopupMenuButton(itemBuilder: (context) {
-              return [
-                PopupMenuItem(child: Text("Refresh")),
-                PopupMenuItem(child: Text("League"))
-              ];
-            })
+            PopupMenuButton(
+                color: Colors.grey[900],
+                offset: Offset(20.0, 50.0),
+                onSelected: _actionSelected,
+                itemBuilder: (context) {
+                  return [
+                    PopupMenuItem(
+                        value: 1,
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text("Refresh"),
+                            SizedBox(width: 10.0),
+                            Icon(Icons.refresh, size: 18.0)
+                          ],
+                        ),
+                        textStyle: headerText),
+                    PopupMenuItem(
+                        value: 2,
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text("League"),
+                            SizedBox(width: 10.0),
+                            Icon(Icons.info_outlined, size: 18.0)
+                          ],
+                        ),
+                        textStyle: headerText)
+                  ];
+                })
           ],
         ),
         drawer: Container(
@@ -132,11 +173,7 @@ class _AppHome extends State<AppHome> {
           children: [
             isgpsLoading
                 ? PreLoader()
-                : LeagueWidget(
-                    grandsprix: gps,
-                    activeLeague: activeGp,
-                    refreshIndication: refreshIndicator[0],
-                  ),
+                : LeagueWidget(grandsprix: gps, activeLeague: activeGp),
             isgpsLoading ? PreLoader() : ResultsWidget(gps: gps),
             StandingWidget(),
             LeaderBoardWidget()

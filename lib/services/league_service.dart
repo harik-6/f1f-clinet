@@ -109,8 +109,12 @@ class LeagueService {
         "fastest": fastest,
         "pole": pole,
         "userDriver": custom,
-        "userDriverPosition": customPosition
+        "userDriverPosition": customPosition,
+        "userDriverResult": false,
+        "fastestResult": false,
+        "poleResult": false
       };
+      print("save success");
       await prefService.writData(
           AppConstants.cachejoinleague + active.round.toString(),
           convert.jsonEncode(tocache));

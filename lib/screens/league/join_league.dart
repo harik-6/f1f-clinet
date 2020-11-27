@@ -91,7 +91,7 @@ class _JoinLeagueState extends State<JoinLeague> {
                                       _navigatoSelection(context, nm);
                                     })));
                       },
-                      color: Colors.green[600],
+                      color: Colors.blue,
                       highlightColor: Colors.black,
                       child: Text(
                         "View",

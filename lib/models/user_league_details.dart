@@ -27,8 +27,9 @@ class LeagueDetails {
     drivers = (json["drivers"] as List)
         .map((driver) => Driver.jsonToModel(driver))
         .toList();
-    year = int.parse(json["year"]);
-    round = int.parse(json["round"]);
+    year = json["year"] is int == true ? json["year"] : int.parse(json["year"]);
+    round =
+        json["round"] is int == true ? json["round"] : int.parse(json["round"]);
     points = json["points"];
     gpName = json["gpName"];
     fastest = Driver.jsonToModel(json["fastest"]);

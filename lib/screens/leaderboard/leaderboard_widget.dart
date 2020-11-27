@@ -10,6 +10,8 @@ import 'package:f1fantasy/models/leaderboard_model.dart';
 enum STATUS { loading, failed, success }
 
 class LeaderBoardWidget extends StatefulWidget {
+  final bool rIndicatior;
+  LeaderBoardWidget({Key key, this.rIndicatior}) : super(key: key);
   @override
   State<StatefulWidget> createState() {
     return new _LeaderBoardWidget();
@@ -34,12 +36,14 @@ class _LeaderBoardWidget extends State<LeaderBoardWidget> {
 
   @override
   void initState() {
+    print("inti state");
     super.initState();
     this.loadLeaderBoard();
   }
 
   @override
   Widget build(BuildContext context) {
+    print("build");
     return Container(
         width: double.infinity,
         height: double.infinity,

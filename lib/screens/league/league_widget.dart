@@ -8,10 +8,7 @@ import 'package:flutter/material.dart';
 class LeagueWidget extends StatefulWidget {
   final List<GrandPrix> grandsprix;
   final GrandPrix activeLeague;
-  final bool refreshIndication;
-  LeagueWidget(
-      {Key key, this.grandsprix, this.activeLeague, this.refreshIndication})
-      : super(key: key);
+  LeagueWidget({Key key, this.grandsprix, this.activeLeague}) : super(key: key);
 
   @override
   _LeagueWidget createState() => _LeagueWidget();
