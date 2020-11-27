@@ -9,7 +9,7 @@ class LeagueRulesInfo extends StatelessWidget {
         children: [
           ListTile(
             title: Text(
-                "Fantasy player can join the league before qualifying start on all the race weekends. "),
+                "Player can join the league before qualifying start on all the race weekends. "),
           ),
           ListTile(
               title: Text(
