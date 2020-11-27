@@ -27,7 +27,7 @@ class LeagueService {
 
   get defaultCacheTime {
     DateTime now = DateTime.now().toLocal();
-    return now.add(Duration(hours: 24));
+    return now.add(Duration(days: 5));
   }
 
   Future<List<DriverCredit>> getDriverCredits(int round, int year) async {
