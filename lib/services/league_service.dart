@@ -140,6 +140,7 @@ class LeagueService {
     List<League> lgs = (data["leagues"] as List)
         .map((league) => League.jsonToModel(league))
         .toList();
+    lgs.sort((a, b) => a.round > b.round ? 1 : -1);
     return lgs;
   }
 

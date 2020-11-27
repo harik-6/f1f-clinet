@@ -10,7 +10,9 @@ class CustomPosition extends StatefulWidget {
   final Function callback;
   final List<DriverCredit> drCredits;
   final String roundtype;
-  CustomPosition({Key key, this.drCredits, this.callback, this.roundtype})
+  final String activeId;
+  CustomPosition(
+      {Key key, this.drCredits, this.callback, this.roundtype, this.activeId})
       : super(key: key);
   @override
   State<StatefulWidget> createState() {
@@ -19,13 +21,8 @@ class CustomPosition extends StatefulWidget {
 }
 
 class _CustomPosition extends State<CustomPosition> {
-  String _selectedDriverId = "-1";
-
   void _setDriverId(String drId) {
     widget.callback(drId);
-    setState(() {
-      _selectedDriverId = drId;
-    });
   }
 
   @override
@@ -62,7 +59,7 @@ class _CustomPosition extends State<CustomPosition> {
                                 DriverNames(
                                     driver.firstName, driver.secondName),
                                 Expanded(child: SizedBox.shrink()),
-                                _selectedDriverId == driver.id
+                                widget.activeId == driver.id
                                     ? Icon(
                                         Icons.check_circle,
                                         color: Colors.green[600],

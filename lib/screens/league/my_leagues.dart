@@ -1,5 +1,6 @@
 import 'package:f1fantasy/components/driver_tile.dart';
 import 'package:f1fantasy/components/preloader.dart';
+import 'package:f1fantasy/models/grand_prix_model.dart';
 import 'package:f1fantasy/models/user_league_model.dart';
 import 'package:f1fantasy/screens/league/league_details.dart';
 import 'package:f1fantasy/services/league_service.dart';
@@ -8,6 +9,8 @@ import 'package:flutter/material.dart';
 enum STATUS { loading, loaded }
 
 class MyLeagues extends StatefulWidget {
+  final GrandPrix active;
+  MyLeagues({this.active});
   @override
   _MyLeaguesState createState() => _MyLeaguesState();
 }
@@ -50,32 +53,38 @@ class _MyLeaguesState extends State<MyLeagues> {
                           itemCount: myLeagues.length,
                           itemBuilder: (context, index) {
                             League league = myLeagues[index];
-                            return Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 4.0, horizontal: 12.0),
-                              child: DriverTile(
-                                childWidget: ListTile(
-                                  tileColor: Colors.grey[900],
-                                  title: Text(league.points.toString() + " Pts",
-                                      style: TextStyle(color: Colors.white)),
-                                  subtitle: Text(league.gpName,
-                                      style: TextStyle(color: Colors.white54)),
-                                  trailing: IconButton(
-                                    icon: Icon(Icons.navigate_next,
-                                        color: Colors.green),
-                                    onPressed: () {
-                                      Navigator.push(
-                                          context,
-                                          new MaterialPageRoute(
-                                              builder: (context) =>
-                                                  DetailedLeagueDetails(
-                                                    league: league,
-                                                  )));
-                                    },
+                            if (league.round != widget.active.round) {
+                              return Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 4.0, horizontal: 12.0),
+                                child: DriverTile(
+                                  childWidget: ListTile(
+                                    tileColor: Colors.grey[900],
+                                    title: Text(
+                                        league.points.toString() + " Pts",
+                                        style: TextStyle(color: Colors.white)),
+                                    subtitle: Text(league.gpName,
+                                        style:
+                                            TextStyle(color: Colors.white54)),
+                                    trailing: IconButton(
+                                      icon: Icon(Icons.navigate_next,
+                                          color: Colors.green),
+                                      onPressed: () {
+                                        Navigator.push(
+                                            context,
+                                            new MaterialPageRoute(
+                                                builder: (context) =>
+                                                    DetailedLeagueDetails(
+                                                      league: league,
+                                                    )));
+                                      },
+                                    ),
                                   ),
                                 ),
-                              ),
-                            );
+                              );
+                            } else {
+                              return SizedBox.shrink();
+                            }
                           },
                         ),
                       )

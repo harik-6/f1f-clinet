@@ -1,6 +1,5 @@
 import 'package:f1fantasy/components/points.dart';
 import 'package:f1fantasy/components/preloader.dart';
-import 'package:f1fantasy/components/team_icon.dart';
 import 'package:f1fantasy/constants/styles.dart';
 import 'package:f1fantasy/models/user_league_details.dart';
 import 'package:f1fantasy/models/user_league_model.dart';

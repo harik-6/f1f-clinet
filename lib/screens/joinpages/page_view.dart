@@ -146,15 +146,18 @@ class JoiningPageViewState extends State<JoiningPageView> {
                             drCredits: drCredits,
                             callback: _polePositionCallback,
                             roundtype: "Who will take the Pole?",
+                            activeId: poleDriver,
                           ),
                           CustomPosition(
                             drCredits: drCredits,
                             callback: _fastestLapCallback,
                             roundtype: "Who will set the Fastest Lap?",
+                            activeId: fastestDriver,
                           ),
                           CustomPosition(
                             drCredits: drCredits,
                             callback: _customRacePositionCallback,
+                            activeId: customDriver,
                             roundtype:
                                 "Who will finish the race at position number $customDriverPosition ?",
                           ),
