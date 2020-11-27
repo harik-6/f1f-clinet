@@ -50,13 +50,13 @@ class _AppHome extends State<AppHome> {
           AppConstants.cacheleaderboard,
           AppConstants.cacheuserleagues
         ]);
-        await loadRaceSchedule();
+        await _subLoadFunction();
       }
     }
     return;
   }
 
-  Future<void> loadRaceSchedule() async {
+  Future<GrandPrix> _subLoadFunction() async {
     setState(() {
       isgpsLoading = true;
     });
@@ -71,6 +71,11 @@ class _AppHome extends State<AppHome> {
       activeGp = present;
       isgpsLoading = false;
     });
+    return present;
+  }
+
+  Future<void> loadRaceSchedule() async {
+    GrandPrix present = await _subLoadFunction();
     await _checkForDataUpdate(present);
     return;
   }
