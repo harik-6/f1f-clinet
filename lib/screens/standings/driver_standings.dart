@@ -67,7 +67,4 @@ class _DriverStandings extends State<DriverStandings> {
           ],
         ));
   }
-
-  @override
-  bool get wantKeepAlive => true;
 }

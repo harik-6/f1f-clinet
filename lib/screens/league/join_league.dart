@@ -1,5 +1,4 @@
 import 'package:f1fantasy/models/grand_prix_model.dart';
-import 'package:f1fantasy/models/driver_model.dart';
 import 'package:f1fantasy/models/user_league_details.dart';
 import 'package:f1fantasy/screens/joinpages/page_view.dart';
 import 'package:f1fantasy/screens/joinpages/view_selection.dart';
