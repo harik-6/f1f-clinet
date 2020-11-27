@@ -36,6 +36,25 @@ class _AppHome extends State<AppHome> {
     });
   }
 
+  Future<void> _checkForDataUpdate(GrandPrix activeleague) async {
+    if (activeleague != null) {
+      DateTime now = DateTime.now().toLocal();
+      DateTime racends =
+          activeleague.dateTime.toLocal().add(Duration(hours: 3));
+      if (now.isAfter(racends)) {
+        await _cacheService.removeKey([
+          AppConstants.cacheraceschedule,
+          AppConstants.cachedriverstandings,
+          AppConstants.cacheconstructorstandings,
+          AppConstants.cacheleaderboard,
+          AppConstants.cacheuserleagues
+        ]);
+        await loadRaceSchedule();
+      }
+    }
+    return;
+  }
+
   Future<void> loadRaceSchedule() async {
     setState(() {
       isgpsLoading = true;
@@ -51,13 +70,15 @@ class _AppHome extends State<AppHome> {
       activeGp = present;
       isgpsLoading = false;
     });
+    await _checkForDataUpdate(present);
     return;
   }
 
   Future<void> _regreshScreen() async {
     switch (activeBottomIndex) {
       case 0:
-        await _cacheService.removeKey([AppConstants.cacheraceschedule]);
+        await _cacheService.removeKey(
+            [AppConstants.cacheraceschedule, AppConstants.cacheuserleagues]);
         await loadRaceSchedule();
         break;
       case 1:

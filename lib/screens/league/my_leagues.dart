@@ -15,7 +15,10 @@ class MyLeagues extends StatefulWidget {
   _MyLeaguesState createState() => _MyLeaguesState();
 }
 
-class _MyLeaguesState extends State<MyLeagues> {
+class _MyLeaguesState extends State<MyLeagues>
+    with AutomaticKeepAliveClientMixin<MyLeagues> {
+  @override
+  bool get wantKeepAlive => true;
   STATUS status = STATUS.loading;
   List<League> myLeagues;
 
