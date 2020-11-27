@@ -18,7 +18,10 @@ class LeaderBoardWidget extends StatefulWidget {
   }
 }
 
-class _LeaderBoardWidget extends State<LeaderBoardWidget> {
+class _LeaderBoardWidget extends State<LeaderBoardWidget>
+    with AutomaticKeepAliveClientMixin<LeaderBoardWidget> {
+  @override
+  bool get wantKeepAlive => true;
   STATUS status = STATUS.loading;
   List<Leaderboard> leaders = [];
 
@@ -36,14 +39,12 @@ class _LeaderBoardWidget extends State<LeaderBoardWidget> {
 
   @override
   void initState() {
-    print("inti state");
     super.initState();
     this.loadLeaderBoard();
   }
 
   @override
   Widget build(BuildContext context) {
-    print("build");
     return Container(
         width: double.infinity,
         height: double.infinity,

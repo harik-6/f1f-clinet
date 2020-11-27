@@ -50,7 +50,7 @@ class ResultService {
 
   Future<List<Constructor>> getConstructorStandings() async {
     RestService service = RestService();
-    var response = await service.get(AppConstants.apiconstructorstandings,
+    var response = await service.get(AppConstants.cacheconstructorstandings,
         AppConstants.apiconstructorstandings, defaultStandingsCacheTime);
     if (response.statusCode == 204) {
       return Future.value([]);

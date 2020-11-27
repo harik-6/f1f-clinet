@@ -14,7 +14,11 @@ class StandingWidget extends StatefulWidget {
   }
 }
 
-class _StandingWidget extends State<StandingWidget> {
+class _StandingWidget extends State<StandingWidget>
+    with AutomaticKeepAliveClientMixin<StandingWidget> {
+  @override
+  bool get wantKeepAlive => true;
+
   int activeTab = 0;
   bool isDrsLoading = true;
   bool isConsLoading = true;

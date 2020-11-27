@@ -27,6 +27,7 @@ class _AppHome extends State<AppHome> {
   List<GrandPrix> gps = [];
   GrandPrix activeGp;
   bool isgpsLoading = true;
+  bool refreshing = false;
 
   void changeActiveIndex(int newindex) {
     pageViewController.jumpToPage(newindex);
@@ -59,8 +60,30 @@ class _AppHome extends State<AppHome> {
         await _cacheService.removeKey([AppConstants.cacheraceschedule]);
         await loadRaceSchedule();
         break;
+      case 1:
+        await _cacheService.removeKey([AppConstants.cacheraceschedule]);
+        await loadRaceSchedule();
+        break;
+      case 2:
+        setState(() {
+          refreshing = true;
+        });
+        await _cacheService.removeKey([
+          AppConstants.cachedriverstandings,
+          AppConstants.cacheconstructorstandings
+        ]);
+        setState(() {
+          refreshing = false;
+        });
+        break;
       case 3:
+        setState(() {
+          refreshing = true;
+        });
         await _cacheService.removeKey([AppConstants.cacheleaderboard]);
+        setState(() {
+          refreshing = false;
+        });
         break;
       default:
         break;
@@ -175,8 +198,8 @@ class _AppHome extends State<AppHome> {
                 ? PreLoader()
                 : LeagueWidget(grandsprix: gps, activeLeague: activeGp),
             isgpsLoading ? PreLoader() : ResultsWidget(gps: gps),
-            StandingWidget(),
-            LeaderBoardWidget()
+            refreshing ? PreLoader() : StandingWidget(),
+            refreshing ? PreLoader() : LeaderBoardWidget()
           ],
         )));
   }

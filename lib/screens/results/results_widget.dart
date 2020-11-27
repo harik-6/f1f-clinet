@@ -14,7 +14,10 @@ class ResultsWidget extends StatefulWidget {
   _ResultsWidget createState() => _ResultsWidget();
 }
 
-class _ResultsWidget extends State<ResultsWidget> {
+class _ResultsWidget extends State<ResultsWidget>
+    with AutomaticKeepAliveClientMixin<ResultsWidget> {
+  @override
+  bool get wantKeepAlive => true;
   int trackSelected = 0;
   bool isLoading = true;
   int gpRound = 0;
