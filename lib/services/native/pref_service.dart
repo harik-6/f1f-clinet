@@ -17,20 +17,20 @@ class PrefService {
 
   Future<bool> writData(String key, dynamic value) async {
     SharedPreferences pref = await SharedPreferences.getInstance();
-    pref.setString(key, value);
+    await pref.setString(key, value);
     return true;
   }
 
   Future<bool> clearDate() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
-    pref.clear();
+    await pref.clear();
     return true;
   }
 
   Future<bool> removeKey(List<String> keys) async {
     SharedPreferences pref = await SharedPreferences.getInstance();
     for (int i = 0; i < keys.length; i++) {
-      pref.remove(keys[i]);
+      await pref.remove(keys[i]);
     }
     return true;
   }

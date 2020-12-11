@@ -1,8 +1,8 @@
 import 'package:f1fantasy/constants/styles.dart';
 import 'package:f1fantasy/models/grand_prix_model.dart';
-import 'package:f1fantasy/screens/league/joinleague/join_league.dart';
+import 'package:f1fantasy/screens/league/join_league.dart';
 import 'package:f1fantasy/screens/league/race_schedule.dart';
-import 'package:f1fantasy/screens/league/myleagues/my_leagues.dart';
+import 'package:f1fantasy/screens/league/my_leagues.dart';
 import 'package:flutter/material.dart';
 
 class LeagueWidget extends StatefulWidget {
@@ -14,13 +14,9 @@ class LeagueWidget extends StatefulWidget {
   _LeagueWidget createState() => _LeagueWidget();
 }
 
-class _LeagueWidget extends State<LeagueWidget>
-    with AutomaticKeepAliveClientMixin {
+class _LeagueWidget extends State<LeagueWidget> {
   int activeTab = 0;
   final PageController pageController = PageController(initialPage: 0);
-
-  @override
-  bool get wantKeepAlive => true;
 
   void changeActiveTab(newtab) {
     setState(() {
@@ -83,7 +79,10 @@ class _LeagueWidget extends State<LeagueWidget>
               child: PageView(
             controller: pageController,
             onPageChanged: changeActiveTab,
-            children: [RaceSchedule(widget.grandsprix), MyLeagues()],
+            children: [
+              RaceSchedule(widget.grandsprix),
+              MyLeagues(active: widget.activeLeague)
+            ],
           ))
         ],
       ),

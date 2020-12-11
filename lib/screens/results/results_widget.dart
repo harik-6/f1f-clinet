@@ -1,3 +1,4 @@
+import 'package:f1fantasy/constants/app_enums.dart';
 import 'package:f1fantasy/models/grand_prix_model.dart';
 import 'package:flutter/material.dart';
 import 'package:f1fantasy/components/preloader.dart';
@@ -14,30 +15,32 @@ class ResultsWidget extends StatefulWidget {
 }
 
 class _ResultsWidget extends State<ResultsWidget>
-    with AutomaticKeepAliveClientMixin {
+    with AutomaticKeepAliveClientMixin<ResultsWidget> {
+  @override
+  bool get wantKeepAlive => true;
   int trackSelected = 0;
   bool isLoading = true;
   int gpRound = 0;
+  List<GrandPrix> completed = [];
   Map<int, List<RaceResult>> results = <int, List<RaceResult>>{};
   final PageController pageController = PageController(initialPage: 0);
 
-  void selectTrack(int newtrack) {
-    int round = widget.gps[newtrack].round;
+  void selectTrack(int newtrack, GrandPrix gpp) {
+    int round = gpp.round;
     setState(() {
       trackSelected = newtrack;
       gpRound = round;
     });
-    getRaceResults(round);
+    getRaceResults(round, gpp.dateTime.year);
   }
 
-  void getRaceResults(int round) async {
+  void getRaceResults(int round, int year) async {
     if (!results.containsKey(round)) {
       setState(() {
         isLoading = true;
       });
       ResultService service = ResultService();
-      List<RaceResult> raceResults = await service.getraceResults(round);
-      print(raceResults.toString());
+      List<RaceResult> raceResults = await service.getraceResults(round, year);
       Map<int, List<RaceResult>> existing = this.results;
       existing[round] = raceResults;
       setState(() {
@@ -47,13 +50,24 @@ class _ResultsWidget extends State<ResultsWidget>
     }
   }
 
+  List<GrandPrix> _filterCompletedRaces() {
+    List<GrandPrix> filtered = widget.gps
+        .where((GrandPrix gp) => gp.raceStatus == RACE_STATUS.completed)
+        .toList();
+    setState(() {
+      completed = filtered;
+    });
+    return filtered;
+  }
+
   @override
   void initState() {
     super.initState();
+    List<GrandPrix> x = _filterCompletedRaces();
     this.setState(() {
-      gpRound = widget.gps[trackSelected].round;
+      gpRound = x[trackSelected].round;
     });
-    getRaceResults(widget.gps[trackSelected].round);
+    getRaceResults(x[trackSelected].round, x[trackSelected].dateTime.year);
   }
 
   @override
@@ -61,18 +75,30 @@ class _ResultsWidget extends State<ResultsWidget>
     return Container(
       height: double.infinity,
       width: double.infinity,
-      child: Column(
-        children: <Widget>[
-          TrackList(widget.gps, trackSelected, selectTrack),
-          Expanded(
-              child: isLoading
-                  ? PreLoader()
-                  : RaceStandings(results: this.results[gpRound]))
-        ],
-      ),
+      child: completed.length == 0
+          ? Column(
+              children: [
+                Expanded(
+                    child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.flag, color: Colors.white, size: 36.0),
+                    SizedBox(height: 10.0),
+                    Text("Race results will be updated soon",
+                        style: TextStyle(fontSize: 16.0))
+                  ],
+                ))
+              ],
+            )
+          : Column(
+              children: <Widget>[
+                TrackList(completed, trackSelected, selectTrack),
+                Expanded(
+                    child: isLoading
+                        ? PreLoader()
+                        : RaceStandings(results: this.results[gpRound]))
+              ],
+            ),
     );
   }
-
-  @override
-  bool get wantKeepAlive => true;
 }

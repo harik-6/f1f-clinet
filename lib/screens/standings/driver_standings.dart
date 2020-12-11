@@ -15,8 +15,7 @@ class DriverStandings extends StatefulWidget {
   _DriverStandings createState() => _DriverStandings();
 }
 
-class _DriverStandings extends State<DriverStandings>
-    with AutomaticKeepAliveClientMixin<DriverStandings> {
+class _DriverStandings extends State<DriverStandings> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -68,7 +67,4 @@ class _DriverStandings extends State<DriverStandings>
           ],
         ));
   }
-
-  @override
-  bool get wantKeepAlive => true;
 }

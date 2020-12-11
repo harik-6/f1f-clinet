@@ -17,12 +17,11 @@ class LeaderBoardWidget extends StatefulWidget {
 }
 
 class _LeaderBoardWidget extends State<LeaderBoardWidget>
-    with AutomaticKeepAliveClientMixin {
-  STATUS status = STATUS.loading;
-  List<Leaderboard> leaders = [];
-
+    with AutomaticKeepAliveClientMixin<LeaderBoardWidget> {
   @override
   bool get wantKeepAlive => true;
+  STATUS status = STATUS.loading;
+  List<Leaderboard> leaders = [];
 
   void loadLeaderBoard() async {
     setState(() {
@@ -85,9 +84,9 @@ class _LeaderBoardWidget extends State<LeaderBoardWidget>
                                   Position(index + 1),
                                   SizedBox(width: 5.0),
                                   SizedBox(width: 8.0),
-                                  DriverNames("", lead.name),
+                                  DriverNames("", lead.name.split(" ")[0]),
                                   Expanded(child: SizedBox.shrink()),
-                                  Points(2),
+                                  Points(lead.leagueCount),
                                   Points(lead.points)
                                 ],
                               ),
@@ -97,8 +96,9 @@ class _LeaderBoardWidget extends State<LeaderBoardWidget>
                   )
                 ],
               );
+            default:
+              return null;
           }
-          return null;
         }));
   }
 }

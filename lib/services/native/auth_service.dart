@@ -50,7 +50,6 @@ class AuthService {
     try {
       User loggedInUser = credential.user;
       AppUser user = convertUser(loggedInUser);
-      print(user.modeltoJson());
       await userdb.doc(loggedInUser.uid).set(user.modeltoJson());
       return user;
     } catch (error) {

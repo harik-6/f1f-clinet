@@ -12,8 +12,7 @@ class ConstructorStandings extends StatefulWidget {
   _ConstructorStandings createState() => _ConstructorStandings();
 }
 
-class _ConstructorStandings extends State<ConstructorStandings>
-    with AutomaticKeepAliveClientMixin<ConstructorStandings> {
+class _ConstructorStandings extends State<ConstructorStandings> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -50,7 +49,7 @@ class _ConstructorStandings extends State<ConstructorStandings>
                               child: Text(constructor.name,
                                   style: TextStyle(
                                     color: Colors.white,
-                                    fontSize: 16.0,
+                                    fontSize: 14.0,
                                   )),
                             ),
                             Expanded(child: SizedBox.shrink()),
@@ -64,7 +63,4 @@ class _ConstructorStandings extends State<ConstructorStandings>
           ],
         ));
   }
-
-  @override
-  bool get wantKeepAlive => true;
 }

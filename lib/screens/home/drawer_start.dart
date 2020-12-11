@@ -8,17 +8,18 @@ import 'package:url_launcher/url_launcher.dart';
 class SideDrawer extends StatelessWidget {
   final AppUser user;
   SideDrawer(this.user);
+
   Future<void> _signOut() async {
     await AuthService().signOut();
   }
 
   Future<void> _shareApp() async {
     await Share.share(
-        'check out the F1Fantasy app, sign to choose your drivers and start participating https://example.com');
+        'check out the F1Fantasy app, sign to choose your drivers and start participating https://play.google.com/store/apps/details?id=com.F1Fantasy');
   }
 
   void _rateApp() {
-    launch("https://play.google.com/store/apps/details?id=");
+    launch("https://play.google.com/store/apps/details?id=com.F1Fantasy");
   }
 
   void _feedback() {
@@ -70,7 +71,10 @@ class SideDrawer extends StatelessWidget {
                 title: Text("Sign out"),
                 trailing: Icon(Icons.logout, color: Colors.white),
               ),
-            )
+            ),
+            Text(DateTime.now().year.toString() + " \u00a9 F1Fantasy",
+                style: TextStyle(color: Colors.white54)),
+            SizedBox(height: 5.0)
           ],
         ),
       ),

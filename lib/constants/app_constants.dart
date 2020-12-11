@@ -1,31 +1,27 @@
 import 'package:flutter/material.dart';
 
 class AppConstants {
-  static String apiurl = "https://apif1f.xyz";
-  static String apiraceresults =
-      apiurl + "/results?year=" + getyear() + "&round=";
-  static String apidriverstandings = apiurl + "/standings/drivers";
-  static String apiconstructorstandings = apiurl + "/standings/constructors";
-  static String apidrivercredits = apiurl + "/league/credits?year=2020&round=";
-  static String apiraceschedule = apiurl + "/schedule";
-  static String apijoinleague = apiurl + "/league/join";
-  static String apiuserleagues = apiurl + "/league/user";
-  static String apileaderboard = apiurl + "/leaderboard";
-  static String apicachestatus =
-      apiurl + "/racestatus?year=" + getyear() + "&round=";
-  static String cacheraceschedule = "grandprix";
-  static String cachedriverstandings = "driverStandings";
-  static String cacheconstructorstandings = "constructorStandings";
-  static String cacheraceresults = "result#";
-  static String cacheuserleagues = "userLeagues";
-  static String cachejoinleague = "league#";
-  static String cacheleaderboard = "leaderboard";
-  static String cachecachestatus = "racestatus";
-  static String cachedrivercredits = "credits#";
-
-  static String getyear() {
-    return DateTime.now().year.toString();
-  }
+  static final String apiurl = "https://apif1f.xyz/";
+  static final String apiraceresults = apiurl + "results";
+  static final String apidriverstandings = apiurl + "standings/drivers";
+  static final String apiconstructorstandings =
+      apiurl + "standings/constructors";
+  static final String apidrivercredits = apiurl + "league/credits";
+  static final String apiraceschedule = apiurl + "schedule";
+  static final String apijoinleague = apiurl + "league/join";
+  static final String apiuserleagues = apiurl + "league/user";
+  static final String apiuserleaguesdetails = apiurl + "league/details";
+  static final String apileaderboard = apiurl + "leaderboard";
+  static final String apicachestatus = apiurl + "racestatus";
+  static final String cacheraceschedule = "grandprix";
+  static final String cachedriverstandings = "driverStandings";
+  static final String cacheconstructorstandings = "constructorStandings";
+  static final String cacheraceresults = "result#";
+  static final String cacheuserleagues = "userLeagues";
+  static final String cacheuserleaguesdetails = apiurl + "leaguedetails#";
+  static final String cachejoinleague = "league#";
+  static final String cacheleaderboard = "leaderboard";
+  static final String cachedrivercredits = "credits#";
 
   static final Map<String, Color> teamColorsMap = {
     "mercedes": Colors.green[300],
@@ -34,7 +30,7 @@ class AppConstants {
     "williams": Colors.white,
     "mclaren": Colors.orange[700],
     "aston": Colors.green[900],
-    "racin_gpoint": Colors.pink,
+    "racing_point": Colors.pink,
     "alphatauri": Colors.blueAccent,
     "renault": Colors.yellow,
     "alpine": Colors.yellow,

@@ -13,15 +13,15 @@ class ResultService {
 
   get defaultStandingsCacheTime {
     DateTime now = DateTime.now().toLocal();
-    return now.add(Duration(days: 7));
+    return now.add(Duration(days: 8));
   }
 
-  Future<List<RaceResult>> getraceResults(int round) async {
+  Future<List<RaceResult>> getraceResults(int round, int year) async {
     RestService service = RestService();
-    String rnd = round.toString();
-    String url = AppConstants.apiraceresults + rnd;
+    String query = "?year=" + year.toString() + "&round=" + round.toString();
+    String url = AppConstants.apiraceresults + query;
     var response = await service.get(
-        AppConstants.cacheraceresults + rnd, url, defaultResultCacheTime);
+        AppConstants.cacheraceresults + query, url, defaultResultCacheTime);
     if (response.statusCode == 204) {
       return Future.value([]);
     }
@@ -50,7 +50,7 @@ class ResultService {
 
   Future<List<Constructor>> getConstructorStandings() async {
     RestService service = RestService();
-    var response = await service.get(AppConstants.apiconstructorstandings,
+    var response = await service.get(AppConstants.cacheconstructorstandings,
         AppConstants.apiconstructorstandings, defaultStandingsCacheTime);
     if (response.statusCode == 204) {
       return Future.value([]);

@@ -31,10 +31,11 @@ class _RaceScheduleState extends State<RaceSchedule> {
                     childWidget: ListTile(
                       tileColor: Colors.grey[900],
                       title: Text(gp.gpName,
-                          style: TextStyle(color: Colors.white)),
+                          style:
+                              TextStyle(fontSize: 15.0, color: Colors.white)),
                       subtitle: Text(
                         gp.circuitName,
-                        style: TextStyle(color: Colors.white54),
+                        style: TextStyle(fontSize: 13.0, color: Colors.white54),
                       ),
                       trailing: Column(
                         mainAxisAlignment: MainAxisAlignment.center,

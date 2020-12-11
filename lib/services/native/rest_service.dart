@@ -1,6 +1,4 @@
-import 'dart:io';
 import 'package:f1fantasy/services/native/auth_service.dart';
-import 'package:f1fantasy/services/native/connection_service.dart';
 import 'package:f1fantasy/services/native/pref_service.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
@@ -9,15 +7,9 @@ class RestService {
   static final RestService _instance = RestService._internal();
   static PrefService _cacheService;
   static AuthService _authService;
-  static ConnectivityServie _connectivityServie;
 
   factory RestService() {
     return _instance;
-  }
-
-  get defaultCacheTime {
-    DateTime now = DateTime.now().toLocal();
-    return DateTime(now.year, now.month, now.day, now.hour + 5, now.minute);
   }
 
   RestService._internal() {
@@ -25,28 +17,23 @@ class RestService {
     _authService = AuthService();
   }
 
-  Future<http.Response> get(String key, String url,
-      [DateTime cacheTill]) async {
-    if (cacheTill == null) {
-      cacheTill = defaultCacheTime;
-    }
+  Future<http.Response> get(String key, String url, DateTime cacheTill) async {
     String cache = await _cacheService.readDate(key);
     if (cache != null) {
-      print("data from the cahe " + url);
       Map json = convert.jsonDecode(cache);
       DateTime valid = DateTime.parse(json["validTill"]);
       if (valid.isAfter(DateTime.now().toLocal())) {
+        // print("Data fetched from cache " + url);
         return http.Response(json["value"], 200);
       }
     }
-    print("data from the api call " + url);
     Map<String, String> headers = {
       "Content-Type": "application/json",
       "x-client-identifier": _authService.getUser().uid
     };
     try {
+      // print("Data being fetched from backend " + url);
       http.Response response = await http.get(url, headers: headers);
-      print("response status" + response.statusCode.toString());
       if (response.statusCode == 200) {
         String value = convert.jsonEncode({
           "validTill": cacheTill.toLocal().toString(),
@@ -59,8 +46,6 @@ class RestService {
     } on Exception catch (_) {
       return http.Response("", 204);
     } catch (error) {
-      print("Error in calling get " + url);
-      print("Error message " + error.toString());
       return http.Response("", 204);
     }
   }
@@ -80,8 +65,6 @@ class RestService {
     } on Exception catch (_) {
       return http.Response("", 204);
     } catch (error) {
-      print("Error in calling post " + url);
-      print("Error message " + error.toString());
       return http.Response("", 204);
     }
   }
