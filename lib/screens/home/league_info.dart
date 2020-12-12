@@ -39,11 +39,11 @@ class LeagueRulesInfo extends StatelessWidget {
               title: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("1.Pole Prediction - 1 Point"),
+              Text("1.Pole Prediction - 2 Points."),
               SizedBox(height: 5.0),
-              Text("2.Fastest lap Prediction - 1 Point."),
+              Text("2.Fastest lap Prediction - 2 Points."),
               SizedBox(height: 5.0),
-              Text("3.Driver position prediction - 10 Points"),
+              Text("3.Driver position prediction - 10 Points."),
               SizedBox(height: 5.0),
               Text("4.Driver selection - Driver's race points.")
             ],
