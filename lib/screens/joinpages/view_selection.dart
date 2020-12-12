@@ -49,12 +49,12 @@ class ViewMySelection extends StatelessWidget {
                   childWidget: Row(
                     children: <Widget>[
                       SizedBox(width: 10.0),
-                      TeamIndicator(detail.fastest.team),
+                      TeamIndicator(detail.pole.team),
                       SizedBox(width: 8.0),
                       DriverNames(
-                          detail.fastest.firstName, detail.fastest.secondName),
+                          detail.pole.firstName, detail.pole.secondName),
                       Expanded(child: SizedBox.shrink()),
-                      TeamIcon(detail.fastest.team, 8.0)
+                      TeamIcon(detail.pole.team, 8.0)
                     ],
                   ),
                 ),
@@ -68,12 +68,12 @@ class ViewMySelection extends StatelessWidget {
                   childWidget: Row(
                     children: <Widget>[
                       SizedBox(width: 10.0),
-                      TeamIndicator(detail.pole.team),
+                      TeamIndicator(detail.fastest.team),
                       SizedBox(width: 8.0),
                       DriverNames(
-                          detail.pole.firstName, detail.pole.secondName),
+                          detail.fastest.firstName, detail.fastest.secondName),
                       Expanded(child: SizedBox.shrink()),
-                      TeamIcon(detail.pole.team, 8.0)
+                      TeamIcon(detail.fastest.team, 8.0)
                     ],
                   ),
                 ),

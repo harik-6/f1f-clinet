@@ -1,3 +1,4 @@
+import 'package:f1fantasy/constants/styles.dart';
 import 'package:f1fantasy/services/league_service.dart';
 import 'package:flutter/material.dart';
 import 'package:f1fantasy/components/preloader.dart';
@@ -22,17 +23,35 @@ class _LeaderBoardWidget extends State<LeaderBoardWidget>
   bool get wantKeepAlive => true;
   STATUS status = STATUS.loading;
   List<Leaderboard> leaders = [];
+  Leaderboard myPosition;
 
   void loadLeaderBoard() async {
     setState(() {
       status = STATUS.loading;
     });
-    List<Leaderboard> ls = await LeagueService().getLeaderboard();
+    Map ls = await LeagueService().getLeaderboard();
     setState(() {
-      leaders = ls;
+      leaders = ls["leaderboard"];
+      myPosition = ls["myPosition"];
       status = STATUS.success;
     });
     return;
+  }
+
+  Widget _getProgressIcon(Leaderboard lead) {
+    int prev = lead.prevPosition;
+    int curr = lead.position;
+
+    if (prev == -1) {
+      return Icon(Icons.keyboard_arrow_up, color: Colors.green);
+    }
+    if (prev == curr) {
+      return Icon(Icons.horizontal_rule, color: Colors.white54);
+    }
+    if (prev < curr) {
+      return Icon(Icons.keyboard_arrow_down, color: Colors.red);
+    }
+    return Icon(Icons.keyboard_arrow_up, color: Colors.green);
   }
 
   @override
@@ -61,15 +80,65 @@ class _LeaderBoardWidget extends State<LeaderBoardWidget>
                       children: <Widget>[
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 6.0),
-                          child: Text("Races",
+                          child: Text("Pts",
                               style: TextStyle(color: Colors.white)),
                         ),
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 6.0),
-                          child: Text("Pts",
+                          child: Text("G/L",
                               style: TextStyle(color: Colors.white)),
                         ),
                       ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20.0, vertical: 8.0),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        "My Position",
+                        style: headerText,
+                      ),
+                    ),
+                  ),
+                  ListTile(
+                      title: DriverTile(
+                    childWidget: Row(
+                      children: <Widget>[
+                        Position(myPosition.position),
+                        SizedBox(width: 8.0),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(myPosition.name.split(" ")[0],
+                                style: TextStyle(color: Colors.white)),
+                            SizedBox(height: 5.0),
+                            Text(myPosition.leagueCount.toString() + " Leagues",
+                                style: TextStyle(
+                                    fontSize: 14.0, color: Colors.white54))
+                          ],
+                        ),
+                        Expanded(child: SizedBox.shrink()),
+                        Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 4.0),
+                            child: Points(myPosition.points)),
+                        Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 8.0),
+                            child: _getProgressIcon(myPosition))
+                      ],
+                    ),
+                  )),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20.0, vertical: 8.0),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        "Leaderboard",
+                        style: headerText,
+                      ),
                     ),
                   ),
                   Expanded(
@@ -82,12 +151,33 @@ class _LeaderBoardWidget extends State<LeaderBoardWidget>
                               childWidget: Row(
                                 children: <Widget>[
                                   Position(index + 1),
-                                  SizedBox(width: 5.0),
                                   SizedBox(width: 8.0),
-                                  DriverNames("", lead.name.split(" ")[0]),
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(lead.name.split(" ")[0],
+                                          style:
+                                              TextStyle(color: Colors.white)),
+                                      SizedBox(height: 5.0),
+                                      Text(
+                                          lead.leagueCount.toString() +
+                                              " Leagues",
+                                          style: TextStyle(
+                                              fontSize: 14.0,
+                                              color: Colors.white54))
+                                    ],
+                                  ),
                                   Expanded(child: SizedBox.shrink()),
-                                  Points(lead.leagueCount),
-                                  Points(lead.points)
+                                  Padding(
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 4.0),
+                                      child: Points(lead.points)),
+                                  Padding(
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 8.0),
+                                      child: _getProgressIcon(lead))
                                 ],
                               ),
                             ),

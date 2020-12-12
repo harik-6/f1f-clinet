@@ -76,7 +76,7 @@ class LeagueService {
       "gpName": active.gpName,
       "round": active.round,
       "year": DateTime.now().year,
-      "leaguDriverIds": dids,
+      "leagueDriverIds": dids,
       "poleDriverId": poleId,
       "fastestDriverId": fastestId,
       "customDriverId": customId,
@@ -114,7 +114,6 @@ class LeagueService {
         "fastestResult": false,
         "poleResult": false
       };
-      print("save success");
       await prefService.writData(
           AppConstants.cachejoinleague + active.round.toString(),
           convert.jsonEncode(tocache));
@@ -144,18 +143,22 @@ class LeagueService {
     return lgs;
   }
 
-  Future<List<Leaderboard>> getLeaderboard() async {
+  Future<Map> getLeaderboard() async {
     var response = await _restService.get(AppConstants.cacheleaderboard,
         AppConstants.apileaderboard, defaultStandingsCacheTime);
     if (response.statusCode == 204) {
-      return [];
+      return {};
     }
     Map data = convert.jsonDecode(response.body);
+    Map leaderboardMap = {};
     List<Leaderboard> lgs = (data["leaderboard"] as List)
         .map((lb) => Leaderboard.jsonToModel(lb))
         .toList();
     lgs.sort((a, b) => a.points < b.points ? 1 : -1);
-    return lgs;
+    leaderboardMap["leaderboard"] = lgs;
+    Leaderboard mypos = Leaderboard.jsonToModel(data["myPosition"]);
+    leaderboardMap["myPosition"] = mypos;
+    return leaderboardMap;
   }
 
   Future<LeagueDetails> getLeagueDetails(League league) async {

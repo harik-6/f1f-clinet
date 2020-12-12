@@ -28,6 +28,7 @@ class ResultService {
     Map<String, dynamic> data = convert.jsonDecode(response.body);
     List<RaceResult> results = (data["result"] as List)
         .map((obj) => RaceResult.jsonToModel(obj))
+        .where((obj) => obj.time != "fastest" && obj.time != "pole")
         .toList();
     results.sort((a, b) => a.position > b.position ? 1 : -1);
     return Future.value(results);

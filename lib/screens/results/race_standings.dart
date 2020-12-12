@@ -68,7 +68,7 @@ class _RaceStandings extends State<RaceStandings>
                                     children: <Widget>[
                                       Position(index + 1),
                                       SizedBox(width: 5.0),
-                                      TeamIndicator(driver.team),
+                                      TeamIndicator(result.team),
                                       SizedBox(width: 8.0),
                                       DriverNames(
                                           driver.firstName, driver.secondName),

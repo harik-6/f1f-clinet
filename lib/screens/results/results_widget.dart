@@ -52,7 +52,7 @@ class _ResultsWidget extends State<ResultsWidget>
 
   List<GrandPrix> _filterCompletedRaces() {
     List<GrandPrix> filtered = widget.gps
-        .where((GrandPrix gp) => gp.raceStatus == RACE_STATUS.completed)
+        .where((GrandPrix gp) => gp.raceStatus != RACE_STATUS.completed)
         .toList();
     setState(() {
       completed = filtered;
@@ -64,10 +64,12 @@ class _ResultsWidget extends State<ResultsWidget>
   void initState() {
     super.initState();
     List<GrandPrix> x = _filterCompletedRaces();
-    this.setState(() {
-      gpRound = x[trackSelected].round;
-    });
-    getRaceResults(x[trackSelected].round, x[trackSelected].dateTime.year);
+    if (x.length > 0) {
+      this.setState(() {
+        gpRound = x[trackSelected].round;
+      });
+      getRaceResults(x[trackSelected].round, x[trackSelected].dateTime.year);
+    }
   }
 
   @override

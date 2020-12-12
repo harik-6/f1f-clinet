@@ -77,15 +77,15 @@ class _DetailedLeagueDetailsState extends State<DetailedLeagueDetails> {
                         childWidget: Row(
                           children: <Widget>[
                             SizedBox(width: 10.0),
-                            TeamIndicator(detail.fastest.team),
+                            TeamIndicator(detail.pole.team),
                             SizedBox(width: 8.0),
-                            DriverNames(detail.fastest.firstName,
-                                detail.fastest.secondName),
+                            DriverNames(
+                                detail.pole.firstName, detail.pole.secondName),
                             Expanded(child: SizedBox.shrink()),
-                            detail.poleResult
+                            detail.fastestResult
                                 ? Icon(Icons.check, color: Colors.green[600])
                                 : Icon(Icons.close, color: Colors.red),
-                            Points(detail.poleResult ? 1 : 0)
+                            Points(detail.fastestResult ? 2 : 0)
                           ],
                         ),
                       ),
@@ -100,15 +100,15 @@ class _DetailedLeagueDetailsState extends State<DetailedLeagueDetails> {
                         childWidget: Row(
                           children: <Widget>[
                             SizedBox(width: 10.0),
-                            TeamIndicator(detail.pole.team),
+                            TeamIndicator(detail.fastest.team),
                             SizedBox(width: 8.0),
-                            DriverNames(
-                                detail.pole.firstName, detail.pole.secondName),
+                            DriverNames(detail.fastest.firstName,
+                                detail.fastest.secondName),
                             Expanded(child: SizedBox.shrink()),
-                            detail.fastestResult
+                            detail.poleResult
                                 ? Icon(Icons.check, color: Colors.green[600])
                                 : Icon(Icons.close, color: Colors.red),
-                            Points(detail.fastestResult ? 1 : 0)
+                            Points(detail.poleResult ? 2 : 0)
                           ],
                         ),
                       ),
