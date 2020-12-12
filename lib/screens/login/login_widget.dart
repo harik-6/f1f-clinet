@@ -72,67 +72,33 @@ class _LoginWidget extends State<LoginWidget> {
                   children: isAuthenticating
                       ? [
                           CircularProgressIndicator(),
-                          SizedBox(height: 10.0),
+                          SizedBox(height: 20.0),
                           Text("Signing in")
                         ]
                       : [
-                          GestureDetector(
-                            onTap: _googleSignIn,
-                            child: Container(
-                              padding: EdgeInsets.all(8.0),
-                              width: MediaQuery.of(context).size.width * 0.7,
-                              height: 40.0,
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(20.0)),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  Image(
-                                    image: AssetImage(
-                                        'assets/images/google-icon.png'),
-                                    width: 32.0,
-                                    height: 32.0,
-                                  ),
-                                  Text(
-                                    "Continue with Google",
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 16.0,
-                                        fontWeight: FontWeight.bold),
-                                  )
-                                ],
+                          Text("Continue with"),
+                          SizedBox(height: 20.0),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              GestureDetector(
+                                onTap: _googleSignIn,
+                                child: CircleAvatar(
+                                    backgroundColor: Colors.white,
+                                    radius: 22.0,
+                                    backgroundImage: AssetImage(
+                                        "assets/images/google-icon.png")),
                               ),
-                            ),
-                          ),
-                          GestureDetector(
-                            onTap: _facebookSignIn,
-                            child: Container(
-                              padding: EdgeInsets.all(8.0),
-                              width: MediaQuery.of(context).size.width * 0.7,
-                              height: 40.0,
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(20.0)),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  Image(
-                                    image:
-                                        AssetImage('assets/images/fb-icon.png'),
-                                    width: 32.0,
-                                    height: 32.0,
-                                  ),
-                                  Text(
-                                    "Continue with Facebook",
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 16.0,
-                                        fontWeight: FontWeight.bold),
-                                  )
-                                ],
-                              ),
-                            ),
+                              SizedBox(width: 20.0),
+                              GestureDetector(
+                                onTap: _facebookSignIn,
+                                child: CircleAvatar(
+                                    backgroundColor: Colors.white,
+                                    radius: 22.0,
+                                    backgroundImage: AssetImage(
+                                        "assets/images/fb-icon.png")),
+                              )
+                            ],
                           ),
                           SizedBox(height: 20.0),
                           Row(
