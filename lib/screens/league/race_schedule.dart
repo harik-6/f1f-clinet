@@ -7,17 +7,18 @@ import 'package:flutter/material.dart';
 
 class RaceSchedule extends StatefulWidget {
   final List<GrandPrix> list;
-  RaceSchedule(this.list);
+  final GrandPrix activeGp;
+  RaceSchedule(this.list, this.activeGp);
   @override
   _RaceScheduleState createState() => _RaceScheduleState();
 }
 
 class _RaceScheduleState extends State<RaceSchedule> {
   Widget _getNextRace() {
-    List<GrandPrix> schraces = widget.list
-        .where((gp) => gp.raceStatus == RACE_STATUS.scheduled)
-        .toList();
-    GrandPrix nextrace = schraces[schraces.length - 1];
+    if (widget.activeGp == null) {
+      return SizedBox.shrink();
+    }
+    GrandPrix nextrace = widget.activeGp;
     List<String> fmt = formatdateTime(nextrace.dateTime).split("T");
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 12.0),
@@ -44,16 +45,19 @@ class _RaceScheduleState extends State<RaceSchedule> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 8.0),
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              "Next race",
-              style: headerText,
-            ),
-          ),
-        ),
+        widget.activeGp == null
+            ? SizedBox.shrink()
+            : Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20.0, vertical: 8.0),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    "Next race",
+                    style: headerText,
+                  ),
+                ),
+              ),
         _getNextRace(),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 8.0),

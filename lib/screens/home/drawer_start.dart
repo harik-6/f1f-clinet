@@ -26,6 +26,10 @@ class SideDrawer extends StatelessWidget {
     launch("mailto:dev.f1fantasy@gmail.com?subject=Feedback");
   }
 
+  void _openInstagram() {
+    launch("https://www.instagram.com/_f1fantasy");
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -63,6 +67,12 @@ class SideDrawer extends StatelessWidget {
                 child: ListTile(
                   title: Text("Feedback"),
                   trailing: Icon(Icons.mail, color: Colors.white),
+                )),
+            GestureDetector(
+                onTap: _openInstagram,
+                child: ListTile(
+                  title: Text("Our Instagram"),
+                  trailing: Icon(Icons.camera_alt, color: Colors.white),
                 )),
             Expanded(child: SizedBox.shrink()),
             GestureDetector(

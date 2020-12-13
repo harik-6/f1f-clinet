@@ -1,7 +1,6 @@
 import 'package:f1fantasy/components/driver_tile.dart';
 import 'package:f1fantasy/constants/styles.dart';
 import 'package:f1fantasy/models/grand_prix_model.dart';
-import 'package:f1fantasy/models/user_league_model.dart';
 import 'package:f1fantasy/screens/leaderboard/league_board.dart';
 import 'package:f1fantasy/services/leaderboard_service.dart';
 import 'package:flutter/material.dart';
@@ -115,7 +114,8 @@ class _LeaderBoardWidget extends State<LeaderBoardWidget>
                   switch (widget.leagues.length) {
                     case 0:
                       return Center(
-                        child: Text("League leaderboard will be updated soon."),
+                        child: Text(
+                            "League wise leaderboard will be updated soon."),
                       );
                     default:
                       return Column(
@@ -127,13 +127,18 @@ class _LeaderBoardWidget extends State<LeaderBoardWidget>
                                 GrandPrix league = widget.leagues[index];
                                 return Padding(
                                   padding: const EdgeInsets.symmetric(
-                                      vertical: 4.0, horizontal: 12.0),
+                                      vertical: 4.0, horizontal: 16.0),
                                   child: DriverTile(
                                     childWidget: ListTile(
                                       tileColor: Colors.grey[900],
                                       title: Text(league.gpName,
-                                          style:
-                                              TextStyle(color: Colors.white)),
+                                          style: TextStyle(
+                                              fontSize: 15.0,
+                                              color: Colors.white)),
+                                      subtitle: Text(league.circuitName,
+                                          style: TextStyle(
+                                              fontSize: 13.0,
+                                              color: Colors.white54)),
                                       trailing: IconButton(
                                         icon: Icon(Icons.navigate_next,
                                             color: Colors.green),

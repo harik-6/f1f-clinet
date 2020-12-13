@@ -80,7 +80,7 @@ class _LeagueWidget extends State<LeagueWidget> {
             controller: pageController,
             onPageChanged: changeActiveTab,
             children: [
-              RaceSchedule(widget.grandsprix),
+              RaceSchedule(widget.grandsprix, widget.activeLeague),
               MyLeagues(active: widget.activeLeague)
             ],
           ))

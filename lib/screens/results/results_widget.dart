@@ -1,4 +1,3 @@
-import 'package:f1fantasy/constants/app_enums.dart';
 import 'package:f1fantasy/models/grand_prix_model.dart';
 import 'package:flutter/material.dart';
 import 'package:f1fantasy/components/preloader.dart';

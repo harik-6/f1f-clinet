@@ -20,10 +20,11 @@ class LeagueBoardState extends State<LeagueLeaderBoard> {
   LEAGUE_STATUS lstatus = LEAGUE_STATUS.loading;
   List<LLBoard> leaders = [];
   Future<void> _loadLeagueLeaderBoard() async {
-    this.setState(() async {
+    List<LLBoard> result = await new LeaderboardService()
+        .getLeagueLeaderboard(widget.activeLeague);
+    this.setState(() {
       lstatus = LEAGUE_STATUS.success;
-      leaders = await new LeaderboardService()
-          .getLeagueLeaderboard(widget.activeLeague);
+      leaders = result;
     });
   }
 
