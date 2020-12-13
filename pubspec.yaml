@@ -18,6 +18,7 @@ dependencies:
   url_launcher: ^5.7.10
   share: ^0.6.5+4
   flutter_login_facebook: ^0.4.0+1
+  firebase_messaging: ^7.0.3
 
 dev_dependencies:
   flutter_test:

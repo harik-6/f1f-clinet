@@ -85,7 +85,16 @@ class AuthService {
   }
 
   Future<void> signOut() async {
-    await googleSignIn.disconnect();
+    List<UserInfo> user = auth.currentUser.providerData;
+    if (user.length > 0) {
+      String provider = user[0].providerId;
+      if (provider == "facebook.com") {
+        await facebookSignIn.logOut();
+      }
+      if (provider == "google.com") {
+        await googleSignIn.disconnect();
+      }
+    }
     await new PrefService().clearDate();
     await auth.signOut();
   }

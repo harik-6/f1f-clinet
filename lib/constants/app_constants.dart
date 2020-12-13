@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class AppConstants {
-  static final String apiurl = "https://apif1f.xyz/";
+  static final String serverUrl = "http://apif1f.xyz/";
+  static final String apiurl = "http://192.168.42.218/";
   static final String apiraceresults = apiurl + "results";
   static final String apidriverstandings = apiurl + "standings/drivers";
   static final String apiconstructorstandings =
@@ -12,6 +13,7 @@ class AppConstants {
   static final String apiuserleagues = apiurl + "league/user";
   static final String apiuserleaguesdetails = apiurl + "league/details";
   static final String apileaderboard = apiurl + "leaderboard";
+  static final String apileaguleaderboard = apiurl + "leaderboard/league";
   static final String apicachestatus = apiurl + "racestatus";
   static final String cacheraceschedule = "grandprix";
   static final String cachedriverstandings = "driverStandings";
@@ -21,6 +23,7 @@ class AppConstants {
   static final String cacheuserleaguesdetails = apiurl + "leaguedetails#";
   static final String cachejoinleague = "league#";
   static final String cacheleaderboard = "leaderboard";
+  static final String cacheleagueleaderboard = "leaderboard#league";
   static final String cachedrivercredits = "credits#";
 
   static final Map<String, Color> teamColorsMap = {

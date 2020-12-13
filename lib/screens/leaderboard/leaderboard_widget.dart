@@ -1,15 +1,19 @@
+import 'package:f1fantasy/components/driver_tile.dart';
 import 'package:f1fantasy/constants/styles.dart';
+import 'package:f1fantasy/models/grand_prix_model.dart';
+import 'package:f1fantasy/models/user_league_model.dart';
+import 'package:f1fantasy/screens/leaderboard/league_board.dart';
 import 'package:f1fantasy/services/leaderboard_service.dart';
 import 'package:flutter/material.dart';
 import 'package:f1fantasy/components/preloader.dart';
-import 'package:f1fantasy/components/driver_tile.dart';
-import 'package:f1fantasy/components/points.dart';
-import 'package:f1fantasy/components/position.dart';
 import 'package:f1fantasy/models/leaderboard_model.dart';
+import 'individual_board.dart';
 
 enum STATUS { loading, failed, success }
 
 class LeaderBoardWidget extends StatefulWidget {
+  final List<GrandPrix> leagues;
+  LeaderBoardWidget({this.leagues});
   @override
   State<StatefulWidget> createState() {
     return new _LeaderBoardWidget();
@@ -23,6 +27,8 @@ class _LeaderBoardWidget extends State<LeaderBoardWidget>
   STATUS status = STATUS.loading;
   List<Leaderboard> leaders = [];
   Leaderboard myPosition;
+  int activeTab = 0;
+  final PageController pageController = PageController(initialPage: 0);
 
   void loadLeaderBoard() async {
     setState(() {
@@ -37,20 +43,14 @@ class _LeaderBoardWidget extends State<LeaderBoardWidget>
     return;
   }
 
-  Widget _getProgressIcon(Leaderboard lead) {
-    int prev = lead.prevPosition;
-    int curr = lead.position;
+  void changeActiveTab(newtab) {
+    setState(() {
+      activeTab = newtab;
+    });
+  }
 
-    if (prev == -1) {
-      return Icon(Icons.keyboard_arrow_up, color: Colors.green);
-    }
-    if (prev == curr) {
-      return Icon(Icons.horizontal_rule, color: Colors.white54);
-    }
-    if (prev < curr) {
-      return Icon(Icons.keyboard_arrow_down, color: Colors.red);
-    }
-    return Icon(Icons.keyboard_arrow_up, color: Colors.green);
+  void changePage(int newindex) {
+    pageController.jumpToPage(newindex);
   }
 
   @override
@@ -62,132 +62,106 @@ class _LeaderBoardWidget extends State<LeaderBoardWidget>
   @override
   Widget build(BuildContext context) {
     return Container(
-        width: double.infinity,
-        height: double.infinity,
-        child: Builder(builder: (context) {
-          switch (status) {
-            case STATUS.loading:
-              return PreLoader();
-            case STATUS.success:
-              return Column(
-                children: <Widget>[
-                  Padding(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 32.0, vertical: 12.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: <Widget>[
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 6.0),
-                          child: Text("Pts",
-                              style: TextStyle(color: Colors.white)),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 6.0),
-                          child: Text("G/L",
-                              style: TextStyle(color: Colors.white)),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 20.0, vertical: 8.0),
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        "My Position",
-                        style: headerText,
-                      ),
-                    ),
-                  ),
-                  ListTile(
-                      title: DriverTile(
-                    childWidget: Row(
-                      children: <Widget>[
-                        Position(myPosition.position),
-                        SizedBox(width: 8.0),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(myPosition.name.split(" ")[0],
-                                style: TextStyle(color: Colors.white)),
-                            SizedBox(height: 5.0),
-                            Text(myPosition.leagueCount.toString() + " Leagues",
-                                style: TextStyle(
-                                    fontSize: 14.0, color: Colors.white54))
-                          ],
-                        ),
-                        Expanded(child: SizedBox.shrink()),
-                        Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 4.0),
-                            child: Points(myPosition.points)),
-                        Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 8.0),
-                            child: _getProgressIcon(myPosition))
-                      ],
-                    ),
-                  )),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 20.0, vertical: 8.0),
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        "Leaderboard",
-                        style: headerText,
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: ListView.builder(
-                        itemCount: leaders.length,
-                        itemBuilder: (context, index) {
-                          Leaderboard lead = leaders[index];
-                          return ListTile(
-                            title: DriverTile(
-                              childWidget: Row(
-                                children: <Widget>[
-                                  Position(index + 1),
-                                  SizedBox(width: 8.0),
-                                  Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(lead.name.split(" ")[0],
+      width: double.infinity,
+      height: double.infinity,
+      child: Column(
+        children: <Widget>[
+          Container(
+            height: 60.0,
+            width: double.infinity,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                GestureDetector(
+                    onTap: () {
+                      changePage(0);
+                    },
+                    child: Opacity(
+                        opacity: activeTab == 0 ? 1.0 : 0.4,
+                        child: Container(
+                            decoration:
+                                activeTab == 0 ? trackActiveBorder : null,
+                            child: Text("Individual", style: headerText)))),
+                GestureDetector(
+                    onTap: () {
+                      changePage(1);
+                    },
+                    child: Opacity(
+                        opacity: activeTab == 1 ? 1.0 : 0.4,
+                        child: Container(
+                            decoration:
+                                activeTab == 1 ? trackActiveBorder : null,
+                            child: Text("Leagues", style: headerText)))),
+              ],
+            ),
+          ),
+          Expanded(
+            child: PageView(
+              onPageChanged: changeActiveTab,
+              controller: pageController,
+              children: <Widget>[
+                Builder(builder: (context) {
+                  switch (status) {
+                    case STATUS.loading:
+                      return PreLoader();
+                    case STATUS.success:
+                      return IndividualBoard(
+                          leaders: leaders, myPosition: myPosition);
+                    default:
+                      return null;
+                  }
+                }),
+                Builder(builder: (context) {
+                  switch (widget.leagues.length) {
+                    case 0:
+                      return Center(
+                        child: Text("League leaderboard will be updated soon."),
+                      );
+                    default:
+                      return Column(
+                        children: [
+                          Expanded(
+                            child: ListView.builder(
+                              itemCount: widget.leagues.length,
+                              itemBuilder: (context, index) {
+                                GrandPrix league = widget.leagues[index];
+                                return Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 4.0, horizontal: 12.0),
+                                  child: DriverTile(
+                                    childWidget: ListTile(
+                                      tileColor: Colors.grey[900],
+                                      title: Text(league.gpName,
                                           style:
                                               TextStyle(color: Colors.white)),
-                                      SizedBox(height: 5.0),
-                                      Text(
-                                          lead.leagueCount.toString() +
-                                              " Leagues",
-                                          style: TextStyle(
-                                              fontSize: 14.0,
-                                              color: Colors.white54))
-                                    ],
+                                      trailing: IconButton(
+                                        icon: Icon(Icons.navigate_next,
+                                            color: Colors.green),
+                                        onPressed: () {
+                                          Navigator.push(
+                                              context,
+                                              new MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      LeagueLeaderBoard(
+                                                        activeLeague: league,
+                                                      )));
+                                        },
+                                      ),
+                                    ),
                                   ),
-                                  Expanded(child: SizedBox.shrink()),
-                                  Padding(
-                                      padding:
-                                          EdgeInsets.symmetric(horizontal: 4.0),
-                                      child: Points(lead.points)),
-                                  Padding(
-                                      padding:
-                                          EdgeInsets.symmetric(horizontal: 8.0),
-                                      child: _getProgressIcon(lead))
-                                ],
-                              ),
+                                );
+                              },
                             ),
-                          );
-                        }),
-                  )
-                ],
-              );
-            default:
-              return null;
-          }
-        }));
+                          )
+                        ],
+                      );
+                  }
+                })
+              ],
+            ),
+          )
+        ],
+      ),
+    );
   }
 }
