@@ -8,7 +8,6 @@ import 'package:f1fantasy/services/native/pref_service.dart';
 import 'package:f1fantasy/services/native/rest_service.dart';
 import 'package:f1fantasy/constants/app_constants.dart';
 import 'package:f1fantasy/models/driver_credit_model.dart';
-import 'package:f1fantasy/models/leaderboard_model.dart';
 
 class LeagueService {
   static RestService _restService;
@@ -45,20 +44,6 @@ class LeagueService {
         .toList();
     results.sort((a, b) => a.creditPoints < b.creditPoints ? 1 : -1);
     return results;
-  }
-
-  Future<List<GrandPrix>> getGrandPrixs() async {
-    var response = await _restService.get(AppConstants.cacheraceschedule,
-        AppConstants.apiraceschedule, defaultCacheTime);
-    if (response.statusCode == 204) {
-      return [];
-    }
-    Map data = convert.jsonDecode(response.body);
-    List<GrandPrix> list = (data["granprixs"] as List)
-        .map((obj) => GrandPrix.jsonToModel(obj))
-        .toList();
-    list.sort((a, b) => b.dateTime.compareTo(a.dateTime));
-    return list;
   }
 
   Future<bool> joinLeague(
@@ -141,24 +126,6 @@ class LeagueService {
         .toList();
     lgs.sort((a, b) => a.round > b.round ? 1 : -1);
     return lgs;
-  }
-
-  Future<Map> getLeaderboard() async {
-    var response = await _restService.get(AppConstants.cacheleaderboard,
-        AppConstants.apileaderboard, defaultStandingsCacheTime);
-    if (response.statusCode == 204) {
-      return {};
-    }
-    Map data = convert.jsonDecode(response.body);
-    Map leaderboardMap = {};
-    List<Leaderboard> lgs = (data["leaderboard"] as List)
-        .map((lb) => Leaderboard.jsonToModel(lb))
-        .toList();
-    lgs.sort((a, b) => a.points < b.points ? 1 : -1);
-    leaderboardMap["leaderboard"] = lgs;
-    Leaderboard mypos = Leaderboard.jsonToModel(data["myPosition"]);
-    leaderboardMap["myPosition"] = mypos;
-    return leaderboardMap;
   }
 
   Future<LeagueDetails> getLeagueDetails(League league) async {

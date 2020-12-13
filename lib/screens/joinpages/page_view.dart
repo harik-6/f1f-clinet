@@ -5,6 +5,7 @@ import 'package:f1fantasy/models/grand_prix_model.dart';
 import 'package:f1fantasy/screens/joinpages/custom_selection.dart';
 import 'package:f1fantasy/screens/joinpages/driver_selection.dart';
 import 'package:f1fantasy/screens/joinpages/result.dart';
+import 'package:f1fantasy/services/credit_service.dart';
 import 'package:f1fantasy/services/league_service.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
@@ -32,7 +33,7 @@ class JoiningPageViewState extends State<JoiningPageView> {
   LEAGUE_STATUS lstatus = LEAGUE_STATUS.loading;
 
   void _loadAllDriver() async {
-    LeagueService service = new LeagueService();
+    CreditService service = new CreditService();
     List<DriverCredit> drs = await service.getDriverCredits(
         widget.activeLeague.round, widget.activeLeague.dateTime.year);
     setState(() {

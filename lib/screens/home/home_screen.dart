@@ -5,7 +5,7 @@ import 'package:f1fantasy/constants/styles.dart';
 import 'package:f1fantasy/models/grand_prix_model.dart';
 import 'package:f1fantasy/screens/home/drawer_start.dart';
 import 'package:f1fantasy/screens/home/league_info.dart';
-import 'package:f1fantasy/services/league_service.dart';
+import 'package:f1fantasy/services/gp_service.dart';
 import 'package:f1fantasy/services/native/auth_service.dart';
 import 'package:f1fantasy/services/native/pref_service.dart';
 import 'package:flutter/material.dart';
@@ -60,7 +60,7 @@ class _AppHome extends State<AppHome> {
     setState(() {
       isgpsLoading = true;
     });
-    LeagueService gpService = LeagueService();
+    GpService gpService = GpService();
     List<GrandPrix> gpss = await gpService.getGrandPrixs();
     List<GrandPrix> active = gpss.reversed
         .where((gp) => gp.raceStatus == RACE_STATUS.scheduled)

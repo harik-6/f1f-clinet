@@ -1,8 +1,7 @@
 import 'package:f1fantasy/constants/styles.dart';
-import 'package:f1fantasy/services/league_service.dart';
+import 'package:f1fantasy/services/leaderboard_service.dart';
 import 'package:flutter/material.dart';
 import 'package:f1fantasy/components/preloader.dart';
-import 'package:f1fantasy/components/driver_names.dart';
 import 'package:f1fantasy/components/driver_tile.dart';
 import 'package:f1fantasy/components/points.dart';
 import 'package:f1fantasy/components/position.dart';
@@ -29,7 +28,7 @@ class _LeaderBoardWidget extends State<LeaderBoardWidget>
     setState(() {
       status = STATUS.loading;
     });
-    Map ls = await LeagueService().getLeaderboard();
+    Map ls = await LeaderboardService().getLeaderboard();
     setState(() {
       leaders = ls["leaderboard"];
       myPosition = ls["myPosition"];
