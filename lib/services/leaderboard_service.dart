@@ -38,13 +38,13 @@ class LeaderboardService {
         .toList();
     lgs.sort((a, b) => a.points < b.points ? 1 : -1);
     leaderboardMap["leaderboard"] = lgs;
-    if(data["myPosition"]!=null) {
+    if (data["myPosition"] != null) {
       Leaderboard mypos = Leaderboard.jsonToModel(data["myPosition"]);
       leaderboardMap["myPosition"] = mypos;
     } else {
-       leaderboardMap["myPosition"] = null;
+      leaderboardMap["myPosition"] = null;
     }
-    
+
     return leaderboardMap;
   }
 

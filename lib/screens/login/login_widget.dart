@@ -32,7 +32,7 @@ class _LoginWidget extends State<LoginWidget> {
     }
   }
 
-  void _googleSignIn() async {
+ void _googleSignIn() async {
     _preAuthPrcess();
     AppUser user = await _authService.signInWithGoogle();
     _postAuthProcess(user);
@@ -42,6 +42,12 @@ class _LoginWidget extends State<LoginWidget> {
     _preAuthPrcess();
     AppUser user = await _authService.signInWithFacebook();
     _postAuthProcess(user);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
   }
 
   @override

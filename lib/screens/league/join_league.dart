@@ -2,7 +2,9 @@ import 'package:f1fantasy/models/grand_prix_model.dart';
 import 'package:f1fantasy/models/user_league_details.dart';
 import 'package:f1fantasy/screens/joinpages/page_view.dart';
 import 'package:f1fantasy/screens/joinpages/view_selection.dart';
+import 'package:f1fantasy/screens/league/review_dialog.dart';
 import 'package:f1fantasy/services/league_service.dart';
+import 'package:f1fantasy/services/native/review_service.dart';
 import 'package:flutter/material.dart';
 
 class JoinLeague extends StatefulWidget {
@@ -23,6 +25,19 @@ class _JoinLeagueState extends State<JoinLeague> {
         joined = true;
         existing = lgdt;
       });
+    }
+    bool shouldReview =
+        await AppReviewService().shouldReview(widget.activeLeague.round);
+    if (shouldReview) {
+      showDialog(
+          context: context,
+          builder: (_) => RatingDialog(
+                active: widget.activeLeague,
+                callback: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+          barrierDismissible: false);
     }
   }
 

@@ -15,7 +15,7 @@ class SideDrawer extends StatelessWidget {
 
   Future<void> _shareApp() async {
     await Share.share(
-        'check out the F1Fantasy app, sign to choose your drivers and start participating https://play.google.com/store/apps/details?id=com.F1Fantasy');
+        'check out the F1Fantasy app, sign to choose your drivers and rule the leaderboard https://play.google.com/store/apps/details?id=com.F1Fantasy');
   }
 
   void _rateApp() {
@@ -23,7 +23,7 @@ class SideDrawer extends StatelessWidget {
   }
 
   void _feedback() {
-    launch("mailto:dev.f1fantasy@gmail.com?subject=Feedback");
+    launch("mailto:dev.f1fantasy@gmail.com?subject=Report/Issue#");
   }
 
   void _openInstagram() {
@@ -65,7 +65,7 @@ class SideDrawer extends StatelessWidget {
             GestureDetector(
                 onTap: _feedback,
                 child: ListTile(
-                  title: Text("Feedback"),
+                  title: Text("Report issue"),
                   trailing: Icon(Icons.mail, color: Colors.white),
                 )),
             GestureDetector(
@@ -79,7 +79,7 @@ class SideDrawer extends StatelessWidget {
               onTap: _signOut,
               child: ListTile(
                 title: Text("Sign out"),
-                trailing: Icon(Icons.logout, color: Colors.white),
+                trailing: Icon(Icons.exit_to_app, color: Colors.white),
               ),
             ),
             Text(DateTime.now().year.toString() + " \u00a9 F1Fantasy",

@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:f1fantasy/constants/app_constants.dart';
 import 'package:f1fantasy/models/user_model.dart';
 import 'package:f1fantasy/services/native/pref_service.dart';
 import 'package:f1fantasy/services/native/push_notification_service.dart';
+import 'package:f1fantasy/services/native/review_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_login_facebook/flutter_login_facebook.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -9,7 +11,9 @@ import 'package:google_sign_in/google_sign_in.dart';
 class AuthService {
   FirebaseAuth auth = FirebaseAuth.instance;
   final GoogleSignIn googleSignIn = GoogleSignIn();
-  final facebookSignIn = FacebookLogin();
+  final FacebookLogin facebookSignIn = FacebookLogin();
+  final PrefService cache = PrefService();
+  final AppReviewService review = AppReviewService();
   final CollectionReference userdb =
       FirebaseFirestore.instance.collection('users');
 
@@ -72,6 +76,7 @@ class AuthService {
       UserCredential usercreds = await auth.signInWithCredential(creds);
       User loggedInUser = usercreds.user;
       String notifToken = await PushNotificationService().token;
+      await review.initialize();
       Map<String, String> userToStore = {
         "uid": loggedInUser.uid,
         "name": loggedInUser.displayName,
@@ -103,7 +108,7 @@ class AuthService {
         await googleSignIn.disconnect();
       }
     }
-    await new PrefService().clearDate();
+    await cache.clearDate();
     await auth.signOut();
   }
 }

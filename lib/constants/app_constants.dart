@@ -25,6 +25,8 @@ class AppConstants {
   static final String cacheleaderboard = "leaderboard";
   static final String cacheleagueleaderboard = "leaderboard#league";
   static final String cachedrivercredits = "credits#";
+  static final String toReview = "toReview";
+  static final String reviewed = "userReviewed";
 
   static final Map<String, Color> teamColorsMap = {
     "mercedes": Colors.green[300],

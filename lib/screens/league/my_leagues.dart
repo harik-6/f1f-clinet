@@ -37,7 +37,7 @@ class _MyLeaguesState extends State<MyLeagues>
     if (finishedLeagues.length == 0) {
       return Center(
           child: Text(
-        "Leagues will be displayed after the next league ends",
+        "Leagues will be updated soon.",
         style: headerText,
       ));
     }

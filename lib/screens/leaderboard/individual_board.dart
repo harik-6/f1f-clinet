@@ -88,16 +88,19 @@ class IndividualBoard extends StatelessWidget {
                 ),
               ))
             : SizedBox.shrink(),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 8.0),
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              "Leaderboard",
-              style: headerText,
-            ),
-          ),
-        ),
+        myPosition != null
+            ? Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20.0, vertical: 8.0),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    "Leaderboard",
+                    style: headerText,
+                  ),
+                ),
+              )
+            : SizedBox.shrink(),
         Expanded(
           child: ListView.builder(
               itemCount: leaders.length,

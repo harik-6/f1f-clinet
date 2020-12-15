@@ -46,7 +46,7 @@ class _RaceStandings extends State<RaceStandings>
                     children: [
                       Icon(Icons.flag, color: Colors.white, size: 36.0),
                       SizedBox(height: 10.0),
-                      Text("Race result will be updated soon",
+                      Text("Race result will be updated soon.",
                           style: TextStyle(fontSize: 16.0))
                     ],
                   ))

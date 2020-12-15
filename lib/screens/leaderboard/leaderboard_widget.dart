@@ -115,7 +115,9 @@ class _LeaderBoardWidget extends State<LeaderBoardWidget>
                     case 0:
                       return Center(
                         child: Text(
-                            "League wise leaderboard will be updated soon."),
+                          "League wise leaderboard will be updated soon.",
+                          style: headerText,
+                        ),
                       );
                     default:
                       return Column(
