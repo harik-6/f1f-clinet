@@ -9,14 +9,8 @@ class PushNotificationService {
   }
   PushNotificationService._internal();
 
-  Future<void> initialize() async {
-    firebaseMessaging.configure(
-        onMessage: (Map<String, dynamic> message) async {
-      print(message.toString());
-    }, onLaunch: (Map<String, dynamic> message) async {
-      print(message.toString());
-    }, onResume: (Map<String, dynamic> message) async {
-      print(message.toString());
-    });
+  get token async {
+    String token = await firebaseMessaging.getToken();
+    return token;
   }
 }

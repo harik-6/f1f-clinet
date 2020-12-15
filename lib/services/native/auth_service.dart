@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:f1fantasy/models/user_model.dart';
 import 'package:f1fantasy/services/native/pref_service.dart';
+import 'package:f1fantasy/services/native/push_notification_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_login_facebook/flutter_login_facebook.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -70,9 +71,16 @@ class AuthService {
     try {
       UserCredential usercreds = await auth.signInWithCredential(creds);
       User loggedInUser = usercreds.user;
-      AppUser user = _convertUser(loggedInUser);
-      await userdb.doc(loggedInUser.uid).set(user.modeltoJson());
-      return user;
+      String notifToken = await PushNotificationService().token;
+      Map<String, String> userToStore = {
+        "uid": loggedInUser.uid,
+        "name": loggedInUser.displayName,
+        "email": loggedInUser.email,
+        "photoUrl": loggedInUser.photoURL,
+        "pushToken": notifToken
+      };
+      await userdb.doc(loggedInUser.uid).set(userToStore);
+      return _convertUser(loggedInUser);
     } catch (error) {
       return null;
     }

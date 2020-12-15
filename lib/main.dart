@@ -1,6 +1,5 @@
 import 'package:f1fantasy/screens/auth_wrapper.dart';
 import 'package:f1fantasy/services/native/connection_service.dart';
-import 'package:f1fantasy/services/native/push_notification_service.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:f1fantasy/constants/styles.dart';
@@ -9,7 +8,6 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await ConnectivityServie().initiliaze();
-  await PushNotificationService().initialize();
   runApp(MyApp());
 }
 
