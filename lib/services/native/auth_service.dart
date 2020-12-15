@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:f1fantasy/constants/app_constants.dart';
 import 'package:f1fantasy/models/user_model.dart';
 import 'package:f1fantasy/services/native/pref_service.dart';
 import 'package:f1fantasy/services/native/push_notification_service.dart';
