@@ -45,43 +45,49 @@ class IndividualBoard extends StatelessWidget {
             ],
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 8.0),
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              "My Position",
-              style: headerText,
-            ),
-          ),
-        ),
-        ListTile(
-            title: DriverTile(
-          childWidget: Row(
-            children: <Widget>[
-              Position(myPosition.position),
-              SizedBox(width: 8.0),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(myPosition.name.split(" ")[0],
-                      style: TextStyle(color: Colors.white)),
-                  SizedBox(height: 5.0),
-                  Text(myPosition.leagueCount.toString() + " Leagues",
-                      style: TextStyle(fontSize: 14.0, color: Colors.white54))
-                ],
-              ),
-              Expanded(child: SizedBox.shrink()),
-              Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 4.0),
-                  child: Points(myPosition.points)),
-              Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 8.0),
-                  child: _getProgressIcon(myPosition))
-            ],
-          ),
-        )),
+        myPosition != null
+            ? Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20.0, vertical: 8.0),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    "My Position",
+                    style: headerText,
+                  ),
+                ),
+              )
+            : SizedBox.shrink(),
+        myPosition != null
+            ? ListTile(
+                title: DriverTile(
+                childWidget: Row(
+                  children: <Widget>[
+                    Position(myPosition.position),
+                    SizedBox(width: 8.0),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(myPosition.name.split(" ")[0],
+                            style: TextStyle(color: Colors.white)),
+                        SizedBox(height: 5.0),
+                        Text(myPosition.leagueCount.toString() + " Leagues",
+                            style: TextStyle(
+                                fontSize: 14.0, color: Colors.white54))
+                      ],
+                    ),
+                    Expanded(child: SizedBox.shrink()),
+                    Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 4.0),
+                        child: Points(myPosition.points)),
+                    Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 8.0),
+                        child: _getProgressIcon(myPosition))
+                  ],
+                ),
+              ))
+            : SizedBox.shrink(),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 8.0),
           child: Align(
