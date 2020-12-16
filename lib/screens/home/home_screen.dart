@@ -161,7 +161,7 @@ class _AppHome extends State<AppHome> {
           }),
           titleSpacing: 0.0,
           backgroundColor: Colors.grey[900],
-          title: Text("F1 Fantasy"),
+          title: Text("Formula Fantasy"),
           actions: [
             PopupMenuButton(
                 color: Colors.grey[900],
