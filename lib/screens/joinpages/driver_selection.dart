@@ -1,10 +1,10 @@
-import 'package:f1fantasy/constants/styles.dart';
-import 'package:f1fantasy/models/driver_credit_model.dart';
+import 'package:formulafantasy/constants/styles.dart';
+import 'package:formulafantasy/models/driver_credit_model.dart';
 import 'package:flutter/material.dart';
-import 'package:f1fantasy/components/driver_names.dart';
-import 'package:f1fantasy/components/driver_tile.dart';
-import 'package:f1fantasy/components/team_indicator.dart';
-import 'package:f1fantasy/models/driver_model.dart';
+import 'package:formulafantasy/components/driver_names.dart';
+import 'package:formulafantasy/components/driver_tile.dart';
+import 'package:formulafantasy/components/team_indicator.dart';
+import 'package:formulafantasy/models/driver_model.dart';
 
 class DriverSelection extends StatefulWidget {
   final Function callback;

@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:connectivity/connectivity.dart';
-import 'package:f1fantasy/constants/app_enums.dart';
+import 'package:formulafantasy/constants/app_enums.dart';
 
 class ConnectivityServie {
   static final ConnectivityServie _instance = ConnectivityServie._internal();

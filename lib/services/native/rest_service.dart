@@ -1,5 +1,5 @@
-import 'package:f1fantasy/services/native/auth_service.dart';
-import 'package:f1fantasy/services/native/pref_service.dart';
+import 'package:formulafantasy/services/native/auth_service.dart';
+import 'package:formulafantasy/services/native/pref_service.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 

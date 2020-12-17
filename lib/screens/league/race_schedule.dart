@@ -1,8 +1,8 @@
-import 'package:f1fantasy/components/driver_tile.dart';
-import 'package:f1fantasy/constants/app_enums.dart';
-import 'package:f1fantasy/constants/styles.dart';
-import 'package:f1fantasy/models/grand_prix_model.dart';
-import 'package:f1fantasy/services/native/tf_service.dart';
+import 'package:formulafantasy/components/driver_tile.dart';
+import 'package:formulafantasy/constants/app_enums.dart';
+import 'package:formulafantasy/constants/styles.dart';
+import 'package:formulafantasy/models/grand_prix_model.dart';
+import 'package:formulafantasy/services/native/tf_service.dart';
 import 'package:flutter/material.dart';
 
 class RaceSchedule extends StatefulWidget {

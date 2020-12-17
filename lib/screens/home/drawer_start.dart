@@ -1,6 +1,6 @@
-import 'package:f1fantasy/constants/styles.dart';
-import 'package:f1fantasy/models/user_model.dart';
-import 'package:f1fantasy/services/native/auth_service.dart';
+import 'package:formulafantasy/constants/styles.dart';
+import 'package:formulafantasy/models/user_model.dart';
+import 'package:formulafantasy/services/native/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';

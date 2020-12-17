@@ -1,8 +1,8 @@
-import 'package:f1fantasy/constants/app_constants.dart';
-import 'package:f1fantasy/models/constructor_model.dart';
-import 'package:f1fantasy/models/driver_model.dart';
-import 'package:f1fantasy/models/race_result_model.dart';
-import 'package:f1fantasy/services/native/rest_service.dart';
+import 'package:formulafantasy/constants/app_constants.dart';
+import 'package:formulafantasy/models/constructor_model.dart';
+import 'package:formulafantasy/models/driver_model.dart';
+import 'package:formulafantasy/models/race_result_model.dart';
+import 'package:formulafantasy/services/native/rest_service.dart';
 import 'dart:convert' as convert;
 
 class ResultService {

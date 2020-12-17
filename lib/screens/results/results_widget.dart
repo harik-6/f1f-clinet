@@ -1,10 +1,10 @@
-import 'package:f1fantasy/models/grand_prix_model.dart';
+import 'package:formulafantasy/models/grand_prix_model.dart';
 import 'package:flutter/material.dart';
-import 'package:f1fantasy/components/preloader.dart';
-import 'package:f1fantasy/models/race_result_model.dart';
-import 'package:f1fantasy/screens/results/grand_prix_list.dart';
-import 'package:f1fantasy/screens/results/race_standings.dart';
-import 'package:f1fantasy/services/result_service.dart';
+import 'package:formulafantasy/components/preloader.dart';
+import 'package:formulafantasy/models/race_result_model.dart';
+import 'package:formulafantasy/screens/results/grand_prix_list.dart';
+import 'package:formulafantasy/screens/results/race_standings.dart';
+import 'package:formulafantasy/services/result_service.dart';
 
 class ResultsWidget extends StatefulWidget {
   final List<GrandPrix> gps;

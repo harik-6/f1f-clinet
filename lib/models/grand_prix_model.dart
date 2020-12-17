@@ -1,4 +1,4 @@
-import 'package:f1fantasy/constants/app_enums.dart';
+import 'package:formulafantasy/constants/app_enums.dart';
 
 RACE_STATUS getStatus(dynamic status) {
   String st = status.toString();

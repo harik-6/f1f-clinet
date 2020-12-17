@@ -1,5 +1,5 @@
-import 'package:f1fantasy/models/grand_prix_model.dart';
-import 'package:f1fantasy/services/native/review_service.dart';
+import 'package:formulafantasy/models/grand_prix_model.dart';
+import 'package:formulafantasy/services/native/review_service.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 

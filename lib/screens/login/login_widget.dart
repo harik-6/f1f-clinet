@@ -1,6 +1,6 @@
-import 'package:f1fantasy/models/user_model.dart';
-import 'package:f1fantasy/screens/login/terms_condition.dart';
-import 'package:f1fantasy/services/native/auth_service.dart';
+import 'package:formulafantasy/models/user_model.dart';
+import 'package:formulafantasy/screens/login/terms_condition.dart';
+import 'package:formulafantasy/services/native/auth_service.dart';
 import 'package:flutter/material.dart';
 
 class LoginWidget extends StatefulWidget {
@@ -32,7 +32,7 @@ class _LoginWidget extends State<LoginWidget> {
     }
   }
 
- void _googleSignIn() async {
+  void _googleSignIn() async {
     _preAuthPrcess();
     AppUser user = await _authService.signInWithGoogle();
     _postAuthProcess(user);
@@ -47,7 +47,6 @@ class _LoginWidget extends State<LoginWidget> {
   @override
   void initState() {
     super.initState();
-
   }
 
   @override

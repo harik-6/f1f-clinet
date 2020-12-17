@@ -1,12 +1,12 @@
-import 'package:f1fantasy/components/preloader.dart';
-import 'package:f1fantasy/constants/app_enums.dart';
-import 'package:f1fantasy/models/driver_credit_model.dart';
-import 'package:f1fantasy/models/grand_prix_model.dart';
-import 'package:f1fantasy/screens/joinpages/custom_selection.dart';
-import 'package:f1fantasy/screens/joinpages/driver_selection.dart';
-import 'package:f1fantasy/screens/joinpages/result.dart';
-import 'package:f1fantasy/services/credit_service.dart';
-import 'package:f1fantasy/services/league_service.dart';
+import 'package:formulafantasy/components/preloader.dart';
+import 'package:formulafantasy/constants/app_enums.dart';
+import 'package:formulafantasy/models/driver_credit_model.dart';
+import 'package:formulafantasy/models/grand_prix_model.dart';
+import 'package:formulafantasy/screens/joinpages/custom_selection.dart';
+import 'package:formulafantasy/screens/joinpages/driver_selection.dart';
+import 'package:formulafantasy/screens/joinpages/result.dart';
+import 'package:formulafantasy/services/credit_service.dart';
+import 'package:formulafantasy/services/league_service.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
 

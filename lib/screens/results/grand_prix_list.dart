@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:f1fantasy/constants/styles.dart';
-import 'package:f1fantasy/models/grand_prix_model.dart';
+import 'package:formulafantasy/constants/styles.dart';
+import 'package:formulafantasy/models/grand_prix_model.dart';
 
 typedef void Callback(int param, GrandPrix param1);
 

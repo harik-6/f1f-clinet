@@ -1,11 +1,11 @@
-import 'package:f1fantasy/components/driver_tile.dart';
-import 'package:f1fantasy/constants/styles.dart';
-import 'package:f1fantasy/models/grand_prix_model.dart';
-import 'package:f1fantasy/screens/leaderboard/league_board.dart';
-import 'package:f1fantasy/services/leaderboard_service.dart';
+import 'package:formulafantasy/components/driver_tile.dart';
+import 'package:formulafantasy/constants/styles.dart';
+import 'package:formulafantasy/models/grand_prix_model.dart';
+import 'package:formulafantasy/screens/leaderboard/league_board.dart';
+import 'package:formulafantasy/services/leaderboard_service.dart';
 import 'package:flutter/material.dart';
-import 'package:f1fantasy/components/preloader.dart';
-import 'package:f1fantasy/models/leaderboard_model.dart';
+import 'package:formulafantasy/components/preloader.dart';
+import 'package:formulafantasy/models/leaderboard_model.dart';
 import 'individual_board.dart';
 
 enum STATUS { loading, failed, success }

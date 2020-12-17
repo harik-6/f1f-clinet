@@ -1,5 +1,5 @@
-name: f1fantasy
-description: F1Fantasy application
+name: formulafantasy
+description: Formula Fantasy application
 publish_to: "none" # Remove this line if you wish to publish to pub.dev
 version: 1.0.1+1
 environment:

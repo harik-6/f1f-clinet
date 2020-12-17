@@ -1,8 +1,8 @@
-import 'package:f1fantasy/screens/auth_wrapper.dart';
-import 'package:f1fantasy/services/native/connection_service.dart';
+import 'package:formulafantasy/screens/auth_wrapper.dart';
+import 'package:formulafantasy/services/native/connection_service.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:f1fantasy/constants/styles.dart';
+import 'package:formulafantasy/constants/styles.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

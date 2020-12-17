@@ -1,5 +1,5 @@
-import 'package:f1fantasy/constants/app_constants.dart';
-import 'package:f1fantasy/services/native/pref_service.dart';
+import 'package:formulafantasy/constants/app_constants.dart';
+import 'package:formulafantasy/services/native/pref_service.dart';
 
 class AppReviewService {
   static final AppReviewService _instance = AppReviewService._internal();

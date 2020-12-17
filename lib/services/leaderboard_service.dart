@@ -1,9 +1,9 @@
 import 'dart:convert' as convert;
-import 'package:f1fantasy/models/grand_prix_model.dart';
-import 'package:f1fantasy/models/league_leaderboard_model.dart';
-import 'package:f1fantasy/services/native/rest_service.dart';
-import 'package:f1fantasy/constants/app_constants.dart';
-import 'package:f1fantasy/models/leaderboard_model.dart';
+import 'package:formulafantasy/models/grand_prix_model.dart';
+import 'package:formulafantasy/models/league_leaderboard_model.dart';
+import 'package:formulafantasy/services/native/rest_service.dart';
+import 'package:formulafantasy/constants/app_constants.dart';
+import 'package:formulafantasy/models/leaderboard_model.dart';
 
 class LeaderboardService {
   static RestService _restService;

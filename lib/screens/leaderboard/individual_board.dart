@@ -1,8 +1,8 @@
-import 'package:f1fantasy/components/driver_tile.dart';
-import 'package:f1fantasy/components/points.dart';
-import 'package:f1fantasy/components/position.dart';
-import 'package:f1fantasy/constants/styles.dart';
-import 'package:f1fantasy/models/leaderboard_model.dart';
+import 'package:formulafantasy/components/driver_tile.dart';
+import 'package:formulafantasy/components/points.dart';
+import 'package:formulafantasy/components/position.dart';
+import 'package:formulafantasy/constants/styles.dart';
+import 'package:formulafantasy/models/leaderboard_model.dart';
 import 'package:flutter/material.dart';
 
 class IndividualBoard extends StatelessWidget {

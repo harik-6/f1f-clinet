@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:f1fantasy/models/user_model.dart';
-import 'package:f1fantasy/services/native/pref_service.dart';
-import 'package:f1fantasy/services/native/push_notification_service.dart';
-import 'package:f1fantasy/services/native/review_service.dart';
+import 'package:formulafantasy/models/user_model.dart';
+import 'package:formulafantasy/services/native/pref_service.dart';
+import 'package:formulafantasy/services/native/push_notification_service.dart';
+import 'package:formulafantasy/services/native/review_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_login_facebook/flutter_login_facebook.dart';
 import 'package:google_sign_in/google_sign_in.dart';

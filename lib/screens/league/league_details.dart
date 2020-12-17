@@ -1,14 +1,14 @@
-import 'package:f1fantasy/components/points.dart';
-import 'package:f1fantasy/components/preloader.dart';
-import 'package:f1fantasy/constants/styles.dart';
-import 'package:f1fantasy/models/user_league_details.dart';
-import 'package:f1fantasy/models/user_league_model.dart';
-import 'package:f1fantasy/services/league_service.dart';
+import 'package:formulafantasy/components/points.dart';
+import 'package:formulafantasy/components/preloader.dart';
+import 'package:formulafantasy/constants/styles.dart';
+import 'package:formulafantasy/models/user_league_details.dart';
+import 'package:formulafantasy/models/user_league_model.dart';
+import 'package:formulafantasy/services/league_service.dart';
 import 'package:flutter/material.dart';
-import 'package:f1fantasy/components/driver_names.dart';
-import 'package:f1fantasy/components/driver_tile.dart';
-import 'package:f1fantasy/components/team_indicator.dart';
-import 'package:f1fantasy/models/driver_model.dart';
+import 'package:formulafantasy/components/driver_names.dart';
+import 'package:formulafantasy/components/driver_tile.dart';
+import 'package:formulafantasy/components/team_indicator.dart';
+import 'package:formulafantasy/models/driver_model.dart';
 
 class DetailedLeagueDetails extends StatefulWidget {
   final League league;

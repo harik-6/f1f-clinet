@@ -1,10 +1,10 @@
-import 'package:f1fantasy/models/grand_prix_model.dart';
-import 'package:f1fantasy/models/user_league_details.dart';
-import 'package:f1fantasy/screens/joinpages/page_view.dart';
-import 'package:f1fantasy/screens/joinpages/view_selection.dart';
-import 'package:f1fantasy/screens/league/review_dialog.dart';
-import 'package:f1fantasy/services/league_service.dart';
-import 'package:f1fantasy/services/native/review_service.dart';
+import 'package:formulafantasy/models/grand_prix_model.dart';
+import 'package:formulafantasy/models/user_league_details.dart';
+import 'package:formulafantasy/screens/joinpages/page_view.dart';
+import 'package:formulafantasy/screens/joinpages/view_selection.dart';
+import 'package:formulafantasy/screens/league/review_dialog.dart';
+import 'package:formulafantasy/services/league_service.dart';
+import 'package:formulafantasy/services/native/review_service.dart';
 import 'package:flutter/material.dart';
 
 class JoinLeague extends StatefulWidget {

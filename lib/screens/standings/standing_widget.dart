@@ -1,11 +1,11 @@
-import 'package:f1fantasy/services/result_service.dart';
+import 'package:formulafantasy/services/result_service.dart';
 import 'package:flutter/material.dart';
-import 'package:f1fantasy/components/preloader.dart';
-import 'package:f1fantasy/constants/styles.dart';
-import 'package:f1fantasy/models/constructor_model.dart';
-import 'package:f1fantasy/models/driver_model.dart';
-import 'package:f1fantasy/screens/standings/constructor_standings.dart';
-import 'package:f1fantasy/screens/standings/driver_standings.dart';
+import 'package:formulafantasy/components/preloader.dart';
+import 'package:formulafantasy/constants/styles.dart';
+import 'package:formulafantasy/models/constructor_model.dart';
+import 'package:formulafantasy/models/driver_model.dart';
+import 'package:formulafantasy/screens/standings/constructor_standings.dart';
+import 'package:formulafantasy/screens/standings/driver_standings.dart';
 
 class StandingWidget extends StatefulWidget {
   @override
