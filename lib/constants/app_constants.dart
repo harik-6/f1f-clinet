@@ -35,9 +35,7 @@ class AppConstants {
     "williams": Colors.white,
     "mclaren": Colors.orange[700],
     "aston": Colors.green[900],
-    "racing_point": Colors.pink,
     "alphatauri": Colors.blueAccent,
-    "renault": Colors.yellow,
     "alpine": Colors.yellow,
     "alfa": Colors.purple,
     "haas": Colors.brown
@@ -46,10 +44,8 @@ class AppConstants {
   static final Map<String, String> teamImages = {
     "mercedes": 'assets/images/icons/mercedes.png',
     "red_bull": 'assets/images/icons/redbull.png',
-    "racing_point": 'assets/images/icons/racing_point.png',
     "aston": 'assets/images/icons/aston.png',
     "mclaren": 'assets/images/icons/mclaren.png',
-    "renault": 'assets/images/icons/renault.png',
     "alpine": 'assets/images/icons/alpine.png',
     "ferrari": 'assets/images/icons/ferrari.png',
     "alphatauri": 'assets/images/icons/tauri.png',
