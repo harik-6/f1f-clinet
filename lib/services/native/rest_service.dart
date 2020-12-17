@@ -21,18 +21,18 @@ class RestService {
     String cache = await _cacheService.readDate(key);
     if (cache != null) {
       Map json = convert.jsonDecode(cache);
+      // print("data from cache");
       DateTime valid = DateTime.parse(json["validTill"]);
       if (valid.isAfter(DateTime.now().toLocal())) {
-        // print("Data fetched from cache " + url);
         return http.Response(json["value"], 200);
       }
     }
+    // print("data from backend");
     Map<String, String> headers = {
-      "Content-Type": "application/json",
+      "Content-Type": "application/json;charset=utf-8",
       "x-client-identifier": _authService.getUser().uid
     };
     try {
-      // print("Data being fetched from backend " + url);
       http.Response response = await http.get(url, headers: headers);
       if (response.statusCode == 200) {
         String value = convert.jsonEncode({
@@ -52,7 +52,7 @@ class RestService {
 
   Future<http.Response> post(String url, Map<String, dynamic> reqBody) async {
     Map<String, String> headers = {
-      "Content-Type": "application/json",
+      "Content-Type": "application/json;charset=utf-8",
       "x-client-identifier": _authService.getUser().uid
     };
     try {

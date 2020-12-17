@@ -73,14 +73,16 @@ class LeagueBoardState extends State<LeagueLeaderBoard> {
                                 itemCount: leaders.length,
                                 itemBuilder: (context, index) {
                                   LLBoard lead = leaders[index];
+                                  String s = lead.name.split(" ")[0];
+                                  String formatted =
+                                      s[0].toUpperCase() + s.substring(1);
                                   return ListTile(
                                     title: DriverTile(
                                       childWidget: Row(
                                         children: <Widget>[
                                           Position(index + 1),
                                           SizedBox(width: 8.0),
-                                          DriverNames(
-                                              "", lead.name.split(" ")[0]),
+                                          DriverNames("", formatted),
                                           Expanded(child: SizedBox.shrink()),
                                           Padding(
                                               padding: EdgeInsets.symmetric(

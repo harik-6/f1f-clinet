@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class AppConstants {
-  static final String serverUrl = "http://apif1f.xyz/apis21/";
+  static final String serverUrl = "https://apif1f.xyz/apis21/";
   static final String apiurl = serverUrl;
   static final String apiraceresults = apiurl + "results";
   static final String apidriverstandings = apiurl + "standings/drivers";

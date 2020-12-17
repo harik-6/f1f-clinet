@@ -106,6 +106,8 @@ class IndividualBoard extends StatelessWidget {
               itemCount: leaders.length,
               itemBuilder: (context, index) {
                 Leaderboard lead = leaders[index];
+                String s = lead.name.split(" ")[0];
+                String formatted = s[0].toUpperCase() + s.substring(1);
                 return ListTile(
                   title: DriverTile(
                     childWidget: Row(
@@ -116,7 +118,7 @@ class IndividualBoard extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(lead.name.split(" ")[0],
+                            Text(formatted,
                                 style: TextStyle(color: Colors.white)),
                             SizedBox(height: 5.0),
                             Text(lead.leagueCount.toString() + " Leagues",
