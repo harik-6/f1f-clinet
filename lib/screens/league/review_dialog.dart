@@ -1,3 +1,4 @@
+import 'package:formulafantasy/constants/app_constants.dart';
 import 'package:formulafantasy/models/grand_prix_model.dart';
 import 'package:formulafantasy/services/native/review_service.dart';
 import 'package:flutter/material.dart';
@@ -16,10 +17,12 @@ class RatingDialog extends StatefulWidget {
 class _RatingDialogState extends State<RatingDialog> {
   int rating = 0;
   final AppReviewService review = AppReviewService();
-  void _setRating(int ratenumber) {
+  void _setRating(int ratenumber) async {
     setState(() {
       rating = ratenumber;
     });
+    await _userReviwed();
+    widget.callback();
   }
 
   void _remindLater() async {
@@ -27,10 +30,10 @@ class _RatingDialogState extends State<RatingDialog> {
     widget.callback();
   }
 
-  void _userReviwed() async {
+  Future<void> _userReviwed() async {
     await review.userReviewed();
-    launch("https://play.google.com/store/apps/details?id=com.F1Fantasy");
-    widget.callback();
+    launch(AppConstants.platStoreUrl);
+    return;
   }
 
   @override
@@ -90,13 +93,6 @@ class _RatingDialogState extends State<RatingDialog> {
           color: Colors.transparent,
           elevation: 0.0,
           child: Text("Ask me later"),
-        ),
-        SizedBox(width: 8.0),
-        RaisedButton(
-          onPressed: _userReviwed,
-          elevation: 0.0,
-          color: Colors.green,
-          child: Text("Rate now"),
         )
       ],
     );

@@ -1,3 +1,4 @@
+import 'package:formulafantasy/constants/app_constants.dart';
 import 'package:formulafantasy/constants/styles.dart';
 import 'package:formulafantasy/models/user_model.dart';
 import 'package:formulafantasy/services/native/auth_service.dart';
@@ -15,11 +16,11 @@ class SideDrawer extends StatelessWidget {
 
   Future<void> _shareApp() async {
     await Share.share(
-        'check out the F1Fantasy app, sign to choose your drivers and rule the leaderboard https://play.google.com/store/apps/details?id=com.F1Fantasy');
+        'check out the F1Fantasy app, sign to choose your drivers and rule the leaderboard '+AppConstants.platStoreUrl);
   }
 
   void _rateApp() {
-    launch("https://play.google.com/store/apps/details?id=com.F1Fantasy");
+    launch(AppConstants.platStoreUrl);
   }
 
   void _feedback() {

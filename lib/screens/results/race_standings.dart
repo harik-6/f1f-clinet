@@ -4,6 +4,7 @@ import 'package:formulafantasy/components/driver_tile.dart';
 import 'package:formulafantasy/components/points.dart';
 import 'package:formulafantasy/components/position.dart';
 import 'package:formulafantasy/components/team_indicator.dart';
+import 'package:formulafantasy/constants/styles.dart';
 import 'package:formulafantasy/models/driver_model.dart';
 import 'package:formulafantasy/models/race_result_model.dart';
 
@@ -47,7 +48,7 @@ class _RaceStandings extends State<RaceStandings>
                       Icon(Icons.flag, color: Colors.white, size: 36.0),
                       SizedBox(height: 10.0),
                       Text("Race result will be updated soon.",
-                          style: TextStyle(fontSize: 16.0))
+                          style: headerText)
                     ],
                   ))
                 : Expanded(

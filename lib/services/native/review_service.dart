@@ -36,7 +36,7 @@ class AppReviewService {
   }
 
   Future<void> initialize() async {
-    await cache.writData(AppConstants.toReview, "6");
+    await cache.writData(AppConstants.toReview, "1");
     await cache.writData(AppConstants.reviewed, "N");
     await cache.writData("firstInstallation", "Y");
   }

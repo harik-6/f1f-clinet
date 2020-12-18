@@ -4,6 +4,7 @@ import 'package:formulafantasy/components/points.dart';
 import 'package:formulafantasy/components/position.dart';
 import 'package:formulafantasy/components/preloader.dart';
 import 'package:formulafantasy/constants/app_enums.dart';
+import 'package:formulafantasy/constants/styles.dart';
 import 'package:formulafantasy/models/grand_prix_model.dart';
 import 'package:formulafantasy/models/league_leaderboard_model.dart';
 import 'package:formulafantasy/services/leaderboard_service.dart';
@@ -51,51 +52,58 @@ class LeagueBoardState extends State<LeagueLeaderBoard> {
                 builder: (context) {
                   switch (lstatus) {
                     case LEAGUE_STATUS.success:
-                      return Column(
-                        children: <Widget>[
-                          Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 32.0, vertical: 12.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
+                      return leaders.length == 0
+                          ? Center(
+                              child: Text("No participant for this league",
+                                  style: headerText))
+                          : Column(
                               children: <Widget>[
                                 Padding(
-                                  padding:
-                                      EdgeInsets.symmetric(horizontal: 6.0),
-                                  child: Text("Pts",
-                                      style: TextStyle(color: Colors.white)),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Expanded(
-                            child: ListView.builder(
-                                itemCount: leaders.length,
-                                itemBuilder: (context, index) {
-                                  LLBoard lead = leaders[index];
-                                  String s = lead.name.split(" ")[0];
-                                  String formatted =
-                                      s[0].toUpperCase() + s.substring(1);
-                                  return ListTile(
-                                    title: DriverTile(
-                                      childWidget: Row(
-                                        children: <Widget>[
-                                          Position(index + 1),
-                                          SizedBox(width: 8.0),
-                                          DriverNames("", formatted),
-                                          Expanded(child: SizedBox.shrink()),
-                                          Padding(
-                                              padding: EdgeInsets.symmetric(
-                                                  horizontal: 4.0),
-                                              child: Points(lead.points)),
-                                        ],
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 32.0, vertical: 12.0),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: <Widget>[
+                                      Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 6.0),
+                                        child: Text("Pts",
+                                            style:
+                                                TextStyle(color: Colors.white)),
                                       ),
-                                    ),
-                                  );
-                                }),
-                          )
-                        ],
-                      );
+                                    ],
+                                  ),
+                                ),
+                                Expanded(
+                                  child: ListView.builder(
+                                      itemCount: leaders.length,
+                                      itemBuilder: (context, index) {
+                                        LLBoard lead = leaders[index];
+                                        String s = lead.name.split(" ")[0];
+                                        String formatted =
+                                            s[0].toUpperCase() + s.substring(1);
+                                        return ListTile(
+                                          title: DriverTile(
+                                            childWidget: Row(
+                                              children: <Widget>[
+                                                Position(index + 1),
+                                                SizedBox(width: 8.0),
+                                                DriverNames("", formatted),
+                                                Expanded(
+                                                    child: SizedBox.shrink()),
+                                                Padding(
+                                                    padding:
+                                                        EdgeInsets.symmetric(
+                                                            horizontal: 4.0),
+                                                    child: Points(lead.points)),
+                                              ],
+                                            ),
+                                          ),
+                                        );
+                                      }),
+                                )
+                              ],
+                            );
                     case LEAGUE_STATUS.loading:
                       return PreLoader();
                     default:

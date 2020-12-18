@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class AppConstants {
+  static final String platStoreUrl = "https://play.google.com/store/apps/details?id=com.formula.fantasy";
   static final String serverUrl = "https://apif1f.xyz/apis21/";
   static final String apiurl = serverUrl;
   static final String apiraceresults = apiurl + "results";
