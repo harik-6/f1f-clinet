@@ -21,13 +21,13 @@ class RestService {
     String cache = await _cacheService.readDate(key);
     if (cache != null) {
       Map json = convert.jsonDecode(cache);
-      // print("data from cache");
+      // print("data from cache " + url);
       DateTime valid = DateTime.parse(json["validTill"]);
       if (valid.isAfter(DateTime.now().toLocal())) {
         return http.Response(json["value"], 200);
       }
     }
-    // print("data from backend");
+    // print("data from backend " + url);
     Map<String, String> headers = {
       "Content-Type": "application/json;charset=utf-8",
       "x-client-identifier": _authService.getUser().uid

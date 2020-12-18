@@ -54,6 +54,7 @@ class _ResultsWidget extends State<ResultsWidget>
       setState(() {
         completed = widget.gps;
       });
+      selectTrack(0, widget.gps[0]);
     }
   }
 

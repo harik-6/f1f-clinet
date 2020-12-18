@@ -66,9 +66,8 @@ class _AppHome extends State<AppHome> {
     List<GrandPrix> active = gpss.reversed
         .where((gp) => gp.raceStatus == RACE_STATUS.scheduled)
         .toList();
-    List<GrandPrix> comp = gpss.reversed
-        .where((gp) => gp.raceStatus == RACE_STATUS.completed)
-        .toList();
+    List<GrandPrix> comp =
+        gpss.where((gp) => gp.raceStatus == RACE_STATUS.completed).toList();
     GrandPrix present = active.length > 0 ? active[0] : null;
     this.setState(() {
       gps = gpss;
