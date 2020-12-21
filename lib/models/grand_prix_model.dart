@@ -1,4 +1,4 @@
-import 'package:f1fantasy/constants/app_enums.dart';
+import 'package:formulafantasy/constants/app_enums.dart';
 
 RACE_STATUS getStatus(dynamic status) {
   String st = status.toString();
@@ -16,6 +16,7 @@ class GrandPrix {
   DateTime dateTime;
   DateTime qualyTime;
   int round;
+  int year;
   RACE_STATUS raceStatus;
   GrandPrix.jsonToModel(Map<String, dynamic> json) {
     gpName = json["gpName"];
@@ -23,6 +24,7 @@ class GrandPrix {
     dateTime = DateTime.parse(json["dateTime"]);
     qualyTime = DateTime.parse(json["qualyTime"]);
     round = json["round"];
+    year = json["year"];
     raceStatus = getStatus(json["status"]);
   }
 }

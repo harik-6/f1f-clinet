@@ -1,18 +1,18 @@
-import 'package:f1fantasy/components/preloader.dart';
-import 'package:f1fantasy/constants/app_constants.dart';
-import 'package:f1fantasy/constants/app_enums.dart';
-import 'package:f1fantasy/constants/styles.dart';
-import 'package:f1fantasy/models/grand_prix_model.dart';
-import 'package:f1fantasy/screens/home/drawer_start.dart';
-import 'package:f1fantasy/screens/home/league_info.dart';
-import 'package:f1fantasy/services/league_service.dart';
-import 'package:f1fantasy/services/native/auth_service.dart';
-import 'package:f1fantasy/services/native/pref_service.dart';
+import 'package:formulafantasy/components/preloader.dart';
+import 'package:formulafantasy/constants/app_constants.dart';
+import 'package:formulafantasy/constants/app_enums.dart';
+import 'package:formulafantasy/constants/styles.dart';
+import 'package:formulafantasy/models/grand_prix_model.dart';
+import 'package:formulafantasy/screens/home/drawer_start.dart';
+import 'package:formulafantasy/screens/home/league_info.dart';
+import 'package:formulafantasy/services/gp_service.dart';
+import 'package:formulafantasy/services/native/auth_service.dart';
+import 'package:formulafantasy/services/native/pref_service.dart';
 import 'package:flutter/material.dart';
-import 'package:f1fantasy/screens/leaderboard/leaderboard_widget.dart';
-import 'package:f1fantasy/screens/league/league_widget.dart';
-import 'package:f1fantasy/screens/results/results_widget.dart';
-import 'package:f1fantasy/screens/standings/standing_widget.dart';
+import 'package:formulafantasy/screens/leaderboard/leaderboard_widget.dart';
+import 'package:formulafantasy/screens/league/league_widget.dart';
+import 'package:formulafantasy/screens/results/results_widget.dart';
+import 'package:formulafantasy/screens/standings/standing_widget.dart';
 
 class AppHome extends StatefulWidget {
   AppHome({Key key}) : super(key: key);
@@ -26,6 +26,7 @@ class _AppHome extends State<AppHome> {
   final PrefService _cacheService = PrefService();
   int activeBottomIndex = 0;
   List<GrandPrix> gps = [];
+  List<GrandPrix> completedGps = [];
   GrandPrix activeGp;
   bool isgpsLoading = true;
   bool refreshing = false;
@@ -60,16 +61,19 @@ class _AppHome extends State<AppHome> {
     setState(() {
       isgpsLoading = true;
     });
-    LeagueService gpService = LeagueService();
+    GpService gpService = GpService();
     List<GrandPrix> gpss = await gpService.getGrandPrixs();
     List<GrandPrix> active = gpss.reversed
         .where((gp) => gp.raceStatus == RACE_STATUS.scheduled)
         .toList();
+    List<GrandPrix> comp =
+        gpss.where((gp) => gp.raceStatus == RACE_STATUS.completed).toList();
     GrandPrix present = active.length > 0 ? active[0] : null;
     this.setState(() {
       gps = gpss;
       activeGp = present;
       isgpsLoading = false;
+      completedGps = comp;
     });
     return present;
   }
@@ -156,7 +160,7 @@ class _AppHome extends State<AppHome> {
           }),
           titleSpacing: 0.0,
           backgroundColor: Colors.grey[900],
-          title: Text("F1 Fantasy"),
+          title: Text("Formula Fantasy"),
           actions: [
             PopupMenuButton(
                 color: Colors.grey[900],
@@ -238,9 +242,9 @@ class _AppHome extends State<AppHome> {
             isgpsLoading
                 ? PreLoader()
                 : LeagueWidget(grandsprix: gps, activeLeague: activeGp),
-            isgpsLoading ? PreLoader() : ResultsWidget(gps: gps),
+            isgpsLoading ? PreLoader() : ResultsWidget(gps: completedGps),
             refreshing ? PreLoader() : StandingWidget(),
-            refreshing ? PreLoader() : LeaderBoardWidget()
+            refreshing ? PreLoader() : LeaderBoardWidget(leagues: completedGps)
           ],
         )));
   }

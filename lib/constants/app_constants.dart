@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 class AppConstants {
-  static final String apiurl = "https://apif1f.xyz/";
+  static final String platStoreUrl = "https://play.google.com/store/apps/details?id=com.formula.fantasy";
+  static final String serverUrl = "https://apif1f.xyz/apis21/";
+  static final String apiurl = serverUrl;
   static final String apiraceresults = apiurl + "results";
   static final String apidriverstandings = apiurl + "standings/drivers";
   static final String apiconstructorstandings =
@@ -12,6 +14,7 @@ class AppConstants {
   static final String apiuserleagues = apiurl + "league/user";
   static final String apiuserleaguesdetails = apiurl + "league/details";
   static final String apileaderboard = apiurl + "leaderboard";
+  static final String apileaguleaderboard = apiurl + "leaderboard/league";
   static final String apicachestatus = apiurl + "racestatus";
   static final String cacheraceschedule = "grandprix";
   static final String cachedriverstandings = "driverStandings";
@@ -21,7 +24,10 @@ class AppConstants {
   static final String cacheuserleaguesdetails = apiurl + "leaguedetails#";
   static final String cachejoinleague = "league#";
   static final String cacheleaderboard = "leaderboard";
+  static final String cacheleagueleaderboard = "leaderboard#league";
   static final String cachedrivercredits = "credits#";
+  static final String toReview = "toReview";
+  static final String reviewed = "userReviewed";
 
   static final Map<String, Color> teamColorsMap = {
     "mercedes": Colors.green[300],
@@ -30,9 +36,7 @@ class AppConstants {
     "williams": Colors.white,
     "mclaren": Colors.orange[700],
     "aston": Colors.green[900],
-    "racing_point": Colors.pink,
     "alphatauri": Colors.blueAccent,
-    "renault": Colors.yellow,
     "alpine": Colors.yellow,
     "alfa": Colors.purple,
     "haas": Colors.brown
@@ -41,10 +45,8 @@ class AppConstants {
   static final Map<String, String> teamImages = {
     "mercedes": 'assets/images/icons/mercedes.png',
     "red_bull": 'assets/images/icons/redbull.png',
-    "racing_point": 'assets/images/icons/racing_point.png',
     "aston": 'assets/images/icons/aston.png',
     "mclaren": 'assets/images/icons/mclaren.png',
-    "renault": 'assets/images/icons/renault.png',
     "alpine": 'assets/images/icons/alpine.png',
     "ferrari": 'assets/images/icons/ferrari.png',
     "alphatauri": 'assets/images/icons/tauri.png',

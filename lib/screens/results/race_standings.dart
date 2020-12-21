@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:f1fantasy/components/driver_names.dart';
-import 'package:f1fantasy/components/driver_tile.dart';
-import 'package:f1fantasy/components/points.dart';
-import 'package:f1fantasy/components/position.dart';
-import 'package:f1fantasy/components/team_indicator.dart';
-import 'package:f1fantasy/models/driver_model.dart';
-import 'package:f1fantasy/models/race_result_model.dart';
+import 'package:formulafantasy/components/driver_names.dart';
+import 'package:formulafantasy/components/driver_tile.dart';
+import 'package:formulafantasy/components/points.dart';
+import 'package:formulafantasy/components/position.dart';
+import 'package:formulafantasy/components/team_indicator.dart';
+import 'package:formulafantasy/constants/styles.dart';
+import 'package:formulafantasy/models/driver_model.dart';
+import 'package:formulafantasy/models/race_result_model.dart';
 
 class RaceStandings extends StatefulWidget {
   final List<RaceResult> results;
@@ -46,8 +47,8 @@ class _RaceStandings extends State<RaceStandings>
                     children: [
                       Icon(Icons.flag, color: Colors.white, size: 36.0),
                       SizedBox(height: 10.0),
-                      Text("Race result will be updated soon",
-                          style: TextStyle(fontSize: 16.0))
+                      Text("Race result will be updated soon.",
+                          style: headerText)
                     ],
                   ))
                 : Expanded(
@@ -68,7 +69,7 @@ class _RaceStandings extends State<RaceStandings>
                                     children: <Widget>[
                                       Position(index + 1),
                                       SizedBox(width: 5.0),
-                                      TeamIndicator(driver.team),
+                                      TeamIndicator(result.team),
                                       SizedBox(width: 8.0),
                                       DriverNames(
                                           driver.firstName, driver.secondName),

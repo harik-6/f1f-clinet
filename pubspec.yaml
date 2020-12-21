@@ -1,5 +1,5 @@
-name: f1fantasy
-description: F1Fantasy application
+name: formulafantasy
+description: Formula Fantasy application
 publish_to: "none" # Remove this line if you wish to publish to pub.dev
 version: 1.0.1+1
 environment:
@@ -17,6 +17,8 @@ dependencies:
   connectivity: ^2.0.2
   url_launcher: ^5.7.10
   share: ^0.6.5+4
+  flutter_login_facebook: ^0.4.0+1
+  firebase_messaging: ^7.0.3
 
 dev_dependencies:
   flutter_test:

@@ -1,16 +1,17 @@
-import 'package:f1fantasy/models/driver_model.dart';
+import 'package:formulafantasy/models/driver_model.dart';
 
 class RaceResult {
-  RaceResult(this.driver,this.position,this.time,this.points);
+  RaceResult(this.driver, this.position, this.time, this.points, this.team);
   Driver driver;
   int position;
   String time;
   int points;
-  RaceResult.jsonToModel(Map<String,dynamic> json) {
+  String team;
+  RaceResult.jsonToModel(Map<String, dynamic> json) {
     driver = Driver.jsonToModel(json["driver"]);
     position = json["position"];
     time = json["time"];
     points = json["points"];
+    team = json["team"];
   }
 }
-  

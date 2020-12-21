@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:f1fantasy/components/driver_names.dart';
-import 'package:f1fantasy/components/driver_tile.dart';
-import 'package:f1fantasy/components/points.dart';
-import 'package:f1fantasy/components/position.dart';
-import 'package:f1fantasy/components/team_icon.dart';
-import 'package:f1fantasy/components/team_indicator.dart';
-import 'package:f1fantasy/models/driver_model.dart';
+import 'package:formulafantasy/components/driver_names.dart';
+import 'package:formulafantasy/components/driver_tile.dart';
+import 'package:formulafantasy/components/points.dart';
+import 'package:formulafantasy/components/position.dart';
+import 'package:formulafantasy/components/team_icon.dart';
+import 'package:formulafantasy/components/team_indicator.dart';
+import 'package:formulafantasy/models/driver_model.dart';
 
 class DriverStandings extends StatefulWidget {
   final List<Driver> drivers;

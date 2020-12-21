@@ -1,11 +1,11 @@
-import 'package:f1fantasy/components/driver_names.dart';
-import 'package:f1fantasy/components/driver_tile.dart';
-import 'package:f1fantasy/components/points.dart';
-import 'package:f1fantasy/components/team_icon.dart';
-import 'package:f1fantasy/components/team_indicator.dart';
-import 'package:f1fantasy/constants/styles.dart';
-import 'package:f1fantasy/models/driver_model.dart';
-import 'package:f1fantasy/models/user_league_details.dart';
+import 'package:formulafantasy/components/driver_names.dart';
+import 'package:formulafantasy/components/driver_tile.dart';
+import 'package:formulafantasy/components/points.dart';
+import 'package:formulafantasy/components/team_icon.dart';
+import 'package:formulafantasy/components/team_indicator.dart';
+import 'package:formulafantasy/constants/styles.dart';
+import 'package:formulafantasy/models/driver_model.dart';
+import 'package:formulafantasy/models/user_league_details.dart';
 import 'package:flutter/material.dart';
 
 class ViewMySelection extends StatelessWidget {
@@ -49,12 +49,12 @@ class ViewMySelection extends StatelessWidget {
                   childWidget: Row(
                     children: <Widget>[
                       SizedBox(width: 10.0),
-                      TeamIndicator(detail.fastest.team),
+                      TeamIndicator(detail.pole.team),
                       SizedBox(width: 8.0),
                       DriverNames(
-                          detail.fastest.firstName, detail.fastest.secondName),
+                          detail.pole.firstName, detail.pole.secondName),
                       Expanded(child: SizedBox.shrink()),
-                      TeamIcon(detail.fastest.team, 8.0)
+                      TeamIcon(detail.pole.team, 8.0)
                     ],
                   ),
                 ),
@@ -68,12 +68,12 @@ class ViewMySelection extends StatelessWidget {
                   childWidget: Row(
                     children: <Widget>[
                       SizedBox(width: 10.0),
-                      TeamIndicator(detail.pole.team),
+                      TeamIndicator(detail.fastest.team),
                       SizedBox(width: 8.0),
                       DriverNames(
-                          detail.pole.firstName, detail.pole.secondName),
+                          detail.fastest.firstName, detail.fastest.secondName),
                       Expanded(child: SizedBox.shrink()),
-                      TeamIcon(detail.pole.team, 8.0)
+                      TeamIcon(detail.fastest.team, 8.0)
                     ],
                   ),
                 ),

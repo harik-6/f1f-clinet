@@ -1,4 +1,4 @@
-import 'package:f1fantasy/models/driver_model.dart';
+import 'package:formulafantasy/models/driver_model.dart';
 
 class LeagueDetails {
   String gpName;

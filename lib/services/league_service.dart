@@ -1,14 +1,13 @@
 import 'dart:convert' as convert;
-import 'package:f1fantasy/models/driver_model.dart';
-import 'package:f1fantasy/models/grand_prix_model.dart';
-import 'package:f1fantasy/models/user_league_details.dart';
-import 'package:f1fantasy/models/user_league_model.dart';
-import 'package:f1fantasy/services/native/auth_service.dart';
-import 'package:f1fantasy/services/native/pref_service.dart';
-import 'package:f1fantasy/services/native/rest_service.dart';
-import 'package:f1fantasy/constants/app_constants.dart';
-import 'package:f1fantasy/models/driver_credit_model.dart';
-import 'package:f1fantasy/models/leaderboard_model.dart';
+import 'package:formulafantasy/models/driver_model.dart';
+import 'package:formulafantasy/models/grand_prix_model.dart';
+import 'package:formulafantasy/models/user_league_details.dart';
+import 'package:formulafantasy/models/user_league_model.dart';
+import 'package:formulafantasy/services/native/auth_service.dart';
+import 'package:formulafantasy/services/native/pref_service.dart';
+import 'package:formulafantasy/services/native/rest_service.dart';
+import 'package:formulafantasy/constants/app_constants.dart';
+import 'package:formulafantasy/models/driver_credit_model.dart';
 
 class LeagueService {
   static RestService _restService;
@@ -47,20 +46,6 @@ class LeagueService {
     return results;
   }
 
-  Future<List<GrandPrix>> getGrandPrixs() async {
-    var response = await _restService.get(AppConstants.cacheraceschedule,
-        AppConstants.apiraceschedule, defaultCacheTime);
-    if (response.statusCode == 204) {
-      return [];
-    }
-    Map data = convert.jsonDecode(response.body);
-    List<GrandPrix> list = (data["granprixs"] as List)
-        .map((obj) => GrandPrix.jsonToModel(obj))
-        .toList();
-    list.sort((a, b) => b.dateTime.compareTo(a.dateTime));
-    return list;
-  }
-
   Future<bool> joinLeague(
       List<DriverCredit> drivers,
       String poleId,
@@ -76,7 +61,7 @@ class LeagueService {
       "gpName": active.gpName,
       "round": active.round,
       "year": DateTime.now().year,
-      "leaguDriverIds": dids,
+      "leagueDriverIds": dids,
       "poleDriverId": poleId,
       "fastestDriverId": fastestId,
       "customDriverId": customId,
@@ -114,7 +99,6 @@ class LeagueService {
         "fastestResult": false,
         "poleResult": false
       };
-      print("save success");
       await prefService.writData(
           AppConstants.cachejoinleague + active.round.toString(),
           convert.jsonEncode(tocache));
@@ -140,21 +124,7 @@ class LeagueService {
     List<League> lgs = (data["leagues"] as List)
         .map((league) => League.jsonToModel(league))
         .toList();
-    lgs.sort((a, b) => a.round > b.round ? 1 : -1);
-    return lgs;
-  }
-
-  Future<List<Leaderboard>> getLeaderboard() async {
-    var response = await _restService.get(AppConstants.cacheleaderboard,
-        AppConstants.apileaderboard, defaultStandingsCacheTime);
-    if (response.statusCode == 204) {
-      return [];
-    }
-    Map data = convert.jsonDecode(response.body);
-    List<Leaderboard> lgs = (data["leaderboard"] as List)
-        .map((lb) => Leaderboard.jsonToModel(lb))
-        .toList();
-    lgs.sort((a, b) => a.points < b.points ? 1 : -1);
+    lgs.sort((a, b) => a.round > b.round ? -1 : 1);
     return lgs;
   }
 

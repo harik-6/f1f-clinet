@@ -1,6 +1,7 @@
-import 'package:f1fantasy/constants/styles.dart';
-import 'package:f1fantasy/models/user_model.dart';
-import 'package:f1fantasy/services/native/auth_service.dart';
+import 'package:formulafantasy/constants/app_constants.dart';
+import 'package:formulafantasy/constants/styles.dart';
+import 'package:formulafantasy/models/user_model.dart';
+import 'package:formulafantasy/services/native/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -15,15 +16,19 @@ class SideDrawer extends StatelessWidget {
 
   Future<void> _shareApp() async {
     await Share.share(
-        'check out the F1Fantasy app, sign to choose your drivers and start participating https://play.google.com/store/apps/details?id=com.F1Fantasy');
+        'check out the F1Fantasy app, sign to choose your drivers and rule the leaderboard '+AppConstants.platStoreUrl);
   }
 
   void _rateApp() {
-    launch("https://play.google.com/store/apps/details?id=com.F1Fantasy");
+    launch(AppConstants.platStoreUrl);
   }
 
   void _feedback() {
-    launch("mailto:dev.f1fantasy@gmail.com?subject=Feedback");
+    launch("mailto:dev.f1fantasy@gmail.com?subject=Report/Issue#");
+  }
+
+  void _openInstagram() {
+    launch("https://www.instagram.com/_f1fantasy");
   }
 
   @override
@@ -61,15 +66,21 @@ class SideDrawer extends StatelessWidget {
             GestureDetector(
                 onTap: _feedback,
                 child: ListTile(
-                  title: Text("Feedback"),
+                  title: Text("Report issue"),
                   trailing: Icon(Icons.mail, color: Colors.white),
+                )),
+            GestureDetector(
+                onTap: _openInstagram,
+                child: ListTile(
+                  title: Text("Our Instagram"),
+                  trailing: Icon(Icons.camera_alt, color: Colors.white),
                 )),
             Expanded(child: SizedBox.shrink()),
             GestureDetector(
               onTap: _signOut,
               child: ListTile(
                 title: Text("Sign out"),
-                trailing: Icon(Icons.logout, color: Colors.white),
+                trailing: Icon(Icons.exit_to_app, color: Colors.white),
               ),
             ),
             Text(DateTime.now().year.toString() + " \u00a9 F1Fantasy",

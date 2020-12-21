@@ -1,11 +1,10 @@
-import 'package:f1fantasy/constants/app_enums.dart';
-import 'package:f1fantasy/models/grand_prix_model.dart';
+import 'package:formulafantasy/models/grand_prix_model.dart';
 import 'package:flutter/material.dart';
-import 'package:f1fantasy/components/preloader.dart';
-import 'package:f1fantasy/models/race_result_model.dart';
-import 'package:f1fantasy/screens/results/grand_prix_list.dart';
-import 'package:f1fantasy/screens/results/race_standings.dart';
-import 'package:f1fantasy/services/result_service.dart';
+import 'package:formulafantasy/components/preloader.dart';
+import 'package:formulafantasy/models/race_result_model.dart';
+import 'package:formulafantasy/screens/results/grand_prix_list.dart';
+import 'package:formulafantasy/screens/results/race_standings.dart';
+import 'package:formulafantasy/services/result_service.dart';
 
 class ResultsWidget extends StatefulWidget {
   final List<GrandPrix> gps;
@@ -50,24 +49,19 @@ class _ResultsWidget extends State<ResultsWidget>
     }
   }
 
-  List<GrandPrix> _filterCompletedRaces() {
-    List<GrandPrix> filtered = widget.gps
-        .where((GrandPrix gp) => gp.raceStatus == RACE_STATUS.completed)
-        .toList();
-    setState(() {
-      completed = filtered;
-    });
-    return filtered;
+  void _filterCompletedRaces() {
+    if (widget.gps.length > 0) {
+      setState(() {
+        completed = widget.gps;
+      });
+      selectTrack(0, widget.gps[0]);
+    }
   }
 
   @override
   void initState() {
     super.initState();
-    List<GrandPrix> x = _filterCompletedRaces();
-    this.setState(() {
-      gpRound = x[trackSelected].round;
-    });
-    getRaceResults(x[trackSelected].round, x[trackSelected].dateTime.year);
+    _filterCompletedRaces();
   }
 
   @override

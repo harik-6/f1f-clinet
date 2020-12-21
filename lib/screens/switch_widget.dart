@@ -1,9 +1,9 @@
-import 'package:f1fantasy/components/no_internet.dart';
-import 'package:f1fantasy/components/preloader.dart';
-import 'package:f1fantasy/constants/app_enums.dart';
-import 'package:f1fantasy/screens/home/home_screen.dart';
-import 'package:f1fantasy/screens/login/login_widget.dart';
-import 'package:f1fantasy/services/native/connection_service.dart';
+import 'package:formulafantasy/components/no_internet.dart';
+import 'package:formulafantasy/components/preloader.dart';
+import 'package:formulafantasy/constants/app_enums.dart';
+import 'package:formulafantasy/screens/home/home_screen.dart';
+import 'package:formulafantasy/screens/login/login_widget.dart';
+import 'package:formulafantasy/services/native/connection_service.dart';
 import 'package:flutter/material.dart';
 
 class SwitchWidget extends StatelessWidget {
